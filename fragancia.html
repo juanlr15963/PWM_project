@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fragancia — MiColonia</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/xlu-include-file.js"></script>
+</head>
+<body>
+  <header xlu-include-file="components/navbar.html"></header>
+
+  <main class="page-content">
+    <h1 class="page-title" id="fragancia-nombre"></h1>
+
+    <div class="fragrance-detail">
+      <div class="fragrance-detail__image" id="fragancia-imagen"></div>
+      <div class="fragrance-detail__content">
+        <h2 class="section-title">Descripción</h2>
+        <p id="fragancia-descripcion"></p>
+
+        <h2 class="section-title" style="margin-top: 24px;">Notas olfativas</h2>
+        <div class="fragrance-detail__tags" id="fragancia-notas">
+          <span class="tag">Bergamota</span>
+          <span class="tag">Sándalo</span>
+          <span class="tag">Almizcle</span>
+          <span class="tag">Pachulí</span>
+          <span class="tag">Rosa</span>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer xlu-include-file="components/footer.html"></footer>
+
+  <script>
+    xLuIncludeFile();
+    window.onload = function() {
+      const params = new URLSearchParams(window.location.search);
+      document.getElementById("fragancia-nombre").textContent = params.get("name") || "Eau de Ejemplé";
+      document.getElementById("fragancia-descripcion").textContent = params.get("description") || "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod urna sed lacinia blandit.";
+    };
+  </script>
+</body>
+</html>

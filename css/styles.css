@@ -1,0 +1,490 @@
+/* ===== Variables ===== */
+:root {
+    --white: #FFFFFF;
+    --neutral-50: #FAFAFA;
+    --neutral-100: #F5F5F5;
+    --neutral-200: #E5E5E5;
+    --neutral-300: #D4D4D4;
+    --neutral-400: #A3A3A3;
+    --neutral-500: #737373;
+    --neutral-900: #171717;
+    --accent-light: #E8DFF0;
+    --accent: #D4C4E0;
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-full: 9999px;
+}
+
+/* ===== Reset & Base ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: system-ui, -apple-system, sans-serif;
+    color: var(--neutral-900);
+    background: var(--white);
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* ===== Navbar ===== */
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--neutral-50);
+    padding: 16px 32px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.navbar__left {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.navbar__right {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+}
+
+.navbar__logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.navbar__logo-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: var(--neutral-900);
+    border-radius: var(--radius-sm);
+    color: var(--white);
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.navbar__logo-text {
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.navbar__search input {
+    background: var(--white);
+    border: 1px solid var(--neutral-100);
+    border-radius: 24px;
+    padding: 10px 20px;
+    width: 300px;
+    font-size: 14px;
+    outline: none;
+}
+
+.navbar__links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+}
+
+.navbar__links a {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--neutral-400);
+    padding-bottom: 4px;
+}
+
+.navbar__links a:hover,
+.navbar__links a.active {
+    color: var(--neutral-900);
+    border-bottom: 2px solid var(--neutral-900);
+}
+
+.navbar__auth-btn {
+    display: inline-block;
+    background: var(--neutral-900);
+    color: var(--white);
+    border-radius: var(--radius-full);
+    padding: 10px 24px;
+    font-size: 13px;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+}
+
+/* ===== Footer ===== */
+.footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    background: var(--neutral-50);
+    padding: 40px 32px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer__logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.footer__columns {
+    display: flex;
+    gap: 64px;
+}
+
+.footer__column {
+    display: flex;
+    flex-direction: column;
+}
+
+.footer__column h4 {
+    color: var(--neutral-400);
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.footer__column a {
+    color: var(--neutral-500);
+    font-size: 13px;
+    line-height: 2;
+}
+
+/* ===== Fragrance Card ===== */
+.fragrance-card {
+    border: 1px solid var(--neutral-100);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    cursor: pointer;
+    transition: box-shadow 0.2s;
+}
+
+.fragrance-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.fragrance-card__link {
+    display: block;
+}
+
+.fragrance-card__image {
+    background: var(--neutral-100);
+    aspect-ratio: 1 / 1;
+    background-size: cover;
+    background-position: center;
+}
+
+.fragrance-card__image-placeholder {
+    width: 100%;
+    height: 100%;
+}
+
+.fragrance-card__info {
+    padding: 12px;
+}
+
+.fragrance-card__name {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.fragrance-card__desc {
+    color: var(--neutral-400);
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+/* ===== Note Card ===== */
+.note-card {
+    background: var(--accent-light);
+    border: 1px solid var(--accent);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.note-card:hover {
+    border-color: var(--neutral-400);
+}
+
+.note-card__link {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+}
+
+.note-card__name {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.note-card__desc {
+    font-size: 12px;
+    color: var(--neutral-500);
+    margin-top: 4px;
+}
+
+.note-card__icon {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    background: var(--neutral-300);
+    border-radius: 50%;
+}
+
+.note-card--selected {
+    border-color: var(--neutral-900);
+    border-width: 2px;
+}
+
+/* ===== Tags / Chips ===== */
+.tag {
+    display: inline-block;
+    padding: 8px 16px;
+    border: 1px solid var(--neutral-200);
+    border-radius: var(--radius-full);
+    font-size: 12px;
+    color: var(--neutral-500);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.tag:hover {
+    border-color: var(--neutral-400);
+}
+
+/* ===== Grids ===== */
+.grid-4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+}
+
+.grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+.grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+/* ===== Page Sections ===== */
+.page-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 32px;
+}
+
+.page-title {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.page-subtitle {
+    font-size: 22px;
+    font-weight: 300;
+    color: var(--neutral-400);
+    margin-bottom: 32px;
+}
+
+.section-title {
+    font-size: 18px;
+    font-weight: 300;
+    color: var(--neutral-400);
+    margin-bottom: 20px;
+}
+
+/* ===== Fragrance Detail ===== */
+.fragrance-detail {
+    display: flex;
+    gap: 40px;
+}
+
+.fragrance-detail__image {
+    width: 40%;
+    min-height: 300px;
+    background: var(--neutral-100);
+    border-radius: var(--radius-md);
+    background-size: cover;
+    background-position: center;
+}
+
+.fragrance-detail__content {
+    width: 60%;
+}
+
+.fragrance-detail__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+/* ===== Note Detail ===== */
+.note-detail {
+    display: flex;
+    gap: 40px;
+    margin-bottom: 40px;
+}
+
+.note-detail__text {
+    flex: 1;
+}
+
+.note-detail__image {
+    width: 300px;
+    min-height: 200px;
+    background: var(--neutral-100);
+    border-radius: var(--radius-md);
+}
+
+/* ===== Placeholder / Empty State ===== */
+.placeholder-area {
+    background: var(--accent-light);
+    border-radius: var(--radius-md);
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--neutral-400);
+    font-size: 14px;
+}
+
+/* ===== Auth Form ===== */
+.auth-form {
+    max-width: 400px;
+    margin: 60px auto;
+    text-align: center;
+}
+
+.auth-form__avatar {
+    width: 120px;
+    height: 120px;
+    background: var(--neutral-100);
+    border-radius: 50%;
+    margin: 0 auto 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--neutral-400);
+}
+
+.auth-form__fields {
+    text-align: left;
+    margin-bottom: 24px;
+}
+
+.auth-form__fields label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--neutral-400);
+    margin-bottom: 8px;
+    margin-top: 16px;
+}
+
+.auth-form__fields input {
+    width: 100%;
+    padding: 12px 16px;
+    border: none;
+    border-bottom: 2px solid var(--neutral-200);
+    font-size: 16px;
+    margin-bottom: 8px;
+    background: var(--neutral-50);
+    outline: none;
+}
+
+.auth-form__submit {
+    background: var(--neutral-900);
+    color: var(--white);
+    padding: 12px 40px;
+    border-radius: var(--radius-full);
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    font-size: 16px;
+}
+
+/* ===== Lab Columns ===== */
+.lab-columns {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 40px;
+}
+
+.lab-column__title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    text-align: center;
+}
+
+.lab-column__cards {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.lab-submit {
+    display: block;
+    margin: 0 auto;
+    background: var(--neutral-100);
+    padding: 16px 48px;
+    border-radius: var(--radius-md);
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+}
+
+.lab-submit:hover {
+    background: var(--neutral-200);
+}
+
+.lab-title-input {
+    width: 100%;
+    padding: 12px 16px;
+    border: none;
+    border-bottom: 2px solid var(--neutral-200);
+    font-size: 18px;
+    margin-bottom: 32px;
+    background: var(--neutral-50);
+    outline: none;
+}
+
+/* ===== Hero ===== */
+.hero {
+    margin-bottom: 40px;
+}
+
+/* ===== Sections spacing ===== */
+.featured-fragrances {
+    margin-bottom: 40px;
+}
+
+.notes-banner {
+    margin-bottom: 40px;
+}
+
+.note-card--banner {
+    background: var(--accent-light);
+}
