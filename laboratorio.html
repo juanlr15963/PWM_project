@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Laboratorio — MiColonia</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/xlu-include-file.js"></script>
+</head>
+<body>
+<header xlu-include-file="components/navbar.html"></header>
+
+<main class="page-content">
+  <h1 class="page-title">Laboratorio Fragancia</h1>
+  <p class="page-subtitle">Crea tu propia fragancia personalizada.</p>
+
+  <input type="text" class="lab-title-input" placeholder="Nombre de tu fragancia..." />
+
+  <div class="lab-columns">
+    <div>
+      <h3 class="lab-column__title">Salida</h3>
+      <div class="lab-column__cards">
+        <div class="note-card" data-name="Bergamota" data-description="Cítrico brillante" data-link=""
+             xlu-include-file="components/note-card-template.html"></div>
+        <div class="note-card" data-name="Limón" data-description="Frescura cítrica intensa" data-link=""
+             xlu-include-file="components/note-card-template.html"></div>
+        <div class="note-card" data-name="Pomelo" data-description="Cítrico amargo y vibrante" data-link=""
+             xlu-include-file="components/note-card-template.html"></div>
+        <div class="note-card" data-name="Menta" data-description="Frescura herbal penetrante" data-link=""
+             xlu-include-file="components/note-card-template.html"></div>
+        <div class="note-card" data-name="Lavanda" data-description="Herbal floral calmante" data-link=""
+             xlu-include-file="components/note-card-template.html"></div>
+      </div>
+    </div>
+
+    <div>
+      <h3 class="lab-column__title">Corazón</h3>
+      <div class="lab-column__cards">
+        <div class="note-card" data-name="Rosa" data-description="Floral clásico y elegante" data-link=""
+             xlu-include-file="components/note-card-template.html"></div>
+        <div class="note-card" data-name="Jazmín" data-description="Floral intenso y sensual" data-link=""
+             xlu-include-file="components/note-card-template.html"></div>
+        <div class="note-card" data-name="Lirio" data-description="Floral fresco y delicado" data-link=""
+             xlu-include-file="components/note-card-template.html"></div>
+        <div class="note-card" data-name="Canela" data-description="Especiado cálido y dulce" data-link=""
+             xlu-include-file="components/note-card-template.html"></div>
+        <div class="note-card" data-name="Cardamomo" data-description="Especiado aromático y fresco" data-link=""
+             xlu-include-file="components/note-card-template.html"></div>
+      </div>
+    </div>
+
+    <div>
+      <h3 class="lab-column__title">Base</h3>
+      <div class="lab-column__cards">
+        <div class="note-card" data-name="Sándalo" data-description="Madera cremosa" data-link=""
+             xlu-include-file="components/note-card-template.html"></div>
+        <div class="note-card" data-name="Pachulí" data-description="Terroso y profundo" data-link=""
+             xlu-include-file="components/note-card-template.html"></div>
+        <div class="note-card" data-name="Almizcle" data-description="Base cálida y envolvente" data-link=""
+             xlu-include-file="components/note-card-template.html"></div>
+        <div class="note-card" data-name="Vainilla" data-description="Dulzura cálida y reconfortante" data-link=""
+             xlu-include-file="components/note-card-template.html"></div>
+        <div class="note-card" data-name="Ámbar" data-description="Resina cálida y dorada" data-link=""
+             xlu-include-file="components/note-card-template.html"></div>
+      </div>
+    </div>
+  </div>
+
+  <button class="lab-submit">Inmortalizar tu fragancia</button>
+</main>
+
+<footer xlu-include-file="components/footer.html"></footer>
+
+<script>
+  xLuIncludeFile();
+
+  window.onload = function() {
+    document.querySelectorAll(".lab-columns .note-card").forEach(function(card) {
+      card.addEventListener("click", function(e) {
+        e.preventDefault();
+        card.classList.toggle("note-card--selected");
+      });
+    });
+  };
+</script>
+</body>
+</html>
