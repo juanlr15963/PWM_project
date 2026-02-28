@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Búsqueda — MiColonia</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/xlu-include-file.js"></script>
+</head>
+<body>
+  <header xlu-include-file="components/navbar.html"></header>
+
+  <main class="page-content">
+    <h1 class="page-title">Resultados de la búsqueda "<span id="search-query"></span>"</h1>
+    <p class="page-subtitle"></p>
+
+    <h2 class="section-title">Fragancias</h2>
+    <div class="grid-4" style="margin-bottom: 40px;">
+      <div class="fragrance-card" xlu-include-file="components/fragrance-card-template.html"
+           data-name="Eau de Ejemplé"
+           data-description="Un clásico atemporal"
+           data-image=""
+           data-link="fragancia.html">
+      </div>
+      <div class="fragrance-card" xlu-include-file="components/fragrance-card-template.html"
+           data-name="Brisa Nocturna"
+           data-description="Frescura marina con toques cítricos"
+           data-image=""
+           data-link="fragancia.html">
+      </div>
+      <div class="fragrance-card" xlu-include-file="components/fragrance-card-template.html"
+           data-name="Madera &amp; Ámbar"
+           data-description="Calidez profunda para el invierno"
+           data-image=""
+           data-link="fragancia.html">
+      </div>
+      <div class="fragrance-card" xlu-include-file="components/fragrance-card-template.html"
+           data-name="Jardín Secreto"
+           data-description="Floral delicado con notas verdes"
+           data-image=""
+           data-link="fragancia.html">
+      </div>
+      <div class="fragrance-card" xlu-include-file="components/fragrance-card-template.html"
+           data-name="Cuero &amp; Tabaco"
+           data-description="Intensidad masculina y sofisticada"
+           data-image=""
+           data-link="fragancia.html">
+      </div>
+      <div class="fragrance-card" xlu-include-file="components/fragrance-card-template.html"
+           data-name="Rosa del Desierto"
+           data-description="Elegancia floral con especias orientales"
+           data-image=""
+           data-link="fragancia.html">
+      </div>
+      <div class="fragrance-card" xlu-include-file="components/fragrance-card-template.html"
+           data-name="Bosque Nórdico"
+           data-description="Pino, musgo y aire fresco del norte"
+           data-image=""
+           data-link="fragancia.html">
+      </div>
+      <div class="fragrance-card" xlu-include-file="components/fragrance-card-template.html"
+           data-name="Luna de Verano"
+           data-description="Jazmín y vainilla bajo las estrellas"
+           data-image=""
+           data-link="fragancia.html">
+      </div>
+    </div>
+
+    <h2 class="section-title">Notas olfativas</h2>
+    <div class="grid-2">
+      <div class="note-card" xlu-include-file="components/note-card-template.html"
+           data-name="Algas Marinas"
+           data-description="Frescura oceánica con matices salinos"
+           data-link="nota.html">
+      </div>
+      <div class="note-card" xlu-include-file="components/note-card-template.html"
+           data-name="Almizcle"
+           data-description="Base cálida y envolvente"
+           data-link="nota.html">
+      </div>
+      <div class="note-card" xlu-include-file="components/note-card-template.html"
+           data-name="Bergamota"
+           data-description="Cítrico brillante y aromático"
+           data-link="nota.html">
+      </div>
+      <div class="note-card" xlu-include-file="components/note-card-template.html"
+           data-name="Sándalo"
+           data-description="Madera cremosa y reconfortante"
+           data-link="nota.html">
+      </div>
+      <div class="note-card" xlu-include-file="components/note-card-template.html"
+           data-name="Pachulí"
+           data-description="Terroso, profundo y misterioso"
+           data-link="nota.html">
+      </div>
+      <div class="note-card" xlu-include-file="components/note-card-template.html"
+           data-name="Almizcle Blanco"
+           data-description="Suavidad limpia y etérea"
+           data-link="nota.html">
+      </div>
+    </div>
+  </main>
+
+  <footer xlu-include-file="components/footer.html"></footer>
+
+  <script>
+    xLuIncludeFile();
+    document.getElementById("search-query").textContent = new URLSearchParams(window.location.search).get("q") || "";
+  </script>
+</body>
+</html>
