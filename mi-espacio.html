@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi Espacio — MiColonia</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/xlu-include-file.js"></script>
+</head>
+<body>
+<header xlu-include-file="components/navbar.html"></header>
+
+<main class="page-content">
+  <h1 class="page-title">Mi Espacio</h1>
+  <p class="page-subtitle">Tu rincón personal de fragancias.</p>
+
+  <section style="margin-bottom: 40px;">
+    <h2 class="section-title">Mi Colección</h2>
+    <div class="placeholder-area">Aún no has añadido fragancias a tu colección.</div>
+  </section>
+
+  <section style="margin-bottom: 40px;">
+    <h2 class="section-title">Mis diseños</h2>
+    <div class="placeholder-area">Aún no has creado diseños en el laboratorio.</div>
+  </section>
+
+  <section>
+    <h2 class="section-title">Notas favoritas</h2>
+    <div class="grid-2">
+      <div class="note-card" xlu-include-file="components/note-card-template.html"
+           data-name="Bergamota"
+           data-description="Cítrico brillante y aromático"
+           data-link="nota.html">
+      </div>
+      <div class="note-card" xlu-include-file="components/note-card-template.html"
+           data-name="Sándalo"
+           data-description="Madera cremosa y reconfortante"
+           data-link="nota.html">
+      </div>
+      <div class="note-card" xlu-include-file="components/note-card-template.html"
+           data-name="Almizcle"
+           data-description="Base cálida y envolvente"
+           data-link="nota.html">
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer xlu-include-file="components/footer.html"></footer>
+
+<script>xLuIncludeFile();</script>
+</body>
+</html>
