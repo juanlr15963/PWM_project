@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nota — MiColonia</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/xlu-include-file.js"></script>
+</head>
+<body>
+  <header xlu-include-file="components/navbar.html"></header>
+
+  <main class="page-content">
+    <h1 class="page-title" id="nota-nombre"></h1>
+
+    <div class="note-detail">
+      <div class="note-detail__text">
+        <h2 class="section-title">Descripción</h2>
+        <p id="nota-descripcion"></p>
+      </div>
+      <div class="note-detail__image"></div>
+    </div>
+
+    <section>
+      <h2 class="section-title">Presente en fragancias populares</h2>
+      <div class="grid-4">
+        <div class="fragrance-card" xlu-include-file="components/fragrance-card-template.html"
+             data-name="Brisa Nocturna"
+             data-description="Frescura marina con toques cítricos"
+             data-image=""
+             data-link="fragancia.html">
+        </div>
+        <div class="fragrance-card" xlu-include-file="components/fragrance-card-template.html"
+             data-name="Madera &amp; Ámbar"
+             data-description="Calidez profunda para el invierno"
+             data-image=""
+             data-link="fragancia.html">
+        </div>
+        <div class="fragrance-card" xlu-include-file="components/fragrance-card-template.html"
+             data-name="Jardín Secreto"
+             data-description="Floral delicado con notas verdes"
+             data-image=""
+             data-link="fragancia.html">
+        </div>
+        <div class="fragrance-card" xlu-include-file="components/fragrance-card-template.html"
+             data-name="Luna de Verano"
+             data-description="Jazmín y vainilla bajo las estrellas"
+             data-image=""
+             data-link="fragancia.html">
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer xlu-include-file="components/footer.html"></footer>
+
+  <script>
+    xLuIncludeFile();
+    window.onload = function() {
+      const params = new URLSearchParams(window.location.search);
+      document.getElementById("nota-nombre").textContent = params.get("name") || "Nota olfativa";
+      document.getElementById("nota-descripcion").textContent = params.get("description") || "Descripción detallada de esta nota olfativa y sus características principales.";
+    };
+  </script>
+</body>
+</html>

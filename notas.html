@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notas Olfativas — MiColonia</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/xlu-include-file.js"></script>
+</head>
+<body>
+  <header xlu-include-file="components/navbar.html"></header>
+
+  <main class="page-content">
+    <h1 class="page-title">Notas olfativas</h1>
+    <p class="page-subtitle">Explora los ingredientes que componen las fragancias.</p>
+
+    <div class="grid-2">
+      <div class="note-card" xlu-include-file="components/note-card-template.html"
+           data-name="Algas Marinas"
+           data-description="Frescura oceánica con matices salinos"
+           data-link="nota.html">
+      </div>
+      <div class="note-card" xlu-include-file="components/note-card-template.html"
+           data-name="Almizcle"
+           data-description="Base cálida y envolvente"
+           data-link="nota.html">
+      </div>
+      <div class="note-card" xlu-include-file="components/note-card-template.html"
+           data-name="Almizcle Blanco"
+           data-description="Suavidad limpia y etérea"
+           data-link="nota.html">
+      </div>
+      <div class="note-card" xlu-include-file="components/note-card-template.html"
+           data-name="Bergamota"
+           data-description="Cítrico brillante y aromático"
+           data-link="nota.html">
+      </div>
+      <div class="note-card" xlu-include-file="components/note-card-template.html"
+           data-name="Sándalo"
+           data-description="Madera cremosa y reconfortante"
+           data-link="nota.html">
+      </div>
+      <div class="note-card" xlu-include-file="components/note-card-template.html"
+           data-name="Pachulí"
+           data-description="Terroso, profundo y misterioso"
+           data-link="nota.html">
+      </div>
+    </div>
+  </main>
+
+  <footer xlu-include-file="components/footer.html"></footer>
+
+  <script>xLuIncludeFile();</script>
+</body>
+</html>
