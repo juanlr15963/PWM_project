@@ -124,6 +124,7 @@ Si la opción anterior no funciona o prefieres usar un servidor local diferente:
    - **Para Python 2:**
      ```bash
      python -m SimpleHTTPServer 8000
+     
      ```
 4. Abre tu navegador web y accede a:
    ```
