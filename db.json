@@ -1,0 +1,97 @@
+{
+  "fragrances": [
+    {
+      "id": 1,
+      "name": "Acqua di Gio Profumo",
+      "brand": "Giorgio Armani",
+      "image": "img/aqua-fresh.jpg",
+      "season": ["Verano"],
+      "notes": {
+        "top": ["Notas marinas", "Bergamota"],
+        "heart": ["Romero", "Geranio"],
+        "base": ["Incienso", "Pachulí"]
+      }
+    }
+  ],
+  "notes": [
+    {
+      "id": 1,
+      "name": "Bergamota",
+      "type": "top"
+    },
+    {
+      "id": 2,
+      "name": "Incienso",
+      "type": "base"
+    },
+    {
+      "id": 3,
+      "name": "Notas marinas",
+      "type": "top"
+    },
+    {
+      "id": 4,
+      "name": "Romero",
+      "type": "heart"
+    },
+    {
+      "id": 5,
+      "name": "Geranio",
+      "type": "heart"
+    },
+    {
+      "id": 6,
+      "name": "Pachulí",
+      "type": "base"
+    },
+    {
+      "id": 8,
+      "name": "Almizcle",
+      "type": "base"
+    },
+    {
+      "id": 11,
+      "name": "Limón",
+      "type": "top"
+    },
+    {
+      "id": 12,
+      "name": "Lavanda",
+      "type": "heart"
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "username": "usuario1",
+      "password": "hashed_password",
+      "favoriteNotes": [
+        "Bergamota",
+        "Ámbar"
+      ],
+      "collection": [
+        1
+      ]
+    }
+  ],
+  "custom_designs": [
+    {
+      "id": 1,
+      "name": "Summer Dream",
+      "notes": {
+        "top": [
+          "Limón"
+        ],
+        "heart": [
+          "Lavanda"
+        ],
+        "base": [
+          "Almizcle"
+        ]
+      },
+      "image": "img/custom-default.jpg",
+      "userId": 1,
+      "createdAt": "2026-03-03"
+    }
+  ]
+}
