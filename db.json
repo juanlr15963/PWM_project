@@ -4,7 +4,7 @@
       "id": 1,
       "name": "Acqua di Gio Profumo",
       "brand": "Giorgio Armani",
-      "image": "img/aqua-fresh.jpg",
+      "image": "img/acqua di gio profumo.jpg",
       "season": ["Verano"],
       "notes": {
         "top": ["Notas marinas", "Bergamota"],
@@ -89,7 +89,7 @@
           "Almizcle"
         ]
       },
-      "image": "img/custom-default.jpg",
+      "image": "img/custom1.jpg",
       "userId": 1,
       "createdAt": "2026-03-03"
     }
