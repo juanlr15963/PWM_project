@@ -1,0 +1,26 @@
+{
+  "name": "pwm_project",
+  "version": "1.0.0",
+  "description": "* **Nombre del Proyecto:** MiColonia.com\r * **Componentes del Grupo:**\r     * Daniel Peña Méndez\r     * Crisamer Ortega González\r     * Juan López Ramírez\r * **Asignatura:** Programación Web y Móvil",
+  "main": "index.js",
+  "scripts": {
+    "start": "json-server --watch db.json --port 3000",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/juanlr15963/PWM_project.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/juanlr15963/PWM_project/issues"
+  },
+  "homepage": "https://github.com/juanlr15963/PWM_project#readme",
+  "dependencies": {
+    "json-server": "^1.0.0-beta.12"
+  }
+}
+
