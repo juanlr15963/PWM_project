@@ -11,21 +11,19 @@
   <header xlu-include-file="components/navbar.html"></header>
 
   <main class="page-content">
-    <h1 class="page-title" id="fragancia-nombre"></h1>
+    <h1 class="page-title" id="fragancia-nombre">Cargando...</h1>
 
     <div class="fragrance-detail">
       <div class="fragrance-detail__image" id="fragancia-imagen"></div>
       <div class="fragrance-detail__content">
+        <p class="fragrance-brand" id="fragancia-marca"></p>
+
         <h2 class="section-title">Descripción</h2>
         <p id="fragancia-descripcion"></p>
 
         <h2 class="section-title" style="margin-top: 24px;">Notas olfativas</h2>
         <div class="fragrance-detail__tags" id="fragancia-notas">
-          <span class="tag">Bergamota</span>
-          <span class="tag">Sándalo</span>
-          <span class="tag">Almizcle</span>
-          <span class="tag">Pachulí</span>
-          <span class="tag">Rosa</span>
+          <!-- Las notas se cargarán aquí dinámicamente -->
         </div>
       </div>
     </div>
@@ -34,12 +32,51 @@
   <footer xlu-include-file="components/footer.html"></footer>
 
   <script>
-    xLuIncludeFile();
-    window.onload = function() {
+    document.addEventListener('DOMContentLoaded', function() {
       const params = new URLSearchParams(window.location.search);
-      document.getElementById("fragancia-nombre").textContent = params.get("name") || "Eau de Ejemplé";
-      document.getElementById("fragancia-descripcion").textContent = params.get("description") || "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod urna sed lacinia blandit.";
-    };
+      const fragranceId = params.get('id');
+
+      if (!fragranceId) {
+        document.getElementById('fragancia-nombre').textContent = 'Fragancia no encontrada';
+        return;
+      }
+
+      fetch(`http://localhost:3000/fragrances/${fragranceId}`)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('La fragancia no existe');
+          }
+          return response.json();
+        })
+        .then(fragrance => {
+          document.title = `${fragrance.name} — MiColonia`;
+          document.getElementById('fragancia-nombre').textContent = fragrance.name;
+          document.getElementById('fragancia-marca').textContent = fragrance.brand;
+          document.getElementById('fragancia-imagen').style.backgroundImage = `url(${fragrance.image})`;
+
+          // Generar una descripción simple
+          document.getElementById('fragancia-descripcion').textContent = `Una fragancia de ${fragrance.brand} que captura la esencia de sus notas. Ideal para la temporada de ${fragrance.season.join(', ')}.`;
+
+          const notesContainer = document.getElementById('fragancia-notas');
+          notesContainer.innerHTML = ''; // Limpiar notas de ejemplo
+
+          // Unir todas las notas en un solo array y añadirlas
+          const allNotes = [...fragrance.notes.top, ...fragrance.notes.heart, ...fragrance.notes.base];
+          allNotes.forEach(noteName => {
+            const tag = document.createElement('span');
+            tag.className = 'tag';
+            tag.textContent = noteName;
+            notesContainer.appendChild(tag);
+          });
+        })
+        .catch(error => {
+          console.error('Error al cargar la fragancia:', error);
+          document.getElementById('fragancia-nombre').textContent = 'Error al cargar la fragancia';
+          document.getElementById('fragancia-descripcion').textContent = 'No se pudo encontrar la fragancia solicitada. Por favor, vuelve al catálogo.';
+        });
+
+      xLuIncludeFile();
+    });
   </script>
 </body>
 </html>
