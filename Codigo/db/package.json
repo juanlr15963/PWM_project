@@ -4,7 +4,7 @@
   "description": "* **Nombre del Proyecto:** MiColonia.com\r * **Componentes del Grupo:**\r     * Daniel Peña Méndez\r     * Crisamer Ortega González\r     * Juan López Ramírez\r * **Asignatura:** Programación Web y Móvil",
   "main": "index.js",
   "scripts": {
-    "start": "json-server --watch db.json --port 3000",
+    "start": "../../node_modules/.bin/json-server --watch Codigo/db.json --port 3000",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
