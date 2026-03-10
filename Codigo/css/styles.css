@@ -121,6 +121,11 @@ a {
     cursor: pointer;
 }
 
+.navbar__auth-btn--logout {
+    background: var(--accent);
+    color: var(--neutral-900);
+}
+
 /* ===== Footer ===== */
 .footer {
     display: flex;
