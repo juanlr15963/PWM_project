@@ -14,7 +14,9 @@
     <h1 class="page-title" id="fragancia-nombre">Cargando...</h1>
 
     <div class="fragrance-detail">
-      <div class="fragrance-detail__image" id="fragancia-imagen"></div>
+      <div class="fragrance-detail__image" id="fragancia-imagen">
+          <!-- La imagen se cargará aquí dinámicamente -->
+      </div>
       <div class="fragrance-detail__content">
         <p class="fragrance-brand" id="fragancia-marca"></p>
 
@@ -52,7 +54,14 @@
           document.title = `${fragrance.name} — MiColonia`;
           document.getElementById('fragancia-nombre').textContent = fragrance.name;
           document.getElementById('fragancia-marca').textContent = fragrance.brand;
-          document.getElementById('fragancia-imagen').style.backgroundImage = `url(${fragrance.image})`;
+
+          // --- CAMBIO IMPORTANTE: Crear y añadir una etiqueta <img> ---
+          const imageContainer = document.getElementById('fragancia-imagen');
+          imageContainer.innerHTML = ''; // Limpiar por si acaso
+          const imgElement = document.createElement('img');
+          imgElement.src = fragrance.image;
+          imgElement.alt = fragrance.name;
+          imageContainer.appendChild(imgElement);
 
           // Generar una descripción simple
           document.getElementById('fragancia-descripcion').textContent = `Una fragancia de ${fragrance.brand} que captura la esencia de sus notas. Ideal para la temporada de ${fragrance.season.join(', ')}.`;
