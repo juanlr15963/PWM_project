@@ -18,32 +18,21 @@
       <p class="page-subtitle">Explora fragancias seleccionadas por nuestro equipo de expertos y curadores.</p>
     </section>
 
+    <!-- Filtros -->
+    <div class="filter-bar" id="filter-bar">
+      <button class="filter-btn active" data-filter="all">Todos</button>
+      <button class="filter-btn" data-filter="Verano">Verano</button>
+      <button class="filter-btn" data-filter="Invierno">Invierno</button>
+      <button class="filter-btn" data-filter="Otoño">Otoño</button>
+      <button class="filter-btn" data-filter="Primavera">Primavera</button>
+      <span class="filter-divider"></span>
+      <button class="filter-btn" data-filter="Día">Día</button>
+      <button class="filter-btn" data-filter="Noche">Noche</button>
+    </div>
+
     <section class="featured-fragrances">
-      <div class="grid-4">
-        <div class="fragrance-card" xlu-include-file="components/fragrance-card-template.html"
-             data-name="Brisa Nocturna"
-             data-description="Frescura marina con toques cítricos"
-             data-image=""
-             data-link="fragancia.html">
-        </div>
-        <div class="fragrance-card" xlu-include-file="components/fragrance-card-template.html"
-             data-name="Madera &amp; Ámbar"
-             data-description="Calidez profunda para el invierno"
-             data-image=""
-             data-link="fragancia.html">
-        </div>
-        <div class="fragrance-card" xlu-include-file="components/fragrance-card-template.html"
-             data-name="Jardín Secreto"
-             data-description="Floral delicado con notas verdes"
-             data-image=""
-             data-link="fragancia.html">
-        </div>
-        <div class="fragrance-card" xlu-include-file="components/fragrance-card-template.html"
-             data-name="Luna de Verano"
-             data-description="Jazmín y vainilla bajo las estrellas"
-             data-image=""
-             data-link="fragancia.html">
-        </div>
+      <div class="grid-4" id="fragrance-grid">
+        <!-- Las fragancias se cargarán aquí dinámicamente -->
       </div>
     </section>
 
@@ -58,6 +47,79 @@
 
   <footer xlu-include-file="components/footer.html"></footer>
 
-  <script>xLuIncludeFile();</script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const grid = document.getElementById('fragrance-grid');
+      const filterBar = document.getElementById('filter-bar');
+      let allFragrances = [];
+      let activeFilter = 'all';
+
+      // Función para renderizar las fragancias
+      function renderFragrances(fragrancesToRender) {
+        grid.innerHTML = '';
+        fragrancesToRender.forEach(fragrance => {
+          const cardLink = document.createElement('a');
+          cardLink.href = `fragancia.html?id=${fragrance.id}`;
+          cardLink.className = 'fragrance-card-link';
+
+          const card = document.createElement('div');
+          card.className = 'fragrance-card';
+
+          const image = document.createElement('img');
+          image.src = fragrance.image;
+          image.alt = fragrance.name;
+          image.className = 'fragrance-card-image';
+
+          const info = document.createElement('div');
+          info.className = 'fragrance-card-info';
+
+          const name = document.createElement('h3');
+          name.className = 'fragrance-card-name';
+          name.textContent = fragrance.name;
+
+          const brand = document.createElement('p');
+          brand.className = 'fragrance-card-brand';
+          brand.textContent = fragrance.brand;
+
+          info.appendChild(name);
+          info.appendChild(brand);
+          card.appendChild(image);
+          card.appendChild(info);
+          cardLink.appendChild(card);
+          grid.appendChild(cardLink);
+        });
+      }
+
+      // Cargar todas las fragancias inicialmente
+      fetch('http://localhost:3000/fragrances')
+        .then(response => response.json())
+        .then(data => {
+          allFragrances = data;
+          renderFragrances(allFragrances);
+        })
+        .catch(error => console.error('Error al cargar fragancias:', error));
+
+      // Manejar clics en los filtros
+      filterBar.addEventListener('click', function(e) {
+        if (e.target.tagName === 'BUTTON') {
+          // Actualizar estado activo del botón
+          filterBar.querySelector('.active').classList.remove('active');
+          e.target.classList.add('active');
+
+          activeFilter = e.target.dataset.filter;
+
+          // Filtrar y renderizar
+          if (activeFilter === 'all') {
+            renderFragrances(allFragrances);
+          } else {
+            const filtered = allFragrances.filter(f => f.season.includes(activeFilter) || f.time === activeFilter);
+            renderFragrances(filtered);
+          }
+        }
+      });
+
+      xLuIncludeFile();
+    });
+  </script>
 </body>
 </html>

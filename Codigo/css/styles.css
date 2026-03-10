@@ -121,11 +121,6 @@ a {
     cursor: pointer;
 }
 
-.navbar__auth-btn--logout {
-    background: var(--accent);
-    color: var(--neutral-900);
-}
-
 /* ===== Footer ===== */
 .footer {
     display: flex;
@@ -428,34 +423,6 @@ a {
     font-size: 16px;
 }
 
-.auth-form__fields input.input--error {
-    border-bottom-color: #DC2626;
-    background: #FEF2F2;
-}
-
-.auth-form__error {
-    display: none;
-    color: #DC2626;
-    font-size: 12px;
-    margin-bottom: 4px;
-}
-
-.auth-form__error.visible {
-    display: block;
-}
-
-.auth-form__success {
-    display: none;
-    color: #16A34A;
-    font-size: 14px;
-    font-weight: 600;
-    margin-top: 16px;
-}
-
-.auth-form__success.visible {
-    display: block;
-}
-
 /* ===== Lab Columns ===== */
 .lab-columns {
     display: grid;
@@ -520,4 +487,85 @@ a {
 
 .note-card--banner {
     background: var(--accent-light);
+}
+
+/* ===== Meta Tags (Season, Time) ===== */
+.fragrance-detail__meta {
+    display: flex;
+    gap: 8px;
+    margin-top: 16px;
+    margin-bottom: 24px;
+}
+
+.season-tag, .time-tag {
+    font-weight: 600;
+    border: none;
+}
+
+.season--verano {
+    background-color: #FEF3C7;
+    color: #92400E;
+}
+
+.season--otoño {
+    background-color: #FFE4E6;
+    color: #9F1239;
+}
+
+.season--invierno {
+    background-color: #DBEAFE;
+    color: #1E40AF;
+}
+
+.season--primavera {
+    background-color: #DCFCE7;
+    color: #166534;
+}
+
+.time--día {
+    background-color: #F0F9FF;
+    color: #0369A1;
+}
+
+.time--noche {
+    background-color: #1E293B;
+    color: #E2E8F0;
+}
+
+/* ===== Filter Bar ===== */
+.filter-bar {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 32px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--neutral-200);
+}
+
+.filter-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--neutral-200);
+    background: var(--white);
+    color: var(--neutral-500);
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.filter-btn:hover {
+    border-color: var(--neutral-400);
+    color: var(--neutral-900);
+}
+
+.filter-btn.active {
+    background: var(--neutral-900);
+    color: var(--white);
+    border-color: var(--neutral-900);
+}
+
+.filter-divider {
+    width: 1px;
+    background-color: var(--neutral-200);
+    margin: 0 8px;
 }

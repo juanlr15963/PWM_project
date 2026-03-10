@@ -23,6 +23,10 @@
         <div class="fragrance-detail__content">
             <p class="fragrance-brand" id="fragancia-marca"></p>
 
+            <div class="fragrance-detail__meta" id="fragancia-meta">
+                <!-- La estación y el momento del día se cargarán aquí -->
+            </div>
+
             <h2 class="section-title">Descripción</h2>
             <p id="fragancia-descripcion"></p>
 
@@ -46,7 +50,6 @@
             return;
         }
 
-        // TU LÓGICA DE FETCH (Perfecta para Sprint 2)
         fetch(`http://localhost:3000/fragrances/${fragranceId}`)
             .then(response => {
                 if (!response.ok) throw new Error('La fragancia no existe');
@@ -64,16 +67,31 @@
                 imgElement.alt = fragrance.name;
                 imageContainer.appendChild(imgElement);
 
-                // Descripción dinámica usando los datos del JSON
                 document.getElementById('fragancia-descripcion').textContent = fragrance.description;
+
+                const metaContainer = document.getElementById('fragancia-meta');
+                metaContainer.innerHTML = '';
+
+                if (fragrance.season && fragrance.season.length > 0) {
+                    fragrance.season.forEach(seasonName => {
+                        const seasonTag = document.createElement('span');
+                        seasonTag.className = `tag season-tag season--${seasonName.toLowerCase()}`;
+                        seasonTag.textContent = seasonName;
+                        metaContainer.appendChild(seasonTag);
+                    });
+                }
+
+                if (fragrance.time) {
+                    const timeTag = document.createElement('span');
+                    timeTag.className = `tag time-tag time--${fragrance.time.toLowerCase()}`;
+                    timeTag.textContent = fragrance.time;
+                    metaContainer.appendChild(timeTag);
+                }
 
                 const notesContainer = document.getElementById('fragancia-notas');
                 notesContainer.innerHTML = '';
 
-                // Lógica para recorrer las notas (Salida, Corazón, Base)
-                // Asumiendo que tu JSON tiene notas, las pintamos como tags
                 if (fragrance.notes) {
-                    // Si tus notas vienen en un array simple o por categorías:
                     const allNotes = Array.isArray(fragrance.notes)
                         ? fragrance.notes
                         : [...(fragrance.notes.top || []), ...(fragrance.notes.heart || []), ...(fragrance.notes.base || [])];
