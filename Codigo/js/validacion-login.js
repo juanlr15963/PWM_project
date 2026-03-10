@@ -12,9 +12,11 @@ document.addEventListener("click", function (event) {
 
     if (emailValido && passwordValido) {
         loginSuccess.classList.add("visible");
-        setTimeout(function () {
-            window.location.href = "mi-espacio.html";
-        }, 1000);
+        guardarSesionUsuario(emailInput.value.trim(), passwordInput.value).then(function () {
+            setTimeout(function () {
+                window.location.href = "mi-espacio.html";
+            }, 1000);
+        });
     } else {
         loginSuccess.classList.remove("visible");
     }
