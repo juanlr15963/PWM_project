@@ -1,91 +1,98 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fragancia — MiColonia</title>
-  <link rel="stylesheet" href="css/styles.css">
-  <script src="js/xlu-include-file.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fragancia — MiColonia</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="js/xlu-include-file.js"></script>
+    <!-- Mantenemos estos dos del PULL para el sistema de usuarios -->
+    <script src="js/manejo-sesion.js"></script>
+    <script src="js/navbar-sesion.js"></script>
 </head>
 <body>
-  <header xlu-include-file="components/navbar.html"></header>
+<header xlu-include-file="components/navbar.html"></header>
 
-  <main class="page-content">
+<main class="page-content">
     <h1 class="page-title" id="fragancia-nombre">Cargando...</h1>
 
     <div class="fragrance-detail">
-      <div class="fragrance-detail__image" id="fragancia-imagen">
-          <!-- La imagen se cargará aquí dinámicamente -->
-      </div>
-      <div class="fragrance-detail__content">
-        <p class="fragrance-brand" id="fragancia-marca"></p>
-
-        <h2 class="section-title">Descripción</h2>
-        <p id="fragancia-descripcion"></p>
-
-        <h2 class="section-title" style="margin-top: 24px;">Notas olfativas</h2>
-        <div class="fragrance-detail__tags" id="fragancia-notas">
-          <!-- Las notas se cargarán aquí dinámicamente -->
+        <div class="fragrance-detail__image" id="fragancia-imagen">
+            <!-- La imagen se cargará aquí dinámicamente -->
         </div>
-      </div>
+        <div class="fragrance-detail__content">
+            <p class="fragrance-brand" id="fragancia-marca"></p>
+
+            <h2 class="section-title">Descripción</h2>
+            <p id="fragancia-descripcion"></p>
+
+            <h2 class="section-title" style="margin-top: 24px;">Notas olfativas</h2>
+            <div class="fragrance-detail__tags" id="fragancia-notas">
+                <!-- Las notas se cargarán aquí dinámicamente -->
+            </div>
+        </div>
     </div>
-  </main>
+</main>
 
-  <footer xlu-include-file="components/footer.html"></footer>
+<footer xlu-include-file="components/footer.html"></footer>
 
-  <script>
+<script>
     document.addEventListener('DOMContentLoaded', function() {
-      const params = new URLSearchParams(window.location.search);
-      const fragranceId = params.get('id');
+        const params = new URLSearchParams(window.location.search);
+        const fragranceId = params.get('id');
 
-      if (!fragranceId) {
-        document.getElementById('fragancia-nombre').textContent = 'Fragancia no encontrada';
-        return;
-      }
+        if (!fragranceId) {
+            document.getElementById('fragancia-nombre').textContent = 'Fragancia no encontrada';
+            return;
+        }
 
-      fetch(`http://localhost:3000/fragrances/${fragranceId}`)
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('La fragancia no existe');
-          }
-          return response.json();
-        })
-        .then(fragrance => {
-          document.title = `${fragrance.name} — MiColonia`;
-          document.getElementById('fragancia-nombre').textContent = fragrance.name;
-          document.getElementById('fragancia-marca').textContent = fragrance.brand;
+        // TU LÓGICA DE FETCH (Perfecta para Sprint 2)
+        fetch(`http://localhost:3000/fragrances/${fragranceId}`)
+            .then(response => {
+                if (!response.ok) throw new Error('La fragancia no existe');
+                return response.json();
+            })
+            .then(fragrance => {
+                document.title = `${fragrance.name} — MiColonia`;
+                document.getElementById('fragancia-nombre').textContent = fragrance.name;
+                document.getElementById('fragancia-marca').textContent = fragrance.brand;
 
-          // --- CAMBIO IMPORTANTE: Crear y añadir una etiqueta <img> ---
-          const imageContainer = document.getElementById('fragancia-imagen');
-          imageContainer.innerHTML = ''; // Limpiar por si acaso
-          const imgElement = document.createElement('img');
-          imgElement.src = fragrance.image; // This path is relative to the Codigo folder now
-          imgElement.alt = fragrance.name;
-          imageContainer.appendChild(imgElement);
+                const imageContainer = document.getElementById('fragancia-imagen');
+                imageContainer.innerHTML = '';
+                const imgElement = document.createElement('img');
+                imgElement.src = fragrance.image;
+                imgElement.alt = fragrance.name;
+                imageContainer.appendChild(imgElement);
 
-          // Generar una descripción simple
-          document.getElementById('fragancia-descripcion').textContent = `Una fragancia de ${fragrance.brand} que captura la esencia de sus notas. Ideal para la temporada de ${fragrance.season.join(', ')}.`;
+                // Descripción dinámica usando los datos del JSON
+                document.getElementById('fragancia-descripcion').textContent = fragrance.description;
 
-          const notesContainer = document.getElementById('fragancia-notas');
-          notesContainer.innerHTML = ''; // Limpiar notas de ejemplo
+                const notesContainer = document.getElementById('fragancia-notas');
+                notesContainer.innerHTML = '';
 
-          // Unir todas las notas en un solo array y añadirlas
-          const allNotes = [...fragrance.notes.top, ...fragrance.notes.heart, ...fragrance.notes.base];
-          allNotes.forEach(noteName => {
-            const tag = document.createElement('span');
-            tag.className = 'tag';
-            tag.textContent = noteName;
-            notesContainer.appendChild(tag);
-          });
-        })
-        .catch(error => {
-          console.error('Error al cargar la fragancia:', error);
-          document.getElementById('fragancia-nombre').textContent = 'Error al cargar la fragancia';
-          document.getElementById('fragancia-descripcion').textContent = 'No se pudo encontrar la fragancia solicitada. Por favor, vuelve al catálogo.';
-        });
+                // Lógica para recorrer las notas (Salida, Corazón, Base)
+                // Asumiendo que tu JSON tiene notas, las pintamos como tags
+                if (fragrance.notes) {
+                    // Si tus notas vienen en un array simple o por categorías:
+                    const allNotes = Array.isArray(fragrance.notes)
+                        ? fragrance.notes
+                        : [...(fragrance.notes.top || []), ...(fragrance.notes.heart || []), ...(fragrance.notes.base || [])];
 
-      xLuIncludeFile();
+                    allNotes.forEach(noteName => {
+                        const tag = document.createElement('span');
+                        tag.className = 'tag';
+                        tag.textContent = noteName;
+                        notesContainer.appendChild(tag);
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('fragancia-nombre').textContent = 'Error al cargar';
+            });
+
+        xLuIncludeFile();
     });
-  </script>
+</script>
 </body>
 </html>

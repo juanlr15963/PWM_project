@@ -52,4 +52,86 @@ A continuación se listan los archivos HTML desarrollados y el mockup que repres
 
 ---
 
-## 6. Implementación de templates
+## 6. Implementación de Templates
+A continuación se listan los templates y componentes reutilizables desarrollados:
+
+| Archivo                           | Tipo       | Descripción                                                                                          |
+|:----------------------------------|:-----------|:-----------------------------------------------------------------------------------------------------|
+| `components/navbar.html`          | Componente | Barra de navegación principal con logo, buscador y enlaces a secciones clave de la aplicación.       |
+| `components/footer.html`          | Componente | Pie de página con logo, enlaces de navegación y sección de soporte.                                  |
+| `components/auth-form.html`       | Componente | Formulario de autenticación reutilizable con campos de email y contraseña.                           |
+| `components/fragrance-card-template.html` | Template   | Plantilla de tarjeta para mostrar fragancias con imagen, nombre y descripción mediante placeholders. |
+| `components/note-card-template.html` | Template   | Plantilla de tarjeta para mostrar notas olfativas con nombre, descripción e icono.                   |
+| `fragancia.html` (líneas 16-31)   | Template   | Sección dinámica de ficha de fragancia que se rellena mediante JavaScript con parámetros de URL.     |
+
+---
+
+## 7. Estructura del Repositorio
+
+```
+PWM_project/
+├── Codigo/                          # Código fuente de la aplicación
+│   ├── components/                  # Componentes y templates reutilizables
+│   │   ├── navbar.html              # Barra de navegación
+│   │   ├── footer.html              # Pie de página
+│   │   ├── auth-form.html           # Formulario de autenticación
+│   │   ├── fragrance-card-template.html  # Template de tarjeta de fragancia
+│   │   └── note-card-template.html  # Template de tarjeta de nota olfativa
+│   ├── css/                         # Hojas de estilo
+│   │   └── styles.css               # Estilos globales de la aplicación
+│   ├── js/                          # Scripts JavaScript
+│   │   └── xlu-include-file.js      # Utilidad para incluir componentes HTML
+│   ├── index.html                   # Página de inicio (Landing page)
+│   ├── catalogo.html                # Explorador de fragancias
+│   ├── laboratorio.html             # Creador de fragancias
+│   ├── busqueda.html                # Vista de búsqueda
+│   ├── fragancia.html               # Catálogo de fragancia (detalle)
+│   ├── login.html                   # Formulario de login/registro
+│   ├── mi-espacio.html              # Colección personal del usuario
+│   ├── nota.html                    # Ficha de nota olfativa
+│   └── notas.html                   # Catálogo de notas olfativas
+├── Mockups.pdf                      # Diseños y mockups de la interfaz (requerido por la actividad)
+└── README.md                        # Documentación del proyecto
+```
+
+---
+
+## 8. Cómo Ejecutar el Proyecto
+
+### Opción 1: Usando WebStorm
+
+1. Abre el proyecto en WebStorm.
+2. Navega hasta el archivo `Codigo/index.html` en el explorador de archivos.
+3. Haz clic derecho sobre `index.html` y selecciona una de las siguientes opciones:
+   - **"Open in Browser"** (Abrir en navegador)
+   - **"Run 'index.html'"** (Ejecutar 'index.html')
+4. WebStorm iniciará automáticamente un servidor local y abrirá la aplicación en tu navegador predeterminado.
+
+### Opción 2: Usando un Servidor Python (Alternativa)
+
+Si la opción anterior no funciona o prefieres usar un servidor local diferente:
+
+1. Abre una terminal o línea de comandos.
+2. Navega hasta el directorio `Codigo`:
+   ```bash
+   cd ruta/al/proyecto/PWM_project/Codigo
+   ```
+3. Inicia un servidor HTTP con Python:
+   - **Para Python 3:**
+     ```bash
+     python -m http.server 8000
+     ```
+   - **Para Python 2:**
+     ```bash
+     python -m SimpleHTTPServer 8000
+     
+     ```
+4. Abre tu navegador web y accede a:
+   ```
+   http://localhost:8000
+   ```
+5. La aplicación debería cargarse correctamente mostrando la página de inicio.
+
+**Nota:** Asegúrate de estar dentro del directorio `Codigo` antes de ejecutar el servidor, ya que este es el directorio raíz de la aplicación web.
+
+---

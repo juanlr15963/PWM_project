@@ -1,71 +1,74 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Catálogo — MiColonia</title>
-  <link rel="stylesheet" href="css/styles.css">
-  <script src="js/xlu-include-file.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo — MiColonia</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="js/xlu-include-file.js"></script>
+    <!-- Mantenemos estos dos del PULL porque gestionan el login -->
+    <script src="js/manejo-sesion.js"></script>
+    <script src="js/navbar-sesion.js"></script>
 </head>
 <body>
-  <header xlu-include-file="components/navbar.html"></header>
+<header xlu-include-file="components/navbar.html"></header>
 
-  <main class="page-content">
+<main class="page-content">
     <h1 class="page-title">Fragancias</h1>
     <p class="page-subtitle">Descubre nuestra colección completa.</p>
 
+    <!-- Usamos TU ID para que el JS sepa dónde inyectar los datos -->
     <div class="grid-4" id="fragrance-grid">
-      <!-- Las fragancias se cargarán aquí dinámicamente desde JSON Server -->
+        <!-- Las fragancias se cargarán aquí dinámicamente desde JSON Server -->
     </div>
-  </main>
+</main>
 
-  <footer xlu-include-file="components/footer.html"></footer>
+<footer xlu-include-file="components/footer.html"></footer>
 
-  <script>
+<script>
     document.addEventListener('DOMContentLoaded', function() {
-      fetch('http://localhost:3000/fragrances')
-        .then(response => response.json())
-        .then(fragrances => {
-          const grid = document.getElementById('fragrance-grid');
+        // TU LÓGICA de carga dinámica (Perfecta para el Sprint 2)
+        fetch('http://localhost:3000/fragrances')
+            .then(response => response.json())
+            .then(fragrances => {
+                const grid = document.getElementById('fragrance-grid');
 
-          fragrances.forEach(fragrance => {
-            const cardLink = document.createElement('a');
-            cardLink.href = `fragancia.html?id=${fragrance.id}`;
-            cardLink.className = 'fragrance-card-link';
+                fragrances.forEach(fragrance => {
+                    const cardLink = document.createElement('a');
+                    cardLink.href = `fragancia.html?id=${fragrance.id}`;
+                    cardLink.className = 'fragrance-card-link';
 
-            const card = document.createElement('div');
-            card.className = 'fragrance-card';
+                    const card = document.createElement('div');
+                    card.className = 'fragrance-card';
 
-            const image = document.createElement('img');
-            image.src = fragrance.image; // This path is relative to the Codigo folder now
-            image.alt = fragrance.name;
-            image.className = 'fragrance-card-image';
+                    const image = document.createElement('img');
+                    image.src = fragrance.image;
+                    image.alt = fragrance.name;
+                    image.className = 'fragrance-card-image';
 
-            const info = document.createElement('div');
-            info.className = 'fragrance-card-info';
+                    const info = document.createElement('div');
+                    info.className = 'fragrance-card-info';
 
-            const name = document.createElement('h3');
-            name.className = 'fragrance-card-name';
-            name.textContent = fragrance.name;
+                    const name = document.createElement('h3');
+                    name.className = 'fragrance-card-name';
+                    name.textContent = fragrance.name;
 
-            const brand = document.createElement('p');
-            brand.className = 'fragrance-card-brand';
-            brand.textContent = fragrance.brand;
+                    const brand = document.createElement('p');
+                    brand.className = 'fragrance-card-brand';
+                    brand.textContent = fragrance.brand;
 
-            info.appendChild(name);
-            info.appendChild(brand);
+                    info.appendChild(name);
+                    info.appendChild(brand);
+                    card.appendChild(image);
+                    card.appendChild(info);
+                    cardLink.appendChild(card);
+                    grid.appendChild(cardLink);
+                });
+            })
+            .catch(error => console.error('Error al cargar las fragancias:', error));
 
-            card.appendChild(image);
-            card.appendChild(info);
-
-            cardLink.appendChild(card);
-            grid.appendChild(cardLink);
-          });
-        })
-        .catch(error => console.error('Error al cargar las fragancias:', error));
-
-      xLuIncludeFile();
+        xLuIncludeFile();
     });
-  </script>
+</script>
 </body>
 </html>

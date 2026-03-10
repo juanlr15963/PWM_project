@@ -1,32 +1,42 @@
 async function xLuIncludeFile() {
-    let z = document.getElementsByTagName("*");
+    let pending = true;
 
-    for (let i = 0; i < z.length; i++) {
-        if (z[i].getAttribute("xlu-include-file")) {
-            let a = z[i].cloneNode(false);
-            let file = z[i].getAttribute("xlu-include-file");
+    while (pending) {
+        pending = false;
+        let z = document.getElementsByTagName("*");
 
-            try {
-                let response = await fetch(file);
-                if (response.ok) {
-                    let content = await response.text();
+        for (let i = 0; i < z.length; i++) {
+            if (z[i].getAttribute("xlu-include-file")) {
+                let a = z[i].cloneNode(false);
+                let file = z[i].getAttribute("xlu-include-file");
 
-                    if (file.includes("-template.html")) {
-                        content = replaceTemplatePlaceholders(content, z[i]);
+                try {
+                    let response = await fetch(file);
+                    if (response.ok) {
+                        let content = await response.text();
+
+                        if (file.includes("-template.html")) {
+                            content = replaceTemplatePlaceholders(content, z[i]);
+                        }
+
+                        a.removeAttribute("xlu-include-file");
+                        a.innerHTML = content;
+                        z[i].parentNode.replaceChild(a, z[i]);
+                    } else {
+                        z[i].removeAttribute("xlu-include-file");
                     }
-
-                    a.removeAttribute("xlu-include-file");
-                    a.innerHTML = content;
-                    z[i].parentNode.replaceChild(a, z[i]);
-                    xLuIncludeFile();
+                } catch (error) {
+                    console.error("Error fetching file:", error);
+                    z[i].removeAttribute("xlu-include-file");
                 }
-            } catch (error) {
-                console.error("Error fetching file:", error);
-            }
 
-            return;
+                pending = true;
+                break;
+            }
         }
     }
+
+    document.dispatchEvent(new Event("xlu:done"));
 }
 
 function replaceTemplatePlaceholders(content, element) {
