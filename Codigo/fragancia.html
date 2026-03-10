@@ -59,7 +59,7 @@
           const imageContainer = document.getElementById('fragancia-imagen');
           imageContainer.innerHTML = ''; // Limpiar por si acaso
           const imgElement = document.createElement('img');
-          imgElement.src = fragrance.image;
+          imgElement.src = fragrance.image; // This path is relative to the Codigo folder now
           imgElement.alt = fragrance.name;
           imageContainer.appendChild(imgElement);
 
