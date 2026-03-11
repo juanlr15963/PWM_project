@@ -13,7 +13,7 @@
   <header xlu-include-file="components/navbar.html"></header>
 
   <main class="page-content">
-    <h1 class="page-title" id="nota-nombre"></h1>
+    <h1 class="page-title" id="nota-nombre">Cargando...</h1>
 
     <div class="note-detail">
       <div class="note-detail__text">
@@ -24,32 +24,9 @@
     </div>
 
     <section>
-      <h2 class="section-title">Presente en fragancias populares</h2>
-      <div class="grid-4">
-        <div class="fragrance-card" xlu-include-file="components/fragrance-card-template.html"
-             data-name="Brisa Nocturna"
-             data-description="Frescura marina con toques cítricos"
-             data-image=""
-             data-link="fragancia.html">
-        </div>
-        <div class="fragrance-card" xlu-include-file="components/fragrance-card-template.html"
-             data-name="Madera &amp; Ámbar"
-             data-description="Calidez profunda para el invierno"
-             data-image=""
-             data-link="fragancia.html">
-        </div>
-        <div class="fragrance-card" xlu-include-file="components/fragrance-card-template.html"
-             data-name="Jardín Secreto"
-             data-description="Floral delicado con notas verdes"
-             data-image=""
-             data-link="fragancia.html">
-        </div>
-        <div class="fragrance-card" xlu-include-file="components/fragrance-card-template.html"
-             data-name="Luna de Verano"
-             data-description="Jazmín y vainilla bajo las estrellas"
-             data-image=""
-             data-link="fragancia.html">
-        </div>
+      <h2 class="section-title">Presente en estas fragancias</h2>
+      <div class="grid-4" id="suggested-fragrances-grid">
+        <!-- Las fragancias sugeridas se cargarán aquí -->
       </div>
     </section>
   </main>
@@ -57,12 +34,83 @@
   <footer xlu-include-file="components/footer.html"></footer>
 
   <script>
-    xLuIncludeFile();
-    window.onload = function() {
+    document.addEventListener('DOMContentLoaded', function() {
       const params = new URLSearchParams(window.location.search);
-      document.getElementById("nota-nombre").textContent = params.get("name") || "Nota olfativa";
-      document.getElementById("nota-descripcion").textContent = params.get("description") || "Descripción detallada de esta nota olfativa y sus características principales.";
-    };
+      const noteName = params.get('name');
+
+      if (!noteName) {
+        document.getElementById('nota-nombre').textContent = 'Nota no especificada';
+        return;
+      }
+
+      const noteInfoRequest = fetch(`http://localhost:3000/notes?name=${noteName}`).then(res => res.json());
+      const fragrancesRequest = fetch('http://localhost:3000/fragrances').then(res => res.json());
+
+      Promise.all([noteInfoRequest, fragrancesRequest])
+        .then(([noteData, allFragrances]) => {
+          const note = noteData[0];
+          if (!note) {
+            throw new Error('Nota no encontrada');
+          }
+
+          // Rellenar información de la nota
+          document.title = `${note.name} — MiColonia`;
+          document.getElementById('nota-nombre').textContent = note.name;
+          document.getElementById('nota-descripcion').textContent = note.description || 'Descripción no disponible.';
+
+          // Filtrar fragancias que contienen la nota
+          const suggestedFragrances = allFragrances.filter(fragrance => {
+            const allNotes = [...(fragrance.notes.top || []), ...(fragrance.notes.heart || []), ...(fragrance.notes.base || [])];
+            return allNotes.includes(note.name);
+          });
+
+          // Renderizar fragancias sugeridas
+          const grid = document.getElementById('suggested-fragrances-grid');
+          grid.innerHTML = '';
+          if (suggestedFragrances.length === 0) {
+            grid.innerHTML = '<p>No se encontraron fragancias populares con esta nota.</p>';
+            return;
+          }
+
+          suggestedFragrances.forEach(fragrance => {
+            const cardLink = document.createElement('a');
+            cardLink.href = `fragancia.html?id=${fragrance.id}`;
+            cardLink.className = 'fragrance-card-link';
+
+            const card = document.createElement('div');
+            card.className = 'fragrance-card';
+
+            const image = document.createElement('img');
+            image.src = fragrance.image;
+            image.alt = fragrance.name;
+            image.className = 'fragrance-card-image';
+
+            const info = document.createElement('div');
+            info.className = 'fragrance-card-info';
+
+            const name = document.createElement('h3');
+            name.className = 'fragrance-card-name';
+            name.textContent = fragrance.name;
+
+            const brand = document.createElement('p');
+            brand.className = 'fragrance-card-brand';
+            brand.textContent = fragrance.brand;
+
+            info.appendChild(name);
+            info.appendChild(brand);
+            card.appendChild(image);
+            card.appendChild(info);
+            cardLink.appendChild(card);
+            grid.appendChild(cardLink);
+          });
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          document.getElementById('nota-nombre').textContent = 'Error al cargar la nota';
+        });
+
+      xLuIncludeFile();
+    });
   </script>
 </body>
 </html>

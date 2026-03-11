@@ -15,42 +15,51 @@
     <h1 class="page-title">Notas olfativas</h1>
     <p class="page-subtitle">Explora los ingredientes que componen las fragancias.</p>
 
-    <div class="grid-2">
-      <div class="note-card" xlu-include-file="components/note-card-template.html"
-           data-name="Algas Marinas"
-           data-description="Frescura oceánica con matices salinos"
-           data-link="nota.html">
-      </div>
-      <div class="note-card" xlu-include-file="components/note-card-template.html"
-           data-name="Almizcle"
-           data-description="Base cálida y envolvente"
-           data-link="nota.html">
-      </div>
-      <div class="note-card" xlu-include-file="components/note-card-template.html"
-           data-name="Almizcle Blanco"
-           data-description="Suavidad limpia y etérea"
-           data-link="nota.html">
-      </div>
-      <div class="note-card" xlu-include-file="components/note-card-template.html"
-           data-name="Bergamota"
-           data-description="Cítrico brillante y aromático"
-           data-link="nota.html">
-      </div>
-      <div class="note-card" xlu-include-file="components/note-card-template.html"
-           data-name="Sándalo"
-           data-description="Madera cremosa y reconfortante"
-           data-link="nota.html">
-      </div>
-      <div class="note-card" xlu-include-file="components/note-card-template.html"
-           data-name="Pachulí"
-           data-description="Terroso, profundo y misterioso"
-           data-link="nota.html">
-      </div>
+    <div class="grid-2" id="notes-grid">
+      <!-- Las notas se cargarán aquí dinámicamente -->
     </div>
   </main>
 
   <footer xlu-include-file="components/footer.html"></footer>
 
-  <script>xLuIncludeFile();</script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const grid = document.getElementById('notes-grid');
+
+      fetch('http://localhost:3000/notes')
+        .then(response => response.json())
+        .then(notes => {
+          grid.innerHTML = ''; // Limpiar contenido estático
+          notes.forEach(note => {
+            const noteCardLink = document.createElement('a');
+            // Pasamos el nombre de la nota como parámetro en la URL
+            noteCardLink.href = `nota.html?name=${encodeURIComponent(note.name)}`;
+            noteCardLink.className = 'note-card-link';
+
+            const noteCard = document.createElement('div');
+            noteCard.className = 'note-card';
+
+            const name = document.createElement('h3');
+            name.className = 'note-card__name';
+            name.textContent = note.name;
+
+            const description = document.createElement('p');
+            description.className = 'note-card__desc';
+            description.textContent = note.description || 'Descripción no disponible.';
+
+            noteCard.appendChild(name);
+            noteCard.appendChild(description);
+            noteCardLink.appendChild(noteCard);
+            grid.appendChild(noteCardLink);
+          });
+        })
+        .catch(error => {
+          console.error('Error al cargar las notas:', error);
+          grid.innerHTML = '<p>Error al cargar las notas. Por favor, inténtalo de nuevo más tarde.</p>';
+        });
+
+      xLuIncludeFile();
+    });
+  </script>
 </body>
 </html>

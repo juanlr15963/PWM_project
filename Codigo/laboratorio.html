@@ -13,77 +13,124 @@
 <header xlu-include-file="components/navbar.html"></header>
 
 <main class="page-content">
-  <h1 class="page-title">Laboratorio Fragancia</h1>
-  <p class="page-subtitle">Crea tu propia fragancia personalizada.</p>
+  <h1 class="page-title">Laboratorio de Fragancias</h1>
+  <p class="page-subtitle">Arrastra las notas para crear tu perfume personalizado.</p>
 
-  <input type="text" class="lab-title-input" placeholder="Nombre de tu fragancia..." />
-
-  <div class="lab-columns">
-    <div>
-      <h3 class="lab-column__title">Salida</h3>
-      <div class="lab-column__cards">
-        <div class="note-card" data-name="Bergamota" data-description="Cítrico brillante" data-link=""
-             xlu-include-file="components/note-card-template.html"></div>
-        <div class="note-card" data-name="Limón" data-description="Frescura cítrica intensa" data-link=""
-             xlu-include-file="components/note-card-template.html"></div>
-        <div class="note-card" data-name="Pomelo" data-description="Cítrico amargo y vibrante" data-link=""
-             xlu-include-file="components/note-card-template.html"></div>
-        <div class="note-card" data-name="Menta" data-description="Frescura herbal penetrante" data-link=""
-             xlu-include-file="components/note-card-template.html"></div>
-        <div class="note-card" data-name="Lavanda" data-description="Herbal floral calmante" data-link=""
-             xlu-include-file="components/note-card-template.html"></div>
+  <div class="lab-container">
+    <!-- Columna de Notas Disponibles -->
+    <div class="lab-notes-pool">
+      <h3 class="lab-column__title">Notas Disponibles</h3>
+      <div id="available-notes" class="lab-column__cards">
+        <!-- Las notas se cargarán aquí -->
       </div>
     </div>
 
-    <div>
-      <h3 class="lab-column__title">Corazón</h3>
-      <div class="lab-column__cards">
-        <div class="note-card" data-name="Rosa" data-description="Floral clásico y elegante" data-link=""
-             xlu-include-file="components/note-card-template.html"></div>
-        <div class="note-card" data-name="Jazmín" data-description="Floral intenso y sensual" data-link=""
-             xlu-include-file="components/note-card-template.html"></div>
-        <div class="note-card" data-name="Lirio" data-description="Floral fresco y delicado" data-link=""
-             xlu-include-file="components/note-card-template.html"></div>
-        <div class="note-card" data-name="Canela" data-description="Especiado cálido y dulce" data-link=""
-             xlu-include-file="components/note-card-template.html"></div>
-        <div class="note-card" data-name="Cardamomo" data-description="Especiado aromático y fresco" data-link=""
-             xlu-include-file="components/note-card-template.html"></div>
+    <!-- Columnas de la Fragancia -->
+    <div class="lab-creation-area">
+      <input type="text" id="fragrance-name-input" class="lab-title-input" placeholder="Nombre de tu fragancia..." />
+      <div class="lab-columns">
+        <div class="lab-drop-zone" id="top-notes-zone" data-type="top">
+          <h3 class="lab-column__title">Salida</h3>
+          <div class="lab-column__cards"></div>
+        </div>
+        <div class="lab-drop-zone" id="heart-notes-zone" data-type="heart">
+          <h3 class="lab-column__title">Corazón</h3>
+          <div class="lab-column__cards"></div>
+        </div>
+        <div class="lab-drop-zone" id="base-notes-zone" data-type="base">
+          <h3 class="lab-column__title">Base</h3>
+          <div class="lab-column__cards"></div>
+        </div>
       </div>
-    </div>
-
-    <div>
-      <h3 class="lab-column__title">Base</h3>
-      <div class="lab-column__cards">
-        <div class="note-card" data-name="Sándalo" data-description="Madera cremosa" data-link=""
-             xlu-include-file="components/note-card-template.html"></div>
-        <div class="note-card" data-name="Pachulí" data-description="Terroso y profundo" data-link=""
-             xlu-include-file="components/note-card-template.html"></div>
-        <div class="note-card" data-name="Almizcle" data-description="Base cálida y envolvente" data-link=""
-             xlu-include-file="components/note-card-template.html"></div>
-        <div class="note-card" data-name="Vainilla" data-description="Dulzura cálida y reconfortante" data-link=""
-             xlu-include-file="components/note-card-template.html"></div>
-        <div class="note-card" data-name="Ámbar" data-description="Resina cálida y dorada" data-link=""
-             xlu-include-file="components/note-card-template.html"></div>
-      </div>
+      <button id="save-fragrance-btn" class="lab-submit">Inmortalizar tu fragancia</button>
     </div>
   </div>
-
-  <button class="lab-submit">Inmortalizar tu fragancia</button>
 </main>
 
 <footer xlu-include-file="components/footer.html"></footer>
 
 <script>
-  xLuIncludeFile();
+  document.addEventListener('DOMContentLoaded', function() {
+    const availableNotesContainer = document.getElementById('available-notes');
+    const dropZones = document.querySelectorAll('.lab-drop-zone');
+    const saveBtn = document.getElementById('save-fragrance-btn');
+    let draggedItem = null;
 
-  window.onload = function() {
-    document.querySelectorAll(".lab-columns .note-card").forEach(function(card) {
-      card.addEventListener("click", function(e) {
+    // Cargar notas disponibles
+    fetch('http://localhost:3000/notes')
+      .then(response => response.json())
+      .then(notes => {
+        notes.forEach(note => {
+          const noteEl = createNoteElement(note);
+          availableNotesContainer.appendChild(noteEl);
+        });
+      });
+
+    function createNoteElement(note) {
+      const noteEl = document.createElement('div');
+      noteEl.className = 'note-card';
+      noteEl.draggable = true;
+      noteEl.dataset.noteName = note.name;
+      noteEl.innerHTML = `<h4 class="note-card__name">${note.name}</h4><p class="note-card__desc">${note.type}</p>`;
+
+      noteEl.addEventListener('dragstart', (e) => {
+        draggedItem = e.target;
+        setTimeout(() => e.target.style.display = 'none', 0);
+      });
+
+      noteEl.addEventListener('dragend', () => {
+        setTimeout(() => {
+            draggedItem.style.display = 'block';
+            draggedItem = null;
+        }, 0);
+      });
+      return noteEl;
+    }
+
+    dropZones.forEach(zone => {
+      zone.addEventListener('dragover', (e) => {
         e.preventDefault();
-        card.classList.toggle("note-card--selected");
+        zone.classList.add('drag-over');
+      });
+      zone.addEventListener('dragleave', () => {
+        zone.classList.remove('drag-over');
+      });
+      zone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        zone.classList.remove('drag-over');
+        if (draggedItem) {
+          zone.querySelector('.lab-column__cards').appendChild(draggedItem);
+        }
       });
     });
-  };
+
+    saveBtn.addEventListener('click', () => {
+      const fragranceName = document.getElementById('fragrance-name-input').value;
+      const topNotes = Array.from(document.querySelectorAll('#top-notes-zone .note-card')).map(n => n.dataset.noteName);
+      const heartNotes = Array.from(document.querySelectorAll('#heart-notes-zone .note-card')).map(n => n.dataset.noteName);
+      const baseNotes = Array.from(document.querySelectorAll('#base-notes-zone .note-card')).map(n => n.dataset.noteName);
+
+      if (!fragranceName) {
+        alert('Por favor, dale un nombre a tu fragancia.');
+        return;
+      }
+
+      const newFragrance = {
+        name: fragranceName,
+        notes: {
+          top: topNotes,
+          heart: heartNotes,
+          base: baseNotes
+        }
+      };
+
+      console.log('Fragancia Creada:', newFragrance);
+      alert(`¡Fragancia "${fragranceName}" guardada en la consola!`);
+      // Aquí iría la lógica para enviar al servidor (fetch POST) en el futuro.
+    });
+
+    xLuIncludeFile();
+  });
 </script>
 </body>
 </html>
