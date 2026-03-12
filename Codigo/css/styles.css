@@ -391,11 +391,23 @@ a {
 }
 
 .note-detail__image {
-    width: 300px;
+    width: 300px; /* Ancho fijo para el contenedor de la imagen */
     min-height: 200px;
     background: var(--neutral-100);
     border-radius: var(--radius-md);
+    display: flex; /* Para centrar la imagen si es más pequeña */
+    align-items: center;
+    justify-content: center;
+    overflow: hidden; /* Recorta si la imagen es más grande */
 }
+
+.note-detail__image img {
+    max-width: 100%; /* Asegura que la imagen no se desborde */
+    max-height: 100%; /* Asegura que la imagen no se desborde */
+    object-fit: contain; /* Ajusta la imagen dentro del contenedor manteniendo su aspecto */
+    display: block;
+}
+
 
 /* ===== Placeholder / Empty State ===== */
 .placeholder-area {
