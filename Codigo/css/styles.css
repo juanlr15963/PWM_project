@@ -247,10 +247,42 @@ a {
     border-width: 2px;
 }
 
+/* ===== Visual Note Card ===== */
+.note-card-visual {
+    border: 1px solid var(--neutral-100);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    transition: box-shadow 0.2s;
+}
+.note-card-visual:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+.note-card-visual__image {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    background-color: var(--neutral-50);
+}
+.note-card-visual__info {
+    padding: 12px;
+}
+.note-card-visual__name {
+    font-weight: 600;
+    font-size: 16px;
+}
+.note-card-visual__desc {
+    font-size: 13px;
+    color: var(--neutral-500);
+    margin-top: 4px;
+}
+
+
 /* ===== Tags / Chips ===== */
 .tag {
-    display: inline-block;
-    padding: 8px 16px;
+    display: inline-flex; /* Changed to inline-flex */
+    align-items: center; /* Vertically align items */
+    gap: 8px; /* Space between image and text */
+    padding: 6px 12px; /* Adjusted padding */
     border: 1px solid var(--neutral-200);
     border-radius: var(--radius-full);
     font-size: 12px;
@@ -262,6 +294,14 @@ a {
 .tag:hover {
     border-color: var(--neutral-400);
 }
+
+.tag img {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
 
 /* ===== Grids ===== */
 .grid-4 {

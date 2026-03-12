@@ -20,7 +20,9 @@
         <h2 class="section-title">Descripción</h2>
         <p id="nota-descripcion"></p>
       </div>
-      <div class="note-detail__image"></div>
+      <div class="note-detail__image" id="nota-imagen">
+        <!-- La imagen de la nota se cargará aquí -->
+      </div>
     </div>
 
     <section>
@@ -57,6 +59,15 @@
           document.title = `${note.name} — MiColonia`;
           document.getElementById('nota-nombre').textContent = note.name;
           document.getElementById('nota-descripcion').textContent = note.description || 'Descripción no disponible.';
+
+          // Cargar imagen de la nota
+          const imageContainer = document.getElementById('nota-imagen');
+          if (note.image) {
+            const img = document.createElement('img');
+            img.src = note.image;
+            img.alt = note.name;
+            imageContainer.appendChild(img);
+          }
 
           // Filtrar fragancias que contienen la nota
           const suggestedFragrances = allFragrances.filter(fragrance => {

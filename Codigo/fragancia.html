@@ -50,12 +50,14 @@
             return;
         }
 
-        fetch(`http://localhost:3000/fragrances/${fragranceId}`)
-            .then(response => {
-                if (!response.ok) throw new Error('La fragancia no existe');
-                return response.json();
-            })
-            .then(fragrance => {
+        // Realizar dos fetches en paralelo: uno para la fragancia y otro para todas las notas
+        const fragranceRequest = fetch(`http://localhost:3000/fragrances/${fragranceId}`).then(res => res.json());
+        const notesListRequest = fetch('http://localhost:3000/notes').then(res => res.json());
+
+        Promise.all([fragranceRequest, notesListRequest])
+            .then(([fragrance, allNotes]) => {
+                if (!fragrance) throw new Error('La fragancia no existe');
+
                 document.title = `${fragrance.name} — MiColonia`;
                 document.getElementById('fragancia-nombre').textContent = fragrance.name;
                 document.getElementById('fragancia-marca').textContent = fragrance.brand;
@@ -67,7 +69,7 @@
                 imgElement.alt = fragrance.name;
                 imageContainer.appendChild(imgElement);
 
-                document.getElementById('fragancia-descripcion').textContent = fragrance.description;
+                document.getElementById('fragancia-descripcion').textContent = fragrance.description || 'Descripción no disponible.';
 
                 const metaContainer = document.getElementById('fragancia-meta');
                 metaContainer.innerHTML = '';
@@ -91,18 +93,24 @@
                 const notesContainer = document.getElementById('fragancia-notas');
                 notesContainer.innerHTML = '';
 
-                if (fragrance.notes) {
-                    const allNotes = Array.isArray(fragrance.notes)
-                        ? fragrance.notes
-                        : [...(fragrance.notes.top || []), ...(fragrance.notes.heart || []), ...(fragrance.notes.base || [])];
+                const fragranceNotes = [...(fragrance.notes.top || []), ...(fragrance.notes.heart || []), ...(fragrance.notes.base || [])];
 
-                    allNotes.forEach(noteName => {
-                        const tag = document.createElement('span');
-                        tag.className = 'tag';
-                        tag.textContent = noteName;
-                        notesContainer.appendChild(tag);
-                    });
-                }
+                fragranceNotes.forEach(noteName => {
+                    const noteData = allNotes.find(n => n.name === noteName); // Buscar la nota en la lista completa
+                    const tag = document.createElement('span');
+                    tag.className = 'tag';
+
+                    if (noteData && noteData.image) {
+                        const noteImg = document.createElement('img');
+                        noteImg.src = noteData.image;
+                        noteImg.alt = noteData.name;
+                        tag.appendChild(noteImg);
+                    }
+
+                    const text = document.createTextNode(noteName);
+                    tag.appendChild(text);
+                    notesContainer.appendChild(tag);
+                });
             })
             .catch(error => {
                 console.error('Error:', error);

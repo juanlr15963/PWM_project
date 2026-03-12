@@ -15,7 +15,7 @@
     <h1 class="page-title">Notas olfativas</h1>
     <p class="page-subtitle">Explora los ingredientes que componen las fragancias.</p>
 
-    <div class="grid-2" id="notes-grid">
+    <div class="grid-3" id="notes-grid">
       <!-- Las notas se cargarán aquí dinámicamente -->
     </div>
   </main>
@@ -29,26 +29,34 @@
       fetch('http://localhost:3000/notes')
         .then(response => response.json())
         .then(notes => {
-          grid.innerHTML = ''; // Limpiar contenido estático
+          grid.innerHTML = '';
           notes.forEach(note => {
             const noteCardLink = document.createElement('a');
-            // Pasamos el nombre de la nota como parámetro en la URL
             noteCardLink.href = `nota.html?name=${encodeURIComponent(note.name)}`;
-            noteCardLink.className = 'note-card-link';
 
             const noteCard = document.createElement('div');
-            noteCard.className = 'note-card';
+            noteCard.className = 'note-card-visual';
+
+            const image = document.createElement('img');
+            image.src = note.image || 'img/notes/default.jpg'; // Fallback image
+            image.alt = note.name;
+            image.className = 'note-card-visual__image';
+
+            const info = document.createElement('div');
+            info.className = 'note-card-visual__info';
 
             const name = document.createElement('h3');
-            name.className = 'note-card__name';
+            name.className = 'note-card-visual__name';
             name.textContent = note.name;
 
             const description = document.createElement('p');
-            description.className = 'note-card__desc';
+            description.className = 'note-card-visual__desc';
             description.textContent = note.description || 'Descripción no disponible.';
 
-            noteCard.appendChild(name);
-            noteCard.appendChild(description);
+            info.appendChild(name);
+            info.appendChild(description);
+            noteCard.appendChild(image);
+            noteCard.appendChild(info);
             noteCardLink.appendChild(noteCard);
             grid.appendChild(noteCardLink);
           });
