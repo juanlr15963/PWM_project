@@ -21,6 +21,7 @@
     <!-- Filtros -->
     <div class="filter-bar" id="filter-bar">
       <button class="filter-btn active" data-filter="all">Todos</button>
+      <span class="filter-divider"></span>
       <button class="filter-btn" data-filter="Verano">Verano</button>
       <button class="filter-btn" data-filter="Invierno">Invierno</button>
       <button class="filter-btn" data-filter="Otoño">Otoño</button>
@@ -28,6 +29,10 @@
       <span class="filter-divider"></span>
       <button class="filter-btn" data-filter="Día">Día</button>
       <button class="filter-btn" data-filter="Noche">Noche</button>
+      <span class="filter-divider"></span>
+      <button class="filter-btn" data-filter="Masculino">Masculino</button>
+      <button class="filter-btn" data-filter="Femenino">Femenino</button>
+      <button class="filter-btn" data-filter="Unisex">Unisex</button>
     </div>
 
     <section class="featured-fragrances">
@@ -57,7 +62,16 @@
       // Función para renderizar las fragancias
       function renderFragrances(fragrancesToRender) {
         grid.innerHTML = '';
+        if (!fragrancesToRender || fragrancesToRender.length === 0) {
+            grid.innerHTML = '<p>No se encontraron fragancias con el filtro seleccionado.</p>';
+            return;
+        }
         fragrancesToRender.forEach(fragrance => {
+          if (!fragrance || !fragrance.id || !fragrance.name || !fragrance.image) {
+            console.error('Skipping invalid fragrance object:', fragrance);
+            return;
+          }
+
           const cardLink = document.createElement('a');
           cardLink.href = `fragancia.html?id=${fragrance.id}`;
           cardLink.className = 'fragrance-card-link';
@@ -79,7 +93,7 @@
 
           const brand = document.createElement('p');
           brand.className = 'fragrance-card-brand';
-          brand.textContent = fragrance.brand;
+          brand.textContent = fragrance.brand || 'Marca desconocida';
 
           info.appendChild(name);
           info.appendChild(brand);
@@ -92,27 +106,38 @@
 
       // Cargar todas las fragancias inicialmente
       fetch('http://localhost:3000/fragrances')
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
         .then(data => {
           allFragrances = data;
           renderFragrances(allFragrances);
         })
-        .catch(error => console.error('Error al cargar fragancias:', error));
+        .catch(error => {
+            console.error('Error al cargar fragancias:', error);
+            grid.innerHTML = `<p style="color: red;">Error al cargar las fragancias. Asegúrate de que el servidor (npm start) esté funcionando y revisa la consola para más detalles.</p>`;
+        });
 
       // Manejar clics en los filtros
       filterBar.addEventListener('click', function(e) {
         if (e.target.tagName === 'BUTTON') {
-          // Actualizar estado activo del botón
           filterBar.querySelector('.active').classList.remove('active');
           e.target.classList.add('active');
 
           activeFilter = e.target.dataset.filter;
 
-          // Filtrar y renderizar
           if (activeFilter === 'all') {
             renderFragrances(allFragrances);
           } else {
-            const filtered = allFragrances.filter(f => f.season.includes(activeFilter) || f.time === activeFilter);
+            const filtered = allFragrances.filter(f => {
+                const seasonMatch = f.season && f.season.includes(activeFilter);
+                const timeMatch = f.time && f.time === activeFilter;
+                const genderMatch = f.gender && f.gender === activeFilter;
+                return seasonMatch || timeMatch || genderMatch;
+            });
             renderFragrances(filtered);
           }
         }

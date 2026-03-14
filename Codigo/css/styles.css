@@ -376,8 +376,21 @@ a {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    margin-top: 12px;
 }
+
+.notes-group {
+    margin-bottom: 24px;
+}
+
+.notes-group__title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--neutral-900);
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--neutral-200);
+}
+
 
 /* ===== Note Detail ===== */
 .note-detail {

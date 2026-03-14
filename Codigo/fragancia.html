@@ -6,7 +6,6 @@
     <title>Fragancia — MiColonia</title>
     <link rel="stylesheet" href="css/styles.css">
     <script src="js/xlu-include-file.js"></script>
-    <!-- Mantenemos estos dos del PULL para el sistema de usuarios -->
     <script src="js/manejo-sesion.js"></script>
     <script src="js/navbar-sesion.js"></script>
 </head>
@@ -23,16 +22,15 @@
         <div class="fragrance-detail__content">
             <p class="fragrance-brand" id="fragancia-marca"></p>
 
+            <h2 class="section-title">Descripción</h2>
+            <p id="fragancia-descripcion"></p>
+
             <div class="fragrance-detail__meta" id="fragancia-meta">
                 <!-- La estación y el momento del día se cargarán aquí -->
             </div>
 
-            <h2 class="section-title">Descripción</h2>
-            <p id="fragancia-descripcion"></p>
-
-            <h2 class="section-title" style="margin-top: 24px;">Notas olfativas</h2>
-            <div class="fragrance-detail__tags" id="fragancia-notas">
-                <!-- Las notas se cargarán aquí dinámicamente -->
+            <div id="fragancia-notas-clasificadas">
+                <!-- Las notas clasificadas se cargarán aquí -->
             </div>
         </div>
     </div>
@@ -50,7 +48,6 @@
             return;
         }
 
-        // Realizar dos fetches en paralelo: uno para la fragancia y otro para todas las notas
         const fragranceRequest = fetch(`http://localhost:3000/fragrances/${fragranceId}`).then(res => res.json());
         const notesListRequest = fetch('http://localhost:3000/notes').then(res => res.json());
 
@@ -90,27 +87,46 @@
                     metaContainer.appendChild(timeTag);
                 }
 
-                const notesContainer = document.getElementById('fragancia-notas');
+                const notesContainer = document.getElementById('fragancia-notas-clasificadas');
                 notesContainer.innerHTML = '';
 
-                const fragranceNotes = [...(fragrance.notes.top || []), ...(fragrance.notes.heart || []), ...(fragrance.notes.base || [])];
+                function renderNotes(title, notes) {
+                    if (notes && notes.length > 0) {
+                        const group = document.createElement('div');
+                        group.className = 'notes-group';
+                        const groupTitle = document.createElement('h3');
+                        groupTitle.className = 'notes-group__title';
+                        groupTitle.textContent = title;
+                        group.appendChild(groupTitle);
 
-                fragranceNotes.forEach(noteName => {
-                    const noteData = allNotes.find(n => n.name === noteName); // Buscar la nota en la lista completa
-                    const tag = document.createElement('span');
-                    tag.className = 'tag';
+                        const tagsContainer = document.createElement('div');
+                        tagsContainer.className = 'fragrance-detail__tags';
 
-                    if (noteData && noteData.image) {
-                        const noteImg = document.createElement('img');
-                        noteImg.src = noteData.image;
-                        noteImg.alt = noteData.name;
-                        tag.appendChild(noteImg);
+                        notes.forEach(noteName => {
+                            const noteData = allNotes.find(n => n.name === noteName);
+                            const tagLink = document.createElement('a');
+                            tagLink.href = `nota.html?name=${encodeURIComponent(noteName)}`;
+                            tagLink.className = 'tag';
+
+                            if (noteData && noteData.image) {
+                                const noteImg = document.createElement('img');
+                                noteImg.src = noteData.image;
+                                noteImg.alt = noteData.name;
+                                tagLink.appendChild(noteImg);
+                            }
+
+                            const text = document.createTextNode(noteName);
+                            tagLink.appendChild(text);
+                            tagsContainer.appendChild(tagLink);
+                        });
+                        group.appendChild(tagsContainer);
+                        notesContainer.appendChild(group);
                     }
+                }
 
-                    const text = document.createTextNode(noteName);
-                    tag.appendChild(text);
-                    notesContainer.appendChild(tag);
-                });
+                renderNotes('Salida', fragrance.notes.top);
+                renderNotes('Corazón', fragrance.notes.heart);
+                renderNotes('Base', fragrance.notes.base);
             })
             .catch(error => {
                 console.error('Error:', error);

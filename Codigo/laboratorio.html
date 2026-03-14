@@ -71,7 +71,7 @@
       noteEl.className = 'note-card';
       noteEl.draggable = true;
       noteEl.dataset.noteName = note.name;
-      noteEl.innerHTML = `<h4 class="note-card__name">${note.name}</h4><p class="note-card__desc">${note.type}</p>`;
+      noteEl.innerHTML = `<h4 class="note-card__name">${note.name}</h4>`;
 
       noteEl.addEventListener('dragstart', (e) => {
         draggedItem = e.target;

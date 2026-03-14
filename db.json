@@ -7,6 +7,7 @@
       "image": "img/fragances/acqua-di-gio-profumo.jpg",
       "season": ["Verano"],
       "time": "Día",
+      "gender": "Unisex",
       "notes": {
         "top": ["Notas marinas", "Bergamota"],
         "heart": ["Romero", "Geranio"],
@@ -20,6 +21,7 @@
       "image": "img/fragances/le-male-edt.jpg",
       "season": ["Otoño", "Invierno"],
       "time": "Noche",
+      "gender": "Masculino",
       "notes": {
         "top": ["Menta", "Lavanda", "Bergamota"],
         "heart": ["Canela", "Comino", "Flor de azahar del naranjo"],
@@ -33,6 +35,7 @@
       "image": "img/fragances/y-ysl.jpg",
       "season": ["Primavera", "Verano"],
       "time": "Día",
+      "gender": "Masculino",
       "notes": {
         "top": ["Manzana", "Jengibre", "Bergamota"],
         "heart": ["Salvia", "Geranio"],
@@ -46,6 +49,7 @@
       "image": "img/fragances/boss-bottled-absolu.jpg",
       "season": ["Otoño", "Invierno"],
       "time": "Noche",
+      "gender": "Masculino",
       "notes": {
         "top": ["Incienso", "Cuero"],
         "heart": ["Pachulí", "Mirra"],
@@ -59,6 +63,7 @@
       "image": "img/fragances/bleu-de-chanel.jpg",
       "season": ["Primavera", "Verano", "Otoño"],
       "time": "Día",
+      "gender": "Masculino",
       "notes": {
         "top": ["Pomelo", "Limón", "Menta", "Pimienta rosa"],
         "heart": ["Jengibre", "Nuez moscada", "Jazmín"],
@@ -72,6 +77,7 @@
       "image": "img/fragances/sauvage-edt.jpg",
       "season": ["Primavera", "Verano"],
       "time": "Día",
+      "gender": "Masculino",
       "notes": {
         "top": ["Pimienta", "Bergamota"],
         "heart": ["Lavanda", "Geranio"],
@@ -85,6 +91,7 @@
       "image": "img/fragances/scandal-jpg.jpg",
       "season": ["Otoño", "Invierno"],
       "time": "Noche",
+      "gender": "Masculino",
       "notes": {
         "top": ["Mandarina", "Salvia"],
         "heart": ["Caramelo", "Haba tonka"],
