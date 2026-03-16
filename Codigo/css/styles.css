@@ -80,6 +80,11 @@ a {
     font-size: 18px;
 }
 
+/* ===== Live Search ===== */
+.navbar__search-container {
+    position: relative;
+}
+
 .navbar__search input {
     background: var(--white);
     border: 1px solid var(--neutral-100);
@@ -89,6 +94,64 @@ a {
     font-size: 14px;
     outline: none;
 }
+
+.search-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: var(--white);
+    border: 1px solid var(--neutral-200);
+    border-radius: var(--radius-md);
+    margin-top: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    max-height: 300px;
+    overflow-y: auto;
+    display: none; /* Hidden by default */
+}
+
+.search-results.visible {
+    display: block;
+}
+
+.search-result-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    border-bottom: 1px solid var(--neutral-100);
+}
+
+.search-result-item:last-child {
+    border-bottom: none;
+}
+
+.search-result-item:hover {
+    background-color: var(--neutral-50);
+}
+
+.search-result-item__image {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-sm);
+    object-fit: cover;
+}
+
+.search-result-item__info {
+    display: flex;
+    flex-direction: column;
+}
+
+.search-result-item__name {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.search-result-item__type {
+    font-size: 12px;
+    color: var(--neutral-400);
+}
+
 
 .navbar__links {
     display: flex;
@@ -350,6 +413,43 @@ a {
 }
 
 /* ===== Fragrance Detail ===== */
+.fragrance-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.fragrance-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.action-btn {
+    background: none;
+    border: 1px solid var(--neutral-200);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.action-btn:hover {
+    background-color: var(--neutral-100);
+}
+
+.action-btn.active {
+    background-color: #FEF2F2;
+    color: #DC2626;
+    border-color: #FEE2E2;
+}
+
+
 .fragrance-detail {
     display: flex;
     align-items: flex-start; /* Alinea los items al inicio */

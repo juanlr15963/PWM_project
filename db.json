@@ -7,7 +7,7 @@
       "image": "img/fragances/acqua-di-gio-profumo.jpg",
       "season": ["Verano"],
       "time": "Día",
-      "gender": "Unisex",
+      "gender": "Masculino",
       "notes": {
         "top": ["Notas marinas", "Bergamota"],
         "heart": ["Romero", "Geranio"],
@@ -44,7 +44,7 @@
     },
     {
       "id": 4,
-      "name": "Boss Bottled Absolute",
+      "name": "Boss Bottled Absolu",
       "brand": "Hugo Boss",
       "image": "img/fragances/boss-bottled-absolu.jpg",
       "season": ["Otoño", "Invierno"],
@@ -97,6 +97,62 @@
         "heart": ["Caramelo", "Haba tonka"],
         "base": ["Vetiver"]
       }
+    },
+    {
+      "id": 8,
+      "name": "CK One",
+      "brand": "Calvin Klein",
+      "image": "img/fragances/ck-one.jpg",
+      "season": ["Verano", "Primavera"],
+      "time": "Día",
+      "gender": "Unisex",
+      "notes": {
+        "top": ["Limón", "Piña", "Mandarina"],
+        "heart": ["Nuez moscada", "Violeta"],
+        "base": ["Sándalo", "Ámbar", "Almizcle", "Cedro"]
+      }
+    },
+    {
+      "id": 9,
+      "name": "Black Opium",
+      "brand": "Yves Saint Laurent",
+      "image": "img/fragances/black-opium.jpg",
+      "season": ["Invierno", "Otoño"],
+      "time": "Noche",
+      "gender": "Femenino",
+      "notes": {
+        "top": ["Pera", "Pimienta rosa", "Flor de azahar del naranjo"],
+        "heart": ["Café", "Jazmín", "Almendra amarga"],
+        "base": ["Vainilla", "Pachulí", "Cedro"]
+      }
+    },
+    {
+      "id": 10,
+      "name": "Libre",
+      "brand": "Yves Saint Laurent",
+      "image": "img/fragances/libre-ysl.jpg",
+      "season": ["Primavera", "Otoño"],
+      "time": "Día",
+      "gender": "Femenino",
+      "notes": {
+        "top": ["Lavanda", "Mandarina", "Grosellas negras"],
+        "heart": ["Jazmín", "Flor de azahar del naranjo"],
+        "base": ["Vainilla", "Cedro", "Ámbar gris", "Almizcle"]
+      }
+    },
+    {
+      "id": 11,
+      "name": "La Vie Est Belle",
+      "brand": "Lancôme",
+      "image": "img/fragances/la-vie-est-belle.jpg",
+      "season": ["Invierno", "Otoño"],
+      "time": "Día",
+      "gender": "Femenino",
+      "notes": {
+        "top": ["Grosellas negras", "Pera"],
+        "heart": ["Iris", "Jazmín", "Flor de azahar del naranjo"],
+        "base": ["Praliné", "Vainilla", "Pachulí", "Haba tonka"]
+      }
     }
   ],
   "notes": [
@@ -130,7 +186,18 @@
     { "id": 39, "name": "Pimienta", "type": "top", "description": "Picante y cítrica, con una sensación efervescente única.", "image": "img/notes/pepper.jpg" },
     { "id": 40, "name": "Ambroxan", "type": "base", "description": "Molécula sintética que aporta un aroma ambarino, amaderado y mineral.", "image": "img/notes/ambroxan.jpg" },
     { "id": 41, "name": "Cuero", "type": "top", "description": "Un aroma animal, ahumado y masculino que evoca lujo y poder.", "image": "img/notes/leather.jpg" },
-    { "id": 42, "name": "Mirra", "type": "heart", "description": "Resina cálida, dulce y balsámica con un toque medicinal y antiguo.", "image": "img/notes/myrrh.jpg" }
+    { "id": 42, "name": "Mirra", "type": "heart", "description": "Resina cálida, dulce y balsámica con un toque medicinal y antiguo.", "image": "img/notes/myrrh.jpg" },
+    { "id": 43, "name": "Piña", "type": "top", "description": "Frutal, tropical y jugosa, con un toque dulce y ácido.", "image": "img/notes/pineapple.jpg" },
+    { "id": 44, "name": "Violeta", "type": "heart", "description": "Floral, atalcado y ligeramente dulce, con un toque nostálgico.", "image": "img/notes/violet.jpg" },
+    { "id": 45, "name": "Ámbar", "type": "base", "description": "Cálido, resinoso y dulce, aporta una sensación rica y envolvente.", "image": "img/notes/amber.jpg" },
+    { "id": 46, "name": "Almizcle", "type": "base", "description": "Aporta una sensación limpia y cálida, a menudo descrito como el olor de la piel.", "image": "img/notes/musk.jpg" },
+    { "id": 47, "name": "Pera", "type": "top", "description": "Frutal, jugosa y dulce, con una frescura acuosa.", "image": "img/notes/pear.jpg" },
+    { "id": 48, "name": "Café", "type": "heart", "description": "Tostado, oscuro y amargo, con un efecto estimulante y adictivo.", "image": "img/notes/coffee.jpg" },
+    { "id": 49, "name": "Almendra amarga", "type": "heart", "description": "Nuez amarga y potente, con un matiz de cereza.", "image": "img/notes/almond.jpg" },
+    { "id": 50, "name": "Grosellas negras", "type": "top", "description": "Frutal, ácida y verde, con un carácter vibrante y jugoso.", "image": "img/notes/blackcurrant.jpg" },
+    { "id": 51, "name": "Ámbar gris", "type": "base", "description": "Marino, animal y dulce, una nota compleja y muy apreciada.", "image": "img/notes/ambergris.jpg" },
+    { "id": 52, "name": "Iris", "type": "heart", "description": "Atalcado, floral y terroso, con una elegancia sofisticada.", "image": "img/notes/iris.jpg" },
+    { "id": 53, "name": "Praliné", "type": "base", "description": "Dulce y gourmand, con notas de caramelo, nueces y chocolate.", "image": "img/notes/praline.jpg" }
   ],
   "users": [
     {

@@ -13,92 +13,20 @@
   <header xlu-include-file="components/navbar.html"></header>
 
   <main class="page-content">
-    <h1 class="page-title">Resultados de la búsqueda "<span id="search-query"></span>"</h1>
-    <p class="page-subtitle"></p>
+    <h1 class="page-title">Resultados para "<span id="search-query"></span>"</h1>
+    <p class="page-subtitle" id="search-subtitle"></p>
 
-    <h2 class="section-title">Fragancias</h2>
-    <div class="grid-4" style="margin-bottom: 40px;">
-      <div class="fragrance-card" xlu-include-file="components/fragrance-card-template.html"
-           data-name="Eau de Ejemplé"
-           data-description="Un clásico atemporal"
-           data-image=""
-           data-link="fragancia.html">
-      </div>
-      <div class="fragrance-card" xlu-include-file="components/fragrance-card-template.html"
-           data-name="Brisa Nocturna"
-           data-description="Frescura marina con toques cítricos"
-           data-image=""
-           data-link="fragancia.html">
-      </div>
-      <div class="fragrance-card" xlu-include-file="components/fragrance-card-template.html"
-           data-name="Madera &amp; Ámbar"
-           data-description="Calidez profunda para el invierno"
-           data-image=""
-           data-link="fragancia.html">
-      </div>
-      <div class="fragrance-card" xlu-include-file="components/fragrance-card-template.html"
-           data-name="Jardín Secreto"
-           data-description="Floral delicado con notas verdes"
-           data-image=""
-           data-link="fragancia.html">
-      </div>
-      <div class="fragrance-card" xlu-include-file="components/fragrance-card-template.html"
-           data-name="Cuero &amp; Tabaco"
-           data-description="Intensidad masculina y sofisticada"
-           data-image=""
-           data-link="fragancia.html">
-      </div>
-      <div class="fragrance-card" xlu-include-file="components/fragrance-card-template.html"
-           data-name="Rosa del Desierto"
-           data-description="Elegancia floral con especias orientales"
-           data-image=""
-           data-link="fragancia.html">
-      </div>
-      <div class="fragrance-card" xlu-include-file="components/fragrance-card-template.html"
-           data-name="Bosque Nórdico"
-           data-description="Pino, musgo y aire fresco del norte"
-           data-image=""
-           data-link="fragancia.html">
-      </div>
-      <div class="fragrance-card" xlu-include-file="components/fragrance-card-template.html"
-           data-name="Luna de Verano"
-           data-description="Jazmín y vainilla bajo las estrellas"
-           data-image=""
-           data-link="fragancia.html">
+    <div id="fragrances-results">
+      <h2 class="section-title">Fragancias Encontradas</h2>
+      <div class="grid-4" id="fragrances-grid">
+        <!-- Resultados de fragancias aquí -->
       </div>
     </div>
 
-    <h2 class="section-title">Notas olfativas</h2>
-    <div class="grid-2">
-      <div class="note-card" xlu-include-file="components/note-card-template.html"
-           data-name="Algas Marinas"
-           data-description="Frescura oceánica con matices salinos"
-           data-link="nota.html">
-      </div>
-      <div class="note-card" xlu-include-file="components/note-card-template.html"
-           data-name="Almizcle"
-           data-description="Base cálida y envolvente"
-           data-link="nota.html">
-      </div>
-      <div class="note-card" xlu-include-file="components/note-card-template.html"
-           data-name="Bergamota"
-           data-description="Cítrico brillante y aromático"
-           data-link="nota.html">
-      </div>
-      <div class="note-card" xlu-include-file="components/note-card-template.html"
-           data-name="Sándalo"
-           data-description="Madera cremosa y reconfortante"
-           data-link="nota.html">
-      </div>
-      <div class="note-card" xlu-include-file="components/note-card-template.html"
-           data-name="Pachulí"
-           data-description="Terroso, profundo y misterioso"
-           data-link="nota.html">
-      </div>
-      <div class="note-card" xlu-include-file="components/note-card-template.html"
-           data-name="Almizcle Blanco"
-           data-description="Suavidad limpia y etérea"
-           data-link="nota.html">
+    <div id="notes-results" style="margin-top: 40px;">
+      <h2 class="section-title">Notas Olfativas Encontradas</h2>
+      <div class="grid-3" id="notes-grid">
+        <!-- Resultados de notas aquí -->
       </div>
     </div>
   </main>
@@ -106,8 +34,97 @@
   <footer xlu-include-file="components/footer.html"></footer>
 
   <script>
-    xLuIncludeFile();
-    document.getElementById("search-query").textContent = new URLSearchParams(window.location.search).get("q") || "";
+    document.addEventListener('DOMContentLoaded', function() {
+      const params = new URLSearchParams(window.location.search);
+      const query = params.get('q');
+
+      const querySpan = document.getElementById('search-query');
+      const subtitle = document.getElementById('search-subtitle');
+      const fragrancesGrid = document.getElementById('fragrances-grid');
+      const notesGrid = document.getElementById('notes-grid');
+      const fragrancesResults = document.getElementById('fragrances-results');
+      const notesResults = document.getElementById('notes-results');
+
+      if (!query) {
+        querySpan.textContent = '...';
+        subtitle.textContent = 'Por favor, introduce un término de búsqueda.';
+        fragrancesResults.style.display = 'none';
+        notesResults.style.display = 'none';
+        xLuIncludeFile();
+        return;
+      }
+
+      querySpan.textContent = query;
+      const lowerCaseQuery = query.toLowerCase();
+
+      const fragrancesRequest = fetch('http://localhost:3000/fragrances').then(res => res.json());
+      const notesRequest = fetch('http://localhost:3000/notes').then(res => res.json());
+
+      Promise.all([fragrancesRequest, notesRequest])
+        .then(([allFragrances, allNotes]) => {
+
+          // Filtrar Fragancias
+          const filteredFragrances = allFragrances.filter(f =>
+            f.name.toLowerCase().includes(lowerCaseQuery) ||
+            f.brand.toLowerCase().includes(lowerCaseQuery)
+          );
+
+          // Filtrar Notas
+          const filteredNotes = allNotes.filter(n =>
+            n.name.toLowerCase().includes(lowerCaseQuery)
+          );
+
+          subtitle.textContent = `Se encontraron ${filteredFragrances.length} fragancias y ${filteredNotes.length} notas.`;
+
+          // Renderizar Fragancias
+          if (filteredFragrances.length > 0) {
+            fragrancesGrid.innerHTML = '';
+            filteredFragrances.forEach(fragrance => {
+              const cardLink = document.createElement('a');
+              cardLink.href = `fragancia.html?id=${fragrance.id}`;
+              cardLink.innerHTML = `
+                <div class="fragrance-card">
+                  <img src="${fragrance.image}" alt="${fragrance.name}" class="fragrance-card-image">
+                  <div class="fragrance-card-info">
+                    <h3 class="fragrance-card-name">${fragrance.name}</h3>
+                    <p class="fragrance-card-brand">${fragrance.brand}</p>
+                  </div>
+                </div>
+              `;
+              fragrancesGrid.appendChild(cardLink);
+            });
+          } else {
+            fragrancesResults.style.display = 'none';
+          }
+
+          // Renderizar Notas
+          if (filteredNotes.length > 0) {
+            notesGrid.innerHTML = '';
+            filteredNotes.forEach(note => {
+              const noteLink = document.createElement('a');
+              noteLink.href = `nota.html?name=${encodeURIComponent(note.name)}`;
+              noteLink.innerHTML = `
+                <div class="note-card-visual">
+                  <img src="${note.image || 'img/notes/default.jpg'}" alt="${note.name}" class="note-card-visual__image">
+                  <div class="note-card-visual__info">
+                    <h3 class="note-card-visual__name">${note.name}</h3>
+                    <p class="note-card-visual__desc">${note.description}</p>
+                  </div>
+                </div>
+              `;
+              notesGrid.appendChild(noteLink);
+            });
+          } else {
+            notesResults.style.display = 'none';
+          }
+        })
+        .catch(error => {
+          console.error('Error en la búsqueda:', error);
+          subtitle.textContent = 'Ocurrió un error al realizar la búsqueda.';
+        });
+
+      xLuIncludeFile();
+    });
   </script>
 </body>
 </html>

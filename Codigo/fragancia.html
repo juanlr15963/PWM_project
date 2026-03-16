@@ -13,25 +13,21 @@
 <header xlu-include-file="components/navbar.html"></header>
 
 <main class="page-content">
-    <h1 class="page-title" id="fragancia-nombre">Cargando...</h1>
+    <div class="fragrance-header">
+        <h1 class="page-title" id="fragancia-nombre">Cargando...</h1>
+        <div class="fragrance-actions" id="fragrance-actions">
+            <!-- Botones de acción para usuarios logueados -->
+        </div>
+    </div>
 
     <div class="fragrance-detail">
-        <div class="fragrance-detail__image" id="fragancia-imagen">
-            <!-- La imagen se cargará aquí dinámicamente -->
-        </div>
+        <div class="fragrance-detail__image" id="fragancia-imagen"></div>
         <div class="fragrance-detail__content">
             <p class="fragrance-brand" id="fragancia-marca"></p>
-
             <h2 class="section-title">Descripción</h2>
             <p id="fragancia-descripcion"></p>
-
-            <div class="fragrance-detail__meta" id="fragancia-meta">
-                <!-- La estación y el momento del día se cargarán aquí -->
-            </div>
-
-            <div id="fragancia-notas-clasificadas">
-                <!-- Las notas clasificadas se cargarán aquí -->
-            </div>
+            <div class="fragrance-detail__meta" id="fragancia-meta"></div>
+            <div id="fragancia-notas-clasificadas"></div>
         </div>
     </div>
 </main>
@@ -41,7 +37,8 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const params = new URLSearchParams(window.location.search);
-        const fragranceId = params.get('id');
+        const fragranceId = parseInt(params.get('id'), 10);
+        const userSession = obtenerSesion();
 
         if (!fragranceId) {
             document.getElementById('fragancia-nombre').textContent = 'Fragancia no encontrada';
@@ -50,14 +47,16 @@
 
         const fragranceRequest = fetch(`http://localhost:3000/fragrances/${fragranceId}`).then(res => res.json());
         const notesListRequest = fetch('http://localhost:3000/notes').then(res => res.json());
+        const userRequest = userSession ? fetch(`http://localhost:3000/users/${userSession.id}`).then(res => res.json()) : Promise.resolve(null);
 
-        Promise.all([fragranceRequest, notesListRequest])
-            .then(([fragrance, allNotes]) => {
+        Promise.all([fragranceRequest, notesListRequest, userRequest])
+            .then(([fragrance, allNotes, userData]) => {
                 if (!fragrance) throw new Error('La fragancia no existe');
 
                 document.title = `${fragrance.name} — MiColonia`;
                 document.getElementById('fragancia-nombre').textContent = fragrance.name;
                 document.getElementById('fragancia-marca').textContent = fragrance.brand;
+                document.getElementById('fragancia-descripcion').textContent = fragrance.description || 'Descripción no disponible.';
 
                 const imageContainer = document.getElementById('fragancia-imagen');
                 imageContainer.innerHTML = '';
@@ -66,72 +65,108 @@
                 imgElement.alt = fragrance.name;
                 imageContainer.appendChild(imgElement);
 
-                document.getElementById('fragancia-descripcion').textContent = fragrance.description || 'Descripción no disponible.';
-
                 const metaContainer = document.getElementById('fragancia-meta');
                 metaContainer.innerHTML = '';
+                if (fragrance.season) fragrance.season.forEach(s => metaContainer.appendChild(createTag(s, `season--${s.toLowerCase()}`)));
+                if (fragrance.time) metaContainer.appendChild(createTag(fragrance.time, `time--${fragrance.time.toLowerCase()}`));
 
-                if (fragrance.season && fragrance.season.length > 0) {
-                    fragrance.season.forEach(seasonName => {
-                        const seasonTag = document.createElement('span');
-                        seasonTag.className = `tag season-tag season--${seasonName.toLowerCase()}`;
-                        seasonTag.textContent = seasonName;
-                        metaContainer.appendChild(seasonTag);
-                    });
+                renderClassifiedNotes(fragrance.notes, allNotes);
+
+                if (userData) {
+                    renderUserActions(fragrance, userData);
                 }
-
-                if (fragrance.time) {
-                    const timeTag = document.createElement('span');
-                    timeTag.className = `tag time-tag time--${fragrance.time.toLowerCase()}`;
-                    timeTag.textContent = fragrance.time;
-                    metaContainer.appendChild(timeTag);
-                }
-
-                const notesContainer = document.getElementById('fragancia-notas-clasificadas');
-                notesContainer.innerHTML = '';
-
-                function renderNotes(title, notes) {
-                    if (notes && notes.length > 0) {
-                        const group = document.createElement('div');
-                        group.className = 'notes-group';
-                        const groupTitle = document.createElement('h3');
-                        groupTitle.className = 'notes-group__title';
-                        groupTitle.textContent = title;
-                        group.appendChild(groupTitle);
-
-                        const tagsContainer = document.createElement('div');
-                        tagsContainer.className = 'fragrance-detail__tags';
-
-                        notes.forEach(noteName => {
-                            const noteData = allNotes.find(n => n.name === noteName);
-                            const tagLink = document.createElement('a');
-                            tagLink.href = `nota.html?name=${encodeURIComponent(noteName)}`;
-                            tagLink.className = 'tag';
-
-                            if (noteData && noteData.image) {
-                                const noteImg = document.createElement('img');
-                                noteImg.src = noteData.image;
-                                noteImg.alt = noteData.name;
-                                tagLink.appendChild(noteImg);
-                            }
-
-                            const text = document.createTextNode(noteName);
-                            tagLink.appendChild(text);
-                            tagsContainer.appendChild(tagLink);
-                        });
-                        group.appendChild(tagsContainer);
-                        notesContainer.appendChild(group);
-                    }
-                }
-
-                renderNotes('Salida', fragrance.notes.top);
-                renderNotes('Corazón', fragrance.notes.heart);
-                renderNotes('Base', fragrance.notes.base);
             })
             .catch(error => {
                 console.error('Error:', error);
                 document.getElementById('fragancia-nombre').textContent = 'Error al cargar';
             });
+
+        function createTag(text, className) {
+            const tag = document.createElement('span');
+            tag.className = `tag ${className}`;
+            tag.textContent = text;
+            return tag;
+        }
+
+        function renderClassifiedNotes(notes, allNotes) {
+            const container = document.getElementById('fragancia-notas-clasificadas');
+            container.innerHTML = '';
+            const types = ['top', 'heart', 'base'];
+            const titles = { top: 'Salida', heart: 'Corazón', base: 'Base' };
+
+            types.forEach(type => {
+                if (notes[type] && notes[type].length > 0) {
+                    const group = document.createElement('div');
+                    group.className = 'notes-group';
+                    const title = document.createElement('h3');
+                    title.className = 'notes-group__title';
+                    title.textContent = titles[type];
+                    group.appendChild(title);
+
+                    const tagsContainer = document.createElement('div');
+                    tagsContainer.className = 'fragrance-detail__tags';
+                    notes[type].forEach(noteName => {
+                        const noteData = allNotes.find(n => n.name === noteName);
+                        const tagLink = document.createElement('a');
+                        tagLink.href = `nota.html?name=${encodeURIComponent(noteName)}`;
+                        tagLink.className = 'tag';
+                        if (noteData && noteData.image) {
+                            const img = document.createElement('img');
+                            img.src = noteData.image;
+                            tagLink.appendChild(img);
+                        }
+                        tagLink.appendChild(document.createTextNode(noteName));
+                        tagsContainer.appendChild(tagLink);
+                    });
+                    group.appendChild(tagsContainer);
+                    container.appendChild(group);
+                }
+            });
+        }
+
+        function renderUserActions(fragrance, user) {
+            const actionsContainer = document.getElementById('fragrance-actions');
+            actionsContainer.innerHTML = '';
+
+            const isFavorite = user.favoriteFragrances && user.favoriteFragrances.includes(fragrance.id);
+            const inCollection = user.collection && user.collection.includes(fragrance.id);
+
+            const favButton = document.createElement('button');
+            favButton.className = `action-btn ${isFavorite ? 'active' : ''}`;
+            favButton.innerHTML = '❤️'; // Corazón
+            favButton.onclick = () => toggleUserArray('favoriteFragrances', fragrance.id, user);
+
+            const collectionButton = document.createElement('button');
+            collectionButton.className = `action-btn ${inCollection ? 'active' : ''}`;
+            collectionButton.innerHTML = '💾'; // Guardar
+            collectionButton.onclick = () => toggleUserArray('collection', fragrance.id, user);
+
+            actionsContainer.appendChild(favButton);
+            actionsContainer.appendChild(collectionButton);
+        }
+
+        function toggleUserArray(arrayName, fragranceId, user) {
+            const currentArray = user[arrayName] || [];
+            const index = currentArray.indexOf(fragranceId);
+
+            if (index > -1) {
+                currentArray.splice(index, 1); // Remove
+            } else {
+                currentArray.push(fragranceId); // Add
+            }
+
+            fetch(`http://localhost:3000/users/${user.id}`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ [arrayName]: currentArray })
+            })
+            .then(res => res.json())
+            .then(updatedUser => {
+                // Re-render actions to show updated state
+                renderUserActions(fragrance, updatedUser);
+            })
+            .catch(console.error);
+        }
 
         xLuIncludeFile();
     });

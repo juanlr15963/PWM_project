@@ -1,5 +1,6 @@
-function guardarSesionUsuario(email, password) {
+function guardarSesionUsuario(id, email, password) {
     var sesion = {
+        id: id,
         email: email,
         password: password,
         timestamp: new Date().toISOString()
