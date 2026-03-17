@@ -72,25 +72,14 @@ A continuación se listan los templates y componentes reutilizables desarrollado
 PWM_project/
 ├── Codigo/                          # Código fuente de la aplicación
 │   ├── components/                  # Componentes y templates reutilizables
-│   │   ├── navbar.html              # Barra de navegación
-│   │   ├── footer.html              # Pie de página
-│   │   ├── auth-form.html           # Formulario de autenticación
-│   │   ├── fragrance-card-template.html  # Template de tarjeta de fragancia
-│   │   └── note-card-template.html  # Template de tarjeta de nota olfativa
 │   ├── css/                         # Hojas de estilo
-│   │   └── styles.css               # Estilos globales de la aplicación
 │   ├── js/                          # Scripts JavaScript
-│   │   └── xlu-include-file.js      # Utilidad para incluir componentes HTML
-│   ├── index.html                   # Página de inicio (Landing page)
-│   ├── catalogo.html                # Explorador de fragancias
-│   ├── laboratorio.html             # Creador de fragancias
-│   ├── busqueda.html                # Vista de búsqueda
-│   ├── fragancia.html               # Catálogo de fragancia (detalle)
-│   ├── login.html                   # Formulario de login/registro
-│   ├── mi-espacio.html              # Colección personal del usuario
-│   ├── nota.html                    # Ficha de nota olfativa
-│   └── notas.html                   # Catálogo de notas olfativas
-├── Mockups.pdf                      # Diseños y mockups de la interfaz (requerido por la actividad)
+│   └── ... (resto de archivos HTML, etc.)
+├── node_modules/                    # Dependencias del proyecto (generado por npm)
+├── db.json                          # Base de datos de la aplicación
+├── package.json                     # Definición del proyecto y dependencias
+├── package-lock.json                # Versiones exactas de las dependencias
+├── Mockups.pdf                      # Diseños y mockups de la interfaz
 └── README.md                        # Documentación del proyecto
 ```
 
@@ -98,40 +87,55 @@ PWM_project/
 
 ## 8. Cómo Ejecutar el Proyecto
 
-### Opción 1: Usando WebStorm
+Este proyecto utiliza **`json-server`** para simular una API REST y cargar los datos de forma dinámica. Es **imprescindible** seguir estos pasos para que la aplicación funcione correctamente.
 
-1. Abre el proyecto en WebStorm.
-2. Navega hasta el archivo `Codigo/index.html` en el explorador de archivos.
-3. Haz clic derecho sobre `index.html` y selecciona una de las siguientes opciones:
-   - **"Open in Browser"** (Abrir en navegador)
-   - **"Run 'index.html'"** (Ejecutar 'index.html')
-4. WebStorm iniciará automáticamente un servidor local y abrirá la aplicación en tu navegador predeterminado.
+### Requisitos Previos
+* **Node.js y npm:** Debes tenerlos instalados en tu sistema. Puedes descargarlos desde [nodejs.org](https://nodejs.org/).
 
-### Opción 2: Usando un Servidor Python (Alternativa)
+### Tutorial de Instalación y Ejecución
 
-Si la opción anterior no funciona o prefieres usar un servidor local diferente:
+1.  **Abrir una Terminal:**
+    Abre tu terminal o línea de comandos (como Git Bash, PowerShell, o el terminal integrado de tu editor de código) y navega hasta la **carpeta raíz** del proyecto (`PWM_project/`).
 
-1. Abre una terminal o línea de comandos.
-2. Navega hasta el directorio `Codigo`:
-   ```bash
-   cd ruta/al/proyecto/PWM_project/Codigo
-   ```
-3. Inicia un servidor HTTP con Python:
-   - **Para Python 3:**
-     ```bash
-     python -m http.server 8000
-     ```
-   - **Para Python 2:**
-     ```bash
-     python -m SimpleHTTPServer 8000
-     
-     ```
-4. Abre tu navegador web y accede a:
-   ```
-   http://localhost:8000
-   ```
-5. La aplicación debería cargarse correctamente mostrando la página de inicio.
+2.  **Instalar Dependencias:**
+    Una vez en la raíz del proyecto, ejecuta el siguiente comando. Este comando leerá el archivo `package.json` y descargará `json-server` en la carpeta `node_modules/`.
+    ```bash
+    npm install
+    ```
 
-**Nota:** Asegúrate de estar dentro del directorio `Codigo` antes de ejecutar el servidor, ya que este es el directorio raíz de la aplicación web.
+3.  **Iniciar el Servidor de Datos (API):**
+    Ahora, inicia el servidor de la base de datos. Este comando le dice a `json-server` que "vigile" el archivo `db.json` y lo sirva en el puerto 3000.
+    ```bash
+    npm start
+    ```
+    Si todo va bien, verás un mensaje similar a este en la terminal:
+    ```
+    > pwm_project@1.0.0 start
+    > json-server --watch db.json --port 3000
+
+    \{^_^}/ hi!
+
+    Loading db.json
+    Done
+
+    Resources
+    http://localhost:3000/fragrances
+    http://localhost:3000/notes
+    http://localhost:3000/users
+    http://localhost:3000/custom_designs
+
+    Home
+    http://localhost:3000
+
+    Type s + enter at any time to create a snapshot of the database
+    ```
+    **¡Importante!** No cierres esta terminal. El servidor debe permanecer en ejecución para que la página web pueda pedirle los datos.
+
+4.  **Abrir la Página Web:**
+    Con el servidor ya corriendo, abre el archivo `Codigo/index.html` en tu navegador. Puedes hacerlo de varias maneras:
+    *   Haciendo doble clic en el archivo desde tu explorador de archivos.
+    *   Usando la función "Open in Browser" de tu editor de código.
+
+    La aplicación se cargará y hará peticiones al servidor en `http://localhost:3000` para obtener los datos de las fragancias, notas, etc.
 
 ---
