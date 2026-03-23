@@ -1,8 +1,9 @@
 document.addEventListener("submit", function (event) {
-    // 1. Verificamos que sea nuestro formulario de login
+    // Verificamos que sea el formulario de login
     if (event.target.id !== "loginForm") return;
 
-    // 2. IMPORTANTE: Evitamos que la página se recargue (comportamiento nativo de HTML5)
+    // Evitamos que la validación por defecto de HTML5 recargue la página y así
+    // poder trabajar con los datos desde 'validacion-login.js'
     event.preventDefault();
 
     const emailInput = document.getElementById("email");
@@ -11,12 +12,12 @@ document.addEventListener("submit", function (event) {
     const passwordError = document.getElementById("password-error");
     const loginSuccess = document.getElementById("login-success");
 
-    // 3. Usamos la validación nativa de HTML5 antes de proceder
+    // checkValidity() verifica directamente en el formulario de HTML5 si las
+    // credenciales son las correctas.
     if (event.target.checkValidity()) {
         const email = emailInput.value.trim();
         const password = passwordInput.value;
 
-        // Tu lógica original de búsqueda
         fetch(`http://localhost:3000/users?username=${email}`)
             .then(response => response.json())
             .then(users => {
@@ -25,7 +26,7 @@ document.addEventListener("submit", function (event) {
                     if (user.password === password) {
                         loginSuccess.classList.add("visible");
 
-                        // Llamada a tu script manejo-sesion.js
+                        // Llamada a manejo-sesion.js
                         guardarSesionUsuario(user.id, user.username, user.password).then(function () {
                             setTimeout(() => {
                                 window.location.href = "mi-espacio.html";
@@ -45,7 +46,7 @@ document.addEventListener("submit", function (event) {
     }
 });
 
-// Mantén tus funciones auxiliares (mostrarError, limpiarError) aquí abajo...
+
 function mostrarError(input, errorSpan, mensaje) {
     input.classList.add("input--error");
     errorSpan.textContent = mensaje;
