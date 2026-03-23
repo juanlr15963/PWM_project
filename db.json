@@ -202,8 +202,8 @@
   "users": [
     {
       "id": 1,
-      "username": "usuario1",
-      "password": "hashed_password",
+      "username": "admin@micolonia.com",
+      "password": "123456",
       "favoriteNotes": [
         "Bergamota",
         "Ámbar"

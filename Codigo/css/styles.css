@@ -589,6 +589,48 @@ a {
     font-size: 16px;
 }
 
+.auth-form__fields input.input--error {
+    border-bottom-color: #ff4d4d;
+    background: #fff5f5;
+}
+
+.error-message {
+    display: none;
+    font-size: 11px;
+    color: #ff4d4d;
+    font-weight: 600;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+}
+
+.error-message.visible {
+    display: block;
+}
+
+
+.success-message {
+    display: none;
+    color: #2ecc71;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+/*Mensajes de error debajo de los inputs*/
+.success-message.visible {
+    display: block;
+}
+
+/*Interacción para el botón de submit*/
+.auth-form__submit:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+    transition: all 0.2s ease;
+}
+
+.auth-form__submit:active {
+    transform: translateY(0);
+}
+
 /* ===== Lab Styles ===== */
 .lab-container {
     display: grid;
