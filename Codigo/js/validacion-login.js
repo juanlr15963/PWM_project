@@ -1,32 +1,34 @@
-document.addEventListener("click", function (event) {
-    if (event.target.id !== "btn-login") return;
+document.addEventListener("submit", function (event) {
+    // Verificamos que sea el formulario de login
+    if (event.target.id !== "loginForm") return;
 
-    var emailInput = document.getElementById("email");
-    var passwordInput = document.getElementById("password");
-    var emailError = document.getElementById("email-error");
-    var passwordError = document.getElementById("password-error");
-    var loginSuccess = document.getElementById("login-success");
+    // Evitamos que la validación por defecto de HTML5 recargue la página y así
+    // poder trabajar con los datos desde 'validacion-login.js'
+    event.preventDefault();
 
-    var emailValido = validarEmail(emailInput, emailError);
-    var passwordValido = validarPassword(passwordInput, passwordError);
+    const emailInput = document.getElementById("email");
+    const passwordInput = document.getElementById("password");
+    const emailError = document.getElementById("email-error");
+    const passwordError = document.getElementById("password-error");
+    const loginSuccess = document.getElementById("login-success");
 
-    if (emailValido && passwordValido) {
+    // checkValidity() verifica directamente en el formulario de HTML5 si las
+    // credenciales son las correctas.
+    if (event.target.checkValidity()) {
         const email = emailInput.value.trim();
         const password = passwordInput.value;
 
-        // Buscar usuario en la base de datos
         fetch(`http://localhost:3000/users?username=${email}`)
             .then(response => response.json())
             .then(users => {
                 if (users.length > 0) {
                     const user = users[0];
-                    // En un caso real, la contraseña estaría hasheada y se compararía de forma segura.
-                    // Aquí, para la simulación, hacemos una comparación simple.
                     if (user.password === password) {
                         loginSuccess.classList.add("visible");
-                        // Guardamos el ID del usuario en la sesión
+
+                        // Llamada a manejo-sesion.js
                         guardarSesionUsuario(user.id, user.username, user.password).then(function () {
-                            setTimeout(function () {
+                            setTimeout(() => {
                                 window.location.href = "mi-espacio.html";
                             }, 1000);
                         });
@@ -34,47 +36,19 @@ document.addEventListener("click", function (event) {
                         mostrarError(passwordInput, passwordError, "La contraseña es incorrecta.");
                     }
                 } else {
-                    mostrarError(emailInput, emailError, "No se encontró ningún usuario con ese email.");
+                    mostrarError(emailInput, emailError, "Usuario no encontrado.");
                 }
             })
             .catch(error => {
-                console.error("Error al iniciar sesión:", error);
-                mostrarError(emailInput, emailError, "Ocurrió un error al intentar iniciar sesión.");
+                console.error("Error:", error);
+                mostrarError(emailInput, emailError, "Error de conexión.");
             });
-
-    } else {
-        loginSuccess.classList.remove("visible");
     }
 });
 
-function validarEmail(input, errorSpan) {
-    var valor = input.value.trim();
-    if (valor === "") {
-        mostrarError(input, errorSpan, "El campo email no puede estar vacío");
-        return false;
-    }
-    limpiarError(input, errorSpan);
-    return true;
-}
-
-function validarPassword(input, errorSpan) {
-    var valor = input.value;
-    if (valor.length === 0) {
-        mostrarError(input, errorSpan, "El campo contraseña no puede estar vacío");
-        return false;
-    }
-    limpiarError(input, errorSpan);
-    return true;
-}
 
 function mostrarError(input, errorSpan, mensaje) {
     input.classList.add("input--error");
     errorSpan.textContent = mensaje;
     errorSpan.classList.add("visible");
-}
-
-function limpiarError(input, errorSpan) {
-    input.classList.remove("input--error");
-    errorSpan.textContent = "";
-    errorSpan.classList.remove("visible");
 }
