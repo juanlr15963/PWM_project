@@ -1,6 +1,8 @@
-document.addEventListener("xlu:done", function () {
+var navbarInterval = setInterval(function () {
     var loginBtn = document.getElementById("navbar-login-btn");
     if (!loginBtn) return;
+
+    clearInterval(navbarInterval);
 
     var sesion = obtenerSesion();
 
@@ -14,4 +16,4 @@ document.addEventListener("xlu:done", function () {
             window.location.href = "index.html";
         });
     }
-});
+}, 100);

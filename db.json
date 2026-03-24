@@ -211,6 +211,13 @@
       "collection": [
         1
       ]
+    },
+    {
+      "id": 2,
+      "username": "crisamer@micolonia.com",
+      "password": "password123",
+      "favoriteNotes": [],
+      "collection": []
     }
   ],
   "custom_designs": [
