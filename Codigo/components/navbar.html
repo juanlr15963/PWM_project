@@ -1,18 +1,48 @@
-<div class="navbar">
-  <div class="navbar__left">
+<div class="navbar" id="navbar">
+  <div class="navbar__container">
+    <!-- 1. Logo -->
     <a href="index.html" class="navbar__logo">
       <span class="navbar__logo-icon">M</span>
       <span class="navbar__logo-text">MiColonia.com</span>
     </a>
-    <form class="navbar__search" action="busqueda.html" method="GET">
-      <input type="text" name="q" placeholder="Buscar fragancias o notas..." aria-label="Buscar" />
-    </form>
+
+    <!-- 2. Buscador Central (Siempre visible en el header) -->
+    <div class="navbar__search-container">
+      <form class="navbar__search" action="busqueda.html" method="GET">
+        <input type="text" name="q" placeholder="Buscar..." aria-label="Buscar" required />
+      </form>
+    </div>
+
+    <!-- 3. Menú Desktop/Tablet (Se oculta en móvil) -->
+    <div class="navbar__desktop-menu">
+      <nav class="navbar__links">
+        <a href="catalogo.html">Catálogo</a>
+        <a href="laboratorio.html">Laboratorio</a>
+        <!-- Notas se oculta aquí si quieres, o se deja. En tu petición anterior dijiste quitarlo en desktop. -->
+      </nav>
+      <div class="navbar__auth">
+        <a href="login.html" class="navbar__auth-btn">Iniciar Sesión</a>
+      </div>
+    </div>
+
+    <!-- 4. Botón Hamburguesa (Solo visible en móvil) -->
+    <button class="navbar__toggle" id="navbar-toggle" aria-label="Abrir menú">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
   </div>
-  <div class="navbar__right">
-    <nav class="navbar__links">
+
+  <!-- 5. Menú Desplegable Móvil (Solo aparece al clicar hamburguesa) -->
+  <div class="navbar__mobile-menu" id="navbar-mobile-menu">
+    <nav class="navbar__mobile-links">
       <a href="catalogo.html">Catálogo</a>
       <a href="laboratorio.html">Laboratorio</a>
+      <a href="notas.html">Notas</a>
     </nav>
-    <a href="login.html" class="navbar__auth-btn" id="navbar-login-btn">Iniciar Sesión</a>
+    <div class="navbar__mobile-auth">
+      <a href="login.html" class="navbar__auth-btn">Iniciar Sesión</a>
+    </div>
   </div>
 </div>
+<script src="js/navbar-toggle.js"></script>

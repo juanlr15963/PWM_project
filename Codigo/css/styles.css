@@ -33,33 +33,33 @@ a {
     color: inherit;
 }
 
-/* ===== Navbar ===== */
+/* =========================
+   NAVBAR (DISEÑO DEFINITIVO)
+   ========================= */
 .navbar {
+    background: var(--neutral-50);
+    border-bottom: 1px solid var(--neutral-200);
+    position: relative;
+    z-index: 1000;
+}
+
+.navbar__container {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: var(--neutral-50);
-    padding: 16px 32px;
     max-width: 1200px;
     margin: 0 auto;
+    padding: 12px 24px;
+    gap: 16px; /* Espacio entre elementos */
 }
 
-.navbar__left {
-    display: flex;
-    align-items: center;
-    gap: 24px;
-}
-
-.navbar__right {
-    display: flex;
-    align-items: center;
-    gap: 32px;
-}
-
+/* Logo */
 .navbar__logo {
     display: flex;
     align-items: center;
     gap: 8px;
+    text-decoration: none;
+    flex-shrink: 0; /* No encoger el logo */
 }
 
 .navbar__logo-icon {
@@ -69,8 +69,8 @@ a {
     width: 32px;
     height: 32px;
     background: var(--neutral-900);
-    border-radius: var(--radius-sm);
     color: var(--white);
+    border-radius: var(--radius-sm);
     font-weight: 700;
     font-size: 16px;
 }
@@ -78,111 +78,166 @@ a {
 .navbar__logo-text {
     font-weight: 700;
     font-size: 18px;
+    color: var(--neutral-900);
+    white-space: nowrap;
 }
 
-/* ===== Live Search ===== */
+/* Buscador (Visible siempre en la fila principal) */
 .navbar__search-container {
-    position: relative;
+    flex-grow: 1; /* Ocupa el espacio disponible */
+    display: flex;
+    justify-content: center;
+    min-width: 0; /* Permite encogerse */
+}
+
+.navbar__search {
+    width: 100%;
+    max-width: 400px;
 }
 
 .navbar__search input {
-    background: var(--white);
-    border: 1px solid var(--neutral-100);
+    width: 100%;
+    padding: 10px 16px;
+    border: 1px solid var(--neutral-200);
     border-radius: 24px;
-    padding: 10px 20px;
-    width: 300px;
     font-size: 14px;
     outline: none;
-}
-
-.search-results {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
     background: var(--white);
-    border: 1px solid var(--neutral-200);
-    border-radius: var(--radius-md);
-    margin-top: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    max-height: 300px;
-    overflow-y: auto;
-    display: none; /* Hidden by default */
+    transition: border-color 0.2s;
 }
 
-.search-results.visible {
-    display: block;
+.navbar__search input:focus {
+    border-color: var(--neutral-400);
 }
 
-.search-result-item {
+/* Menú Desktop (Se oculta en móvil) */
+.navbar__desktop-menu {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 12px;
-    border-bottom: 1px solid var(--neutral-100);
+    gap: 24px;
+    flex-shrink: 0;
 }
-
-.search-result-item:last-child {
-    border-bottom: none;
-}
-
-.search-result-item:hover {
-    background-color: var(--neutral-50);
-}
-
-.search-result-item__image {
-    width: 40px;
-    height: 40px;
-    border-radius: var(--radius-sm);
-    object-fit: cover;
-}
-
-.search-result-item__info {
-    display: flex;
-    flex-direction: column;
-}
-
-.search-result-item__name {
-    font-weight: 600;
-    font-size: 14px;
-}
-
-.search-result-item__type {
-    font-size: 12px;
-    color: var(--neutral-400);
-}
-
 
 .navbar__links {
     display: flex;
-    gap: 32px;
-    list-style: none;
+    gap: 24px;
 }
 
 .navbar__links a {
     font-size: 14px;
     font-weight: 500;
-    color: var(--neutral-400);
-    padding-bottom: 4px;
+    color: var(--neutral-500);
+    transition: color 0.2s;
+    white-space: nowrap;
 }
 
-.navbar__links a:hover,
-.navbar__links a.active {
+.navbar__links a:hover {
     color: var(--neutral-900);
-    border-bottom: 2px solid var(--neutral-900);
 }
 
 .navbar__auth-btn {
-    display: inline-block;
     background: var(--neutral-900);
     color: var(--white);
+    padding: 8px 20px;
     border-radius: var(--radius-full);
-    padding: 10px 24px;
     font-size: 13px;
-    font-weight: 700;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/* Toggle Hamburguesa (Solo visible en móvil) */
+.navbar__toggle {
+    display: none; /* Oculto por defecto */
+    background: none;
     border: none;
     cursor: pointer;
+    padding: 4px;
+    flex-direction: column;
+    gap: 5px;
+    flex-shrink: 0;
 }
+
+.navbar__toggle span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background-color: var(--neutral-900);
+    transition: all 0.3s;
+}
+
+/* Menú Móvil (Desplegable) */
+.navbar__mobile-menu {
+    display: none; /* Oculto por defecto */
+    background: var(--neutral-50);
+    padding: 16px 24px;
+    border-top: 1px solid var(--neutral-200);
+    flex-direction: column;
+    gap: 16px;
+}
+
+.navbar__mobile-menu.is-open {
+    display: flex;
+}
+
+.navbar__mobile-links {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.navbar__mobile-links a {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--neutral-900);
+    padding: 8px 0;
+    border-bottom: 1px solid var(--neutral-100);
+}
+
+.navbar__mobile-auth {
+    margin-top: 8px;
+    text-align: center;
+}
+
+.navbar__mobile-auth .navbar__auth-btn {
+    width: 100%;
+    display: block;
+    padding: 12px;
+}
+
+
+/* =========================
+   MEDIA QUERIES
+   ========================= */
+
+/* Móvil (max-width: 600px) */
+@media screen and (max-width: 600px) {
+    /* Ajustes generales */
+    .navbar__container {
+        padding: 12px 16px; /* Menos padding en móvil */
+        gap: 12px;
+    }
+
+    /* Ocultar menú desktop */
+    .navbar__desktop-menu {
+        display: none;
+    }
+
+    /* Mostrar hamburguesa */
+    .navbar__toggle {
+        display: flex;
+    }
+
+    /* Ajustar logo */
+    .navbar__logo-text {
+        display: none; /* Opcional: Ocultar texto del logo si falta espacio */
+    }
+
+    /* Animación hamburguesa */
+    .navbar__mobile-menu.is-open + .navbar__toggle span:nth-child(1) { /* Esto requiere JS para la clase en el botón o lógica diferente */
+        /* Simplificación: dejemos la animación básica por ahora */
+    }
+}
+
 
 /* ===== Footer ===== */
 .footer {
@@ -755,13 +810,32 @@ a {
     color: #E2E8F0;
 }
 
-/* ===== Filter Bar ===== */
+/* ===== Filter Bar & Toggle ===== */
+.filters-toggle-btn {
+    display: none; /* Oculto en desktop */
+    background: var(--neutral-100);
+    border: 1px solid var(--neutral-200);
+    border-radius: var(--radius-full);
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-bottom: 16px;
+    align-items: center;
+    gap: 8px;
+}
+
+.filters-toggle-btn .icon {
+    font-size: 16px;
+}
+
 .filter-bar {
     display: flex;
     gap: 8px;
     margin-bottom: 32px;
     padding-bottom: 16px;
     border-bottom: 1px solid var(--neutral-200);
+    flex-wrap: wrap; /* Permitir que los filtros bajen de línea si no caben */
 }
 
 .filter-btn {
@@ -791,4 +865,94 @@ a {
     width: 1px;
     background-color: var(--neutral-200);
     margin: 0 8px;
+    display: inline-block;
+    height: 32px;
+    vertical-align: middle;
+}
+
+/* ===== RESPONSIVE STYLES GENERALES ===== */
+
+/* Tablet & Móvil (900px) */
+@media screen and (max-width: 900px) {
+    .page-content {
+        padding: 32px 24px;
+    }
+
+    .grid-4, .grid-3 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .lab-container {
+        grid-template-columns: 1fr;
+    }
+
+    .lab-notes-pool {
+        height: 300px;
+    }
+
+    .filters-toggle-btn {
+        display: flex;
+    }
+
+    .filter-bar {
+        display: none;
+        flex-direction: column;
+        gap: 12px;
+        background: var(--neutral-50);
+        padding: 16px;
+        border-radius: var(--radius-md);
+        margin-bottom: 24px;
+        border: none;
+    }
+
+    .filter-bar.visible {
+        display: flex;
+    }
+
+    .filter-divider {
+        display: none;
+    }
+
+    .filter-btn {
+        width: 100%;
+        text-align: left;
+    }
+}
+
+/* Móvil (600px) */
+@media screen and (max-width: 600px) {
+    .grid-4, .grid-3, .grid-2 {
+        grid-template-columns: 1fr;
+    }
+
+    .fragrance-detail {
+        flex-direction: column;
+    }
+
+    .fragrance-detail__image {
+        width: 100%;
+    }
+
+    .note-detail {
+        flex-direction: column-reverse;
+    }
+
+    .note-detail__image {
+        width: 100%;
+    }
+
+    .lab-columns {
+        grid-template-columns: 1fr;
+    }
+
+    .footer {
+        flex-direction: column;
+        gap: 32px;
+        padding: 32px 24px;
+    }
+
+    .footer__columns {
+        flex-direction: column;
+        gap: 24px;
+    }
 }
