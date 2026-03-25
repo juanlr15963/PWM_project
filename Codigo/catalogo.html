@@ -16,6 +16,11 @@
     <h1 class="page-title">Fragancias</h1>
     <p class="page-subtitle">Descubre nuestra colección completa.</p>
 
+    <!-- Botón para mostrar filtros en móvil -->
+    <button class="filters-toggle-btn" id="filters-toggle">
+        <span class="icon">⚙️</span> Mostrar Filtros
+    </button>
+
     <!-- Filtros -->
     <div class="filter-bar" id="filter-bar">
       <button class="filter-btn active" data-filter="all">Todos</button>
@@ -44,8 +49,19 @@
     document.addEventListener('DOMContentLoaded', function() {
         const grid = document.getElementById('fragrance-grid');
         const filterBar = document.getElementById('filter-bar');
+        const filtersToggle = document.getElementById('filters-toggle');
         let allFragrances = [];
         let activeFilter = 'all';
+
+        // Lógica para mostrar/ocultar filtros en móvil
+        if (filtersToggle) {
+            filtersToggle.addEventListener('click', () => {
+                filterBar.classList.toggle('visible');
+                filtersToggle.textContent = filterBar.classList.contains('visible')
+                    ? 'Ocultar Filtros'
+                    : '⚙️ Mostrar Filtros';
+            });
+        }
 
         function renderFragrances(fragrancesToRender) {
             grid.innerHTML = '';
