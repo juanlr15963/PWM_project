@@ -1,219 +1,630 @@
 {
   "fragrances": [
     {
-      "id": 1,
+      "id": "1",
       "name": "Acqua di Gio Profumo",
       "brand": "Giorgio Armani",
       "image": "img/fragances/acqua-di-gio-profumo.jpg",
-      "season": ["Verano"],
+      "season": [
+        "Verano"
+      ],
       "time": "Día",
       "gender": "Masculino",
       "notes": {
-        "top": ["Notas marinas", "Bergamota"],
-        "heart": ["Romero", "Geranio"],
-        "base": ["Incienso", "Pachulí"]
+        "top": [
+          "Notas marinas",
+          "Bergamota"
+        ],
+        "heart": [
+          "Romero",
+          "Geranio"
+        ],
+        "base": [
+          "Incienso",
+          "Pachulí"
+        ]
       }
     },
     {
-      "id": 2,
+      "id": "2",
       "name": "Le Male Eau de Toilette",
       "brand": "Jean Paul Gaultier",
       "image": "img/fragances/le-male-edt.jpg",
-      "season": ["Otoño", "Invierno"],
+      "season": [
+        "Otoño",
+        "Invierno"
+      ],
       "time": "Noche",
       "gender": "Masculino",
       "notes": {
-        "top": ["Menta", "Lavanda", "Bergamota"],
-        "heart": ["Canela", "Comino", "Flor de azahar del naranjo"],
-        "base": ["Vainilla", "Haba tonka", "Sándalo", "Cedro"]
+        "top": [
+          "Menta",
+          "Lavanda",
+          "Bergamota"
+        ],
+        "heart": [
+          "Canela",
+          "Comino",
+          "Flor de azahar del naranjo"
+        ],
+        "base": [
+          "Vainilla",
+          "Haba tonka",
+          "Sándalo",
+          "Cedro"
+        ]
       }
     },
     {
-      "id": 3,
+      "id": "3",
       "name": "Y Eau de Parfum",
       "brand": "Yves Saint Laurent",
       "image": "img/fragances/y-ysl.jpg",
-      "season": ["Primavera", "Verano"],
+      "season": [
+        "Primavera",
+        "Verano"
+      ],
       "time": "Día",
       "gender": "Masculino",
       "notes": {
-        "top": ["Manzana", "Jengibre", "Bergamota"],
-        "heart": ["Salvia", "Geranio"],
-        "base": ["Amberwood", "Haba tonka", "Cedro", "Vetiver"]
+        "top": [
+          "Manzana",
+          "Jengibre",
+          "Bergamota"
+        ],
+        "heart": [
+          "Salvia",
+          "Geranio"
+        ],
+        "base": [
+          "Amberwood",
+          "Haba tonka",
+          "Cedro",
+          "Vetiver"
+        ]
       }
     },
     {
-      "id": 4,
+      "id": "4",
       "name": "Boss Bottled Absolu",
       "brand": "Hugo Boss",
       "image": "img/fragances/boss-bottled-absolu.jpg",
-      "season": ["Otoño", "Invierno"],
+      "season": [
+        "Otoño",
+        "Invierno"
+      ],
       "time": "Noche",
       "gender": "Masculino",
       "notes": {
-        "top": ["Incienso", "Cuero"],
-        "heart": ["Pachulí", "Mirra"],
-        "base": ["Cedro"]
+        "top": [
+          "Incienso",
+          "Cuero"
+        ],
+        "heart": [
+          "Pachulí",
+          "Mirra"
+        ],
+        "base": [
+          "Cedro"
+        ]
       }
     },
     {
-      "id": 5,
+      "id": "5",
       "name": "Bleu de Chanel",
       "brand": "Chanel",
       "image": "img/fragances/bleu-de-chanel.jpg",
-      "season": ["Primavera", "Verano", "Otoño"],
+      "season": [
+        "Primavera",
+        "Verano",
+        "Otoño"
+      ],
       "time": "Día",
       "gender": "Masculino",
       "notes": {
-        "top": ["Pomelo", "Limón", "Menta", "Pimienta rosa"],
-        "heart": ["Jengibre", "Nuez moscada", "Jazmín"],
-        "base": ["Incienso", "Vetiver", "Cedro", "Sándalo", "Pachulí"]
+        "top": [
+          "Pomelo",
+          "Limón",
+          "Menta",
+          "Pimienta rosa"
+        ],
+        "heart": [
+          "Jengibre",
+          "Nuez moscada",
+          "Jazmín"
+        ],
+        "base": [
+          "Incienso",
+          "Vetiver",
+          "Cedro",
+          "Sándalo",
+          "Pachulí"
+        ]
       }
     },
     {
-      "id": 6,
+      "id": "6",
       "name": "Sauvage Eau de Toilette",
       "brand": "Dior",
       "image": "img/fragances/sauvage-edt.jpg",
-      "season": ["Primavera", "Verano"],
+      "season": [
+        "Primavera",
+        "Verano"
+      ],
       "time": "Día",
       "gender": "Masculino",
       "notes": {
-        "top": ["Pimienta", "Bergamota"],
-        "heart": ["Lavanda", "Geranio"],
-        "base": ["Ambroxan", "Cedro"]
+        "top": [
+          "Pimienta",
+          "Bergamota"
+        ],
+        "heart": [
+          "Lavanda",
+          "Geranio"
+        ],
+        "base": [
+          "Ambroxan",
+          "Cedro"
+        ]
       }
     },
     {
-      "id": 7,
+      "id": "7",
       "name": "Scandal Pour Homme",
       "brand": "Jean Paul Gaultier",
       "image": "img/fragances/scandal-jpg.jpg",
-      "season": ["Otoño", "Invierno"],
+      "season": [
+        "Otoño",
+        "Invierno"
+      ],
       "time": "Noche",
       "gender": "Masculino",
       "notes": {
-        "top": ["Mandarina", "Salvia"],
-        "heart": ["Caramelo", "Haba tonka"],
-        "base": ["Vetiver"]
+        "top": [
+          "Mandarina",
+          "Salvia"
+        ],
+        "heart": [
+          "Caramelo",
+          "Haba tonka"
+        ],
+        "base": [
+          "Vetiver"
+        ]
       }
     },
     {
-      "id": 8,
+      "id": "8",
       "name": "CK One",
       "brand": "Calvin Klein",
       "image": "img/fragances/ck-one.jpg",
-      "season": ["Verano", "Primavera"],
+      "season": [
+        "Verano",
+        "Primavera"
+      ],
       "time": "Día",
       "gender": "Unisex",
       "notes": {
-        "top": ["Limón", "Piña", "Mandarina"],
-        "heart": ["Nuez moscada", "Violeta"],
-        "base": ["Sándalo", "Ámbar", "Almizcle", "Cedro"]
+        "top": [
+          "Limón",
+          "Piña",
+          "Mandarina"
+        ],
+        "heart": [
+          "Nuez moscada",
+          "Violeta"
+        ],
+        "base": [
+          "Sándalo",
+          "Ámbar",
+          "Almizcle",
+          "Cedro"
+        ]
       }
     },
     {
-      "id": 9,
+      "id": "9",
       "name": "Black Opium",
       "brand": "Yves Saint Laurent",
       "image": "img/fragances/black-opium.jpg",
-      "season": ["Invierno", "Otoño"],
+      "season": [
+        "Invierno",
+        "Otoño"
+      ],
       "time": "Noche",
       "gender": "Femenino",
       "notes": {
-        "top": ["Pera", "Pimienta rosa", "Flor de azahar del naranjo"],
-        "heart": ["Café", "Jazmín", "Almendra amarga"],
-        "base": ["Vainilla", "Pachulí", "Cedro"]
+        "top": [
+          "Pera",
+          "Pimienta rosa",
+          "Flor de azahar del naranjo"
+        ],
+        "heart": [
+          "Café",
+          "Jazmín",
+          "Almendra amarga"
+        ],
+        "base": [
+          "Vainilla",
+          "Pachulí",
+          "Cedro"
+        ]
       }
     },
     {
-      "id": 10,
+      "id": "10",
       "name": "Libre",
       "brand": "Yves Saint Laurent",
       "image": "img/fragances/libre-ysl.jpg",
-      "season": ["Primavera", "Otoño"],
+      "season": [
+        "Primavera",
+        "Otoño"
+      ],
       "time": "Día",
       "gender": "Femenino",
       "notes": {
-        "top": ["Lavanda", "Mandarina", "Grosellas negras"],
-        "heart": ["Jazmín", "Flor de azahar del naranjo"],
-        "base": ["Vainilla", "Cedro", "Ámbar gris", "Almizcle"]
+        "top": [
+          "Lavanda",
+          "Mandarina",
+          "Grosellas negras"
+        ],
+        "heart": [
+          "Jazmín",
+          "Flor de azahar del naranjo"
+        ],
+        "base": [
+          "Vainilla",
+          "Cedro",
+          "Ámbar gris",
+          "Almizcle"
+        ]
       }
     },
     {
-      "id": 11,
+      "id": "11",
       "name": "La Vie Est Belle",
       "brand": "Lancôme",
       "image": "img/fragances/la-vie-est-belle.jpg",
-      "season": ["Invierno", "Otoño"],
+      "season": [
+        "Invierno",
+        "Otoño"
+      ],
       "time": "Día",
       "gender": "Femenino",
       "notes": {
-        "top": ["Grosellas negras", "Pera"],
-        "heart": ["Iris", "Jazmín", "Flor de azahar del naranjo"],
-        "base": ["Praliné", "Vainilla", "Pachulí", "Haba tonka"]
+        "top": [
+          "Grosellas negras",
+          "Pera"
+        ],
+        "heart": [
+          "Iris",
+          "Jazmín",
+          "Flor de azahar del naranjo"
+        ],
+        "base": [
+          "Praliné",
+          "Vainilla",
+          "Pachulí",
+          "Haba tonka"
+        ]
       }
     }
   ],
   "notes": [
-    { "id": 1, "name": "Bergamota", "type": "top", "description": "Cítrico brillante y amargo, aporta una apertura fresca y elegante.", "image": "img/notes/bergamot.jpg" },
-    { "id": 2, "name": "Incienso", "type": "base", "description": "Aroma resinoso y ahumado, añade profundidad y un toque místico.", "image": "img/notes/incense.jpg" },
-    { "id": 3, "name": "Notas marinas", "type": "top", "description": "Evoca la brisa del mar, aportando una sensación acuática y salada.", "image": "img/notes/marine-notes.jpg" },
-    { "id": 4, "name": "Romero", "type": "heart", "description": "Herbal y aromático, con un carácter vigorizante y ligeramente alcanforado.", "image": "img/notes/rosemary.jpg" },
-    { "id": 5, "name": "Geranio", "type": "heart", "description": "Floral verde con matices de rosa y menta, aporta un toque de elegancia clásica.", "image": "img/notes/geranium.jpg" },
-    { "id": 6, "name": "Pachulí", "type": "base", "description": "Terroso, amaderado y ligeramente dulce, proporciona una base rica y duradera.", "image": "img/notes/patchouli.jpg" },
-    { "id": 11, "name": "Limón", "type": "top", "description": "Cítrico ácido y vibrante, ofrece una explosión de frescura y energía.", "image": "img/notes/lemon.jpg" },
-    { "id": 12, "name": "Lavanda", "type": "heart", "description": "Aromática y floral, conocida por sus propiedades relajantes y limpias.", "image": "img/notes/lavender.jpg" },
-    { "id": 13, "name": "Menta", "type": "top", "description": "Refrescante y verde, con una sensación fría y estimulante.", "image": "img/notes/mint.jpg" },
-    { "id": 14, "name": "Canela", "type": "heart", "description": "Cálida, especiada y dulce, aporta un toque exótico y reconfortante.", "image": "img/notes/cinnamon.jpg" },
-    { "id": 15, "name": "Comino", "type": "heart", "description": "Especiado y ligeramente picante, añade un matiz terrenal y humano.", "image": "img/notes/cumin.jpg" },
-    { "id": 16, "name": "Flor de azahar del naranjo", "type": "heart", "description": "Floral blanco, dulce y ligeramente cítrico, muy fragante y primaveral.", "image": "img/notes/orange-blossom.jpg" },
-    { "id": 17, "name": "Vainilla", "type": "base", "description": "Dulce, cremosa y reconfortante, una de las notas de base más populares.", "image": "img/notes/vanilla.jpg" },
-    { "id": 18, "name": "Haba tonka", "type": "base", "description": "Compleja y dulce, con matices de almendra, vainilla y tabaco.", "image": "img/notes/tonka-bean.jpg" },
-    { "id": 19, "name": "Sándalo", "type": "base", "description": "Amaderado, cremoso y suave, aporta una calidez rica y sensual.", "image": "img/notes/sandalwood.jpg" },
-    { "id": 20, "name": "Cedro", "type": "base", "description": "Amaderado y seco, como el olor de un lápiz recién afilado.", "image": "img/notes/cedar.jpg" },
-    { "id": 21, "name": "Manzana", "type": "top", "description": "Frutal, crujiente y ligeramente dulce, aporta una apertura jugosa.", "image": "img/notes/apple.jpg" },
-    { "id": 22, "name": "Jengibre", "type": "top", "description": "Picante, fresco y efervescente, añade una chispa de energía.", "image": "img/notes/ginger.jpg" },
-    { "id": 23, "name": "Salvia", "type": "heart", "description": "Herbal y aromática, con un toque limpio y ligeramente picante.", "image": "img/notes/sage.jpg" },
-    { "id": 25, "name": "Amberwood", "type": "base", "description": "Molécula sintética que aporta una calidez amaderada y ambarina.", "image": "img/notes/amberwood.jpg" },
-    { "id": 26, "name": "Vetiver", "type": "base", "description": "Terroso, ahumado y amaderado, recuerda a la hierba seca y la tierra húmeda.", "image": "img/notes/vetiver.jpg" },
-    { "id": 30, "name": "Pomelo", "type": "top", "description": "Cítrico, amargo y jugoso, más complejo y picante que el limón.", "image": "img/notes/grapefruit.jpg" },
-    { "id": 31, "name": "Pimienta rosa", "type": "top", "description": "Especiada y fresca, con un matiz ligeramente floral y afrutado.", "image": "img/notes/pink-pepper.jpg" },
-    { "id": 32, "name": "Nuez moscada", "type": "top", "description": "Cálida, dulce y especiada, aporta un toque navideño y acogedor.", "image": "img/notes/nutmeg.jpg" },
-    { "id": 33, "name": "Jazmín", "type": "heart", "description": "Floral blanco, intenso y narcótico, con una sensualidad embriagadora.", "image": "img/notes/jasmine.jpg" },
-    { "id": 37, "name": "Mandarina", "type": "top", "description": "Cítrica, dulce y jugosa, más suave y menos ácida que otros cítricos.", "image": "img/notes/mandarin.jpg" },
-    { "id": 38, "name": "Caramelo", "type": "heart", "description": "Dulce, tostado y gourmand, evoca el azúcar quemado y la confitería.", "image": "img/notes/caramel.jpg" },
-    { "id": 39, "name": "Pimienta", "type": "top", "description": "Picante y cítrica, con una sensación efervescente única.", "image": "img/notes/pepper.jpg" },
-    { "id": 40, "name": "Ambroxan", "type": "base", "description": "Molécula sintética que aporta un aroma ambarino, amaderado y mineral.", "image": "img/notes/ambroxan.jpg" },
-    { "id": 41, "name": "Cuero", "type": "top", "description": "Un aroma animal, ahumado y masculino que evoca lujo y poder.", "image": "img/notes/leather.jpg" },
-    { "id": 42, "name": "Mirra", "type": "heart", "description": "Resina cálida, dulce y balsámica con un toque medicinal y antiguo.", "image": "img/notes/myrrh.jpg" },
-    { "id": 43, "name": "Piña", "type": "top", "description": "Frutal, tropical y jugosa, con un toque dulce y ácido.", "image": "img/notes/pineapple.jpg" },
-    { "id": 44, "name": "Violeta", "type": "heart", "description": "Floral, atalcado y ligeramente dulce, con un toque nostálgico.", "image": "img/notes/violet.jpg" },
-    { "id": 45, "name": "Ámbar", "type": "base", "description": "Cálido, resinoso y dulce, aporta una sensación rica y envolvente.", "image": "img/notes/amber.jpg" },
-    { "id": 46, "name": "Almizcle", "type": "base", "description": "Aporta una sensación limpia y cálida, a menudo descrito como el olor de la piel.", "image": "img/notes/musk.jpg" },
-    { "id": 47, "name": "Pera", "type": "top", "description": "Frutal, jugosa y dulce, con una frescura acuosa.", "image": "img/notes/pear.jpg" },
-    { "id": 48, "name": "Café", "type": "heart", "description": "Tostado, oscuro y amargo, con un efecto estimulante y adictivo.", "image": "img/notes/coffee.jpg" },
-    { "id": 49, "name": "Almendra amarga", "type": "heart", "description": "Nuez amarga y potente, con un matiz de cereza.", "image": "img/notes/almond.jpg" },
-    { "id": 50, "name": "Grosellas negras", "type": "top", "description": "Frutal, ácida y verde, con un carácter vibrante y jugoso.", "image": "img/notes/blackcurrant.jpg" },
-    { "id": 51, "name": "Ámbar gris", "type": "base", "description": "Marino, animal y dulce, una nota compleja y muy apreciada.", "image": "img/notes/ambergris.jpg" },
-    { "id": 52, "name": "Iris", "type": "heart", "description": "Atalcado, floral y terroso, con una elegancia sofisticada.", "image": "img/notes/iris.jpg" },
-    { "id": 53, "name": "Praliné", "type": "base", "description": "Dulce y gourmand, con notas de caramelo, nueces y chocolate.", "image": "img/notes/praline.jpg" }
+    {
+      "id": "1",
+      "name": "Bergamota",
+      "type": "top",
+      "description": "Cítrico brillante y amargo, aporta una apertura fresca y elegante.",
+      "image": "img/notes/bergamot.jpg"
+    },
+    {
+      "id": "2",
+      "name": "Incienso",
+      "type": "base",
+      "description": "Aroma resinoso y ahumado, añade profundidad y un toque místico.",
+      "image": "img/notes/incense.jpg"
+    },
+    {
+      "id": "3",
+      "name": "Notas marinas",
+      "type": "top",
+      "description": "Evoca la brisa del mar, aportando una sensación acuática y salada.",
+      "image": "img/notes/marine-notes.jpg"
+    },
+    {
+      "id": "4",
+      "name": "Romero",
+      "type": "heart",
+      "description": "Herbal y aromático, con un carácter vigorizante y ligeramente alcanforado.",
+      "image": "img/notes/rosemary.jpg"
+    },
+    {
+      "id": "5",
+      "name": "Geranio",
+      "type": "heart",
+      "description": "Floral verde con matices de rosa y menta, aporta un toque de elegancia clásica.",
+      "image": "img/notes/geranium.jpg"
+    },
+    {
+      "id": "6",
+      "name": "Pachulí",
+      "type": "base",
+      "description": "Terroso, amaderado y ligeramente dulce, proporciona una base rica y duradera.",
+      "image": "img/notes/patchouli.jpg"
+    },
+    {
+      "id": "11",
+      "name": "Limón",
+      "type": "top",
+      "description": "Cítrico ácido y vibrante, ofrece una explosión de frescura y energía.",
+      "image": "img/notes/lemon.jpg"
+    },
+    {
+      "id": "12",
+      "name": "Lavanda",
+      "type": "heart",
+      "description": "Aromática y floral, conocida por sus propiedades relajantes y limpias.",
+      "image": "img/notes/lavender.jpg"
+    },
+    {
+      "id": "13",
+      "name": "Menta",
+      "type": "top",
+      "description": "Refrescante y verde, con una sensación fría y estimulante.",
+      "image": "img/notes/mint.jpg"
+    },
+    {
+      "id": "14",
+      "name": "Canela",
+      "type": "heart",
+      "description": "Cálida, especiada y dulce, aporta un toque exótico y reconfortante.",
+      "image": "img/notes/cinnamon.jpg"
+    },
+    {
+      "id": "15",
+      "name": "Comino",
+      "type": "heart",
+      "description": "Especiado y ligeramente picante, añade un matiz terrenal y humano.",
+      "image": "img/notes/cumin.jpg"
+    },
+    {
+      "id": "16",
+      "name": "Flor de azahar del naranjo",
+      "type": "heart",
+      "description": "Floral blanco, dulce y ligeramente cítrico, muy fragante y primaveral.",
+      "image": "img/notes/orange-blossom.jpg"
+    },
+    {
+      "id": "17",
+      "name": "Vainilla",
+      "type": "base",
+      "description": "Dulce, cremosa y reconfortante, una de las notas de base más populares.",
+      "image": "img/notes/vanilla.jpg"
+    },
+    {
+      "id": "18",
+      "name": "Haba tonka",
+      "type": "base",
+      "description": "Compleja y dulce, con matices de almendra, vainilla y tabaco.",
+      "image": "img/notes/tonka-bean.jpg"
+    },
+    {
+      "id": "19",
+      "name": "Sándalo",
+      "type": "base",
+      "description": "Amaderado, cremoso y suave, aporta una calidez rica y sensual.",
+      "image": "img/notes/sandalwood.jpg"
+    },
+    {
+      "id": "20",
+      "name": "Cedro",
+      "type": "base",
+      "description": "Amaderado y seco, como el olor de un lápiz recién afilado.",
+      "image": "img/notes/cedar.jpg"
+    },
+    {
+      "id": "21",
+      "name": "Manzana",
+      "type": "top",
+      "description": "Frutal, crujiente y ligeramente dulce, aporta una apertura jugosa.",
+      "image": "img/notes/apple.jpg"
+    },
+    {
+      "id": "22",
+      "name": "Jengibre",
+      "type": "top",
+      "description": "Picante, fresco y efervescente, añade una chispa de energía.",
+      "image": "img/notes/ginger.jpg"
+    },
+    {
+      "id": "23",
+      "name": "Salvia",
+      "type": "heart",
+      "description": "Herbal y aromática, con un toque limpio y ligeramente picante.",
+      "image": "img/notes/sage.jpg"
+    },
+    {
+      "id": "25",
+      "name": "Amberwood",
+      "type": "base",
+      "description": "Molécula sintética que aporta una calidez amaderada y ambarina.",
+      "image": "img/notes/amberwood.jpg"
+    },
+    {
+      "id": "26",
+      "name": "Vetiver",
+      "type": "base",
+      "description": "Terroso, ahumado y amaderado, recuerda a la hierba seca y la tierra húmeda.",
+      "image": "img/notes/vetiver.jpg"
+    },
+    {
+      "id": "30",
+      "name": "Pomelo",
+      "type": "top",
+      "description": "Cítrico, amargo y jugoso, más complejo y picante que el limón.",
+      "image": "img/notes/grapefruit.jpg"
+    },
+    {
+      "id": "31",
+      "name": "Pimienta rosa",
+      "type": "top",
+      "description": "Especiada y fresca, con un matiz ligeramente floral y afrutado.",
+      "image": "img/notes/pink-pepper.jpg"
+    },
+    {
+      "id": "32",
+      "name": "Nuez moscada",
+      "type": "top",
+      "description": "Cálida, dulce y especiada, aporta un toque navideño y acogedor.",
+      "image": "img/notes/nutmeg.jpg"
+    },
+    {
+      "id": "33",
+      "name": "Jazmín",
+      "type": "heart",
+      "description": "Floral blanco, intenso y narcótico, con una sensualidad embriagadora.",
+      "image": "img/notes/jasmine.jpg"
+    },
+    {
+      "id": "37",
+      "name": "Mandarina",
+      "type": "top",
+      "description": "Cítrica, dulce y jugosa, más suave y menos ácida que otros cítricos.",
+      "image": "img/notes/mandarin.jpg"
+    },
+    {
+      "id": "38",
+      "name": "Caramelo",
+      "type": "heart",
+      "description": "Dulce, tostado y gourmand, evoca el azúcar quemado y la confitería.",
+      "image": "img/notes/caramel.jpg"
+    },
+    {
+      "id": "39",
+      "name": "Pimienta",
+      "type": "top",
+      "description": "Picante y cítrica, con una sensación efervescente única.",
+      "image": "img/notes/pepper.jpg"
+    },
+    {
+      "id": "40",
+      "name": "Ambroxan",
+      "type": "base",
+      "description": "Molécula sintética que aporta un aroma ambarino, amaderado y mineral.",
+      "image": "img/notes/ambroxan.jpg"
+    },
+    {
+      "id": "41",
+      "name": "Cuero",
+      "type": "top",
+      "description": "Un aroma animal, ahumado y masculino que evoca lujo y poder.",
+      "image": "img/notes/leather.jpg"
+    },
+    {
+      "id": "42",
+      "name": "Mirra",
+      "type": "heart",
+      "description": "Resina cálida, dulce y balsámica con un toque medicinal y antiguo.",
+      "image": "img/notes/myrrh.jpg"
+    },
+    {
+      "id": "43",
+      "name": "Piña",
+      "type": "top",
+      "description": "Frutal, tropical y jugosa, con un toque dulce y ácido.",
+      "image": "img/notes/pineapple.jpg"
+    },
+    {
+      "id": "44",
+      "name": "Violeta",
+      "type": "heart",
+      "description": "Floral, atalcado y ligeramente dulce, con un toque nostálgico.",
+      "image": "img/notes/violet.jpg"
+    },
+    {
+      "id": "45",
+      "name": "Ámbar",
+      "type": "base",
+      "description": "Cálido, resinoso y dulce, aporta una sensación rica y envolvente.",
+      "image": "img/notes/amber.jpg"
+    },
+    {
+      "id": "46",
+      "name": "Almizcle",
+      "type": "base",
+      "description": "Aporta una sensación limpia y cálida, a menudo descrito como el olor de la piel.",
+      "image": "img/notes/musk.jpg"
+    },
+    {
+      "id": "47",
+      "name": "Pera",
+      "type": "top",
+      "description": "Frutal, jugosa y dulce, con una frescura acuosa.",
+      "image": "img/notes/pear.jpg"
+    },
+    {
+      "id": "48",
+      "name": "Café",
+      "type": "heart",
+      "description": "Tostado, oscuro y amargo, con un efecto estimulante y adictivo.",
+      "image": "img/notes/coffee.jpg"
+    },
+    {
+      "id": "49",
+      "name": "Almendra amarga",
+      "type": "heart",
+      "description": "Nuez amarga y potente, con un matiz de cereza.",
+      "image": "img/notes/almond.jpg"
+    },
+    {
+      "id": "50",
+      "name": "Grosellas negras",
+      "type": "top",
+      "description": "Frutal, ácida y verde, con un carácter vibrante y jugoso.",
+      "image": "img/notes/blackcurrant.jpg"
+    },
+    {
+      "id": "51",
+      "name": "Ámbar gris",
+      "type": "base",
+      "description": "Marino, animal y dulce, una nota compleja y muy apreciada.",
+      "image": "img/notes/ambergris.jpg"
+    },
+    {
+      "id": "52",
+      "name": "Iris",
+      "type": "heart",
+      "description": "Atalcado, floral y terroso, con una elegancia sofisticada.",
+      "image": "img/notes/iris.jpg"
+    },
+    {
+      "id": "53",
+      "name": "Praliné",
+      "type": "base",
+      "description": "Dulce y gourmand, con notas de caramelo, nueces y chocolate.",
+      "image": "img/notes/praline.jpg"
+    }
   ],
   "users": [
     {
-      "id": 1,
+      "id": "1",
       "username": "admin@micolonia.com",
       "password": "123456",
       "favoriteNotes": [
-        "Bergamota",
-        "Ámbar"
+        "Ámbar",
+        "Romero",
+        "Sándalo"
       ],
       "collection": [
-        1
-      ]
+        1,
+        "1",
+        "2"
+      ],
+      "favoriteFragrances": []
     },
     {
-      "id": 2,
+      "id": "2",
       "username": "crisamer@micolonia.com",
       "password": "password123",
       "favoriteNotes": [],
@@ -222,7 +633,7 @@
   ],
   "custom_designs": [
     {
-      "id": 1,
+      "id": "1",
       "name": "Summer Dream",
       "notes": {
         "top": [
@@ -239,5 +650,6 @@
       "userId": 1,
       "createdAt": "2026-03-03"
     }
-  ]
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }
