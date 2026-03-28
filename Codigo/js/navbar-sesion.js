@@ -1,23 +1,54 @@
-// Función para configurar un botón de login/logout
-function configurarBotonSesion(botonId) {
-    var loginBtn = document.getElementById(botonId);
-    if (!loginBtn) return false;
+// Función para configurar el área de autenticación desktop
+function configurarAuthDesktop() {
+    var authContainer = document.getElementById("navbar-auth-desktop");
+    if (!authContainer) return false;
 
     var sesion = obtenerSesion();
+    authContainer.innerHTML = "";
 
     if (sesion) {
-        loginBtn.textContent = "Cerrar Sesión";
-        loginBtn.classList.add("navbar__auth-btn--logout");
-        loginBtn.href = "#";
-        loginBtn.addEventListener("click", function (e) {
+        // Usuario logueado - mostrar avatar con dropdown
+        var userMenuContainer = document.createElement("div");
+        userMenuContainer.className = "navbar__user-menu";
+
+        // Avatar button
+        var avatarBtn = document.createElement("button");
+        avatarBtn.className = "navbar__user-avatar";
+        avatarBtn.id = "navbar-user-avatar";
+        avatarBtn.setAttribute("aria-label", "Menú de usuario");
+        avatarBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>';
+
+        // Dropdown menu
+        var dropdown = document.createElement("div");
+        dropdown.className = "navbar__user-dropdown";
+        dropdown.id = "navbar-user-dropdown";
+
+        var miEspacioLink = document.createElement("a");
+        miEspacioLink.href = "mi-espacio.html";
+        miEspacioLink.textContent = "Mi espacio";
+
+        var logoutLink = document.createElement("a");
+        logoutLink.href = "#";
+        logoutLink.textContent = "Cerrar sesión";
+        logoutLink.addEventListener("click", function(e) {
             e.preventDefault();
             cerrarSesion();
             window.location.href = "index.html";
         });
+
+        dropdown.appendChild(miEspacioLink);
+        dropdown.appendChild(logoutLink);
+
+        userMenuContainer.appendChild(avatarBtn);
+        userMenuContainer.appendChild(dropdown);
+        authContainer.appendChild(userMenuContainer);
     } else {
-        loginBtn.textContent = "Iniciar Sesión";
-        loginBtn.classList.remove("navbar__auth-btn--logout");
+        // Usuario sin login - mostrar botón de login
+        var loginBtn = document.createElement("a");
         loginBtn.href = "login.html";
+        loginBtn.className = "navbar__auth-btn";
+        loginBtn.textContent = "Iniciar Sesión";
+        authContainer.appendChild(loginBtn);
     }
 
     return true;
@@ -89,16 +120,16 @@ function configurarMenuMovil() {
 
 // Intentar configurar el navbar
 var navbarInterval = setInterval(function () {
-    var desktopBtn = document.getElementById("navbar-login-btn-desktop");
+    var desktopAuth = document.getElementById("navbar-auth-desktop");
     var mobileLinks = document.getElementById("navbar-mobile-links");
 
     // Solo continuar cuando al menos uno de los elementos exista
-    if (!desktopBtn && !mobileLinks) return;
+    if (!desktopAuth && !mobileLinks) return;
 
     clearInterval(navbarInterval);
 
-    // Configurar botón desktop si existe
-    if (desktopBtn) configurarBotonSesion("navbar-login-btn-desktop");
+    // Configurar auth desktop si existe
+    if (desktopAuth) configurarAuthDesktop();
 
     // Configurar menú móvil
     configurarMenuMovil();
