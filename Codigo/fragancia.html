@@ -17,7 +17,7 @@
     <div class="fragrance-header">
         <h1 class="page-title" id="fragancia-nombre">Cargando...</h1>
         <div class="fragrance-actions" id="fragrance-actions">
-            <!-- Botones de acción para usuarios logueados -->
+            <!-- Botón de guardar para la colección -->
         </div>
     </div>
 
@@ -57,7 +57,7 @@
                 document.title = `${fragrance.name} — MiColonia`;
                 document.getElementById('fragancia-nombre').textContent = fragrance.name;
                 document.getElementById('fragancia-marca').textContent = fragrance.brand;
-                document.getElementById('fragancia-descripcion').textContent = fragrance.description || 'Descripción no disponible.';
+                document.getElementById('fragancia-descripcion').textContent = fragrance.description || '';
 
                 const imageContainer = document.getElementById('fragancia-imagen');
                 imageContainer.innerHTML = '';
@@ -129,20 +129,14 @@
             const actionsContainer = document.getElementById('fragrance-actions');
             actionsContainer.innerHTML = '';
 
-            const isFavorite = user.favoriteFragrances && user.favoriteFragrances.includes(fragrance.id);
             const inCollection = user.collection && user.collection.includes(fragrance.id);
-
-            const favButton = document.createElement('button');
-            favButton.className = `action-btn ${isFavorite ? 'active' : ''}`;
-            favButton.innerHTML = '❤️'; // Corazón
-            favButton.onclick = () => toggleUserArray('favoriteFragrances', fragrance.id, user);
 
             const collectionButton = document.createElement('button');
             collectionButton.className = `action-btn ${inCollection ? 'active' : ''}`;
             collectionButton.innerHTML = '💾'; // Guardar
+            collectionButton.title = inCollection ? 'Quitar de mi colección' : 'Añadir a mi colección';
             collectionButton.onclick = () => toggleUserArray('collection', fragrance.id, user);
 
-            actionsContainer.appendChild(favButton);
             actionsContainer.appendChild(collectionButton);
         }
 
@@ -151,9 +145,9 @@
             const index = currentArray.indexOf(fragranceId);
 
             if (index > -1) {
-                currentArray.splice(index, 1); // Remove
+                currentArray.splice(index, 1);
             } else {
-                currentArray.push(fragranceId); // Add
+                currentArray.push(fragranceId);
             }
 
             fetch(`http://localhost:3000/users/${user.id}`, {
@@ -163,7 +157,6 @@
             })
             .then(res => res.json())
             .then(updatedUser => {
-                // Re-render actions to show updated state
                 renderUserActions(fragrance, updatedUser);
             })
             .catch(console.error);
