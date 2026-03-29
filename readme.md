@@ -13,6 +13,9 @@
 ## 2. Descripción del Proyecto
 El sitio *“MiColonia.com”* es una web diseñada para los amantes de los aromas, indicada para aquellos que quieran dar matices aromáticos con personalidad. El sitio ofrece una experiencia dinámica para explorar fragancias y notas olfativas, permitiendo a los usuarios gestionar su colección personal y favoritos.
 
+
+**Sprint 2:** referente a este sprint, los mockups pueden encontrarse en la raiz del proyecto, archivo **Mockups_Sprint2.pdf**
+
 ---
 
 ## 3. Listado de Requisitos Funcionales
