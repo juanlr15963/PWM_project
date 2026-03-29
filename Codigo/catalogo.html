@@ -9,6 +9,10 @@
     <script src="js/manejo-sesion.js"></script>
     <script src="js/navbar-sesion.js"></script>
     <script src="js/navbar-toggle.js"></script>
+    <style>
+        body { opacity: 0; transition: opacity 0.4s ease; }
+        body.loaded { opacity: 1; }
+    </style>
 </head>
 <body>
 <header xlu-include-file="components/navbar.html"></header>
@@ -17,12 +21,10 @@
     <h1 class="page-title">Fragancias</h1>
     <p class="page-subtitle">Descubre nuestra colección completa.</p>
 
-    <!-- Botón para mostrar filtros en móvil -->
     <button class="filters-toggle-btn" id="filters-toggle">
         <span class="icon">⚙️</span> Mostrar Filtros
     </button>
 
-    <!-- Filtros -->
     <div class="filter-bar" id="filter-bar">
       <button class="filter-btn active" data-filter="all">Todos</button>
       <span class="filter-divider"></span>
@@ -39,100 +41,86 @@
       <button class="filter-btn" data-filter="Unisex">Unisex</button>
     </div>
 
-    <div class="grid-4" id="fragrance-grid">
-        <!-- Las fragancias se cargarán aquí dinámicamente -->
-    </div>
+    <div class="grid-4" id="fragrance-grid"></div>
 </main>
 
 <footer xlu-include-file="components/footer.html"></footer>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    let allFragrances = [];
+
+    async function init() {
         const grid = document.getElementById('fragrance-grid');
+        try {
+            // 1. Cargar componentes
+            await xLuIncludeFile();
+
+            // 2. Cargar datos
+            const response = await fetch('http://localhost:3000/fragrances');
+            if (!response.ok) throw new Error("Error en la respuesta del servidor");
+
+            allFragrances = await response.json();
+
+            // 3. Renderizar y mostrar
+            renderFragrances(allFragrances);
+            setupFilters();
+
+            document.body.classList.add('loaded');
+        } catch (error) {
+            console.error(error);
+            grid.innerHTML = `<p style="color: red; grid-column: 1 / -1; text-align: center; padding: 40px; background: var(--neutral-50); border-radius: var(--radius-md);">Error al cargar las fragancias. Asegúrate de que el servidor local (JSON Server) esté encendido.</p>`;
+            document.body.classList.add('loaded');
+        }
+    }
+
+    function renderFragrances(data) {
+        const grid = document.getElementById('fragrance-grid');
+        grid.innerHTML = '';
+        if (data.length === 0) {
+            grid.innerHTML = '<p>No hay fragancias que coincidan.</p>';
+            return;
+        }
+        data.forEach(f => {
+            const card = document.createElement('a');
+            card.href = `fragancia.html?id=${f.id}`;
+            card.className = 'fragrance-card-link';
+            card.innerHTML = `
+                <div class="fragrance-card">
+                    <img src="${f.image}" alt="${f.name}" class="fragrance-card-image" loading="lazy">
+                    <div class="fragrance-card-info">
+                        <h3 class="fragrance-card-name">${f.name}</h3>
+                        <p class="fragrance-card-brand">${f.brand}</p>
+                    </div>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+    }
+
+    function setupFilters() {
         const filterBar = document.getElementById('filter-bar');
         const filtersToggle = document.getElementById('filters-toggle');
-        let allFragrances = [];
-        let activeFilter = 'all';
 
-        // Lógica para mostrar/ocultar filtros en móvil
         if (filtersToggle) {
-            filtersToggle.addEventListener('click', () => {
-                filterBar.classList.toggle('visible');
-                filtersToggle.textContent = filterBar.classList.contains('visible')
-                    ? 'Ocultar Filtros'
-                    : '⚙️ Mostrar Filtros';
-            });
+            filtersToggle.onclick = () => filterBar.classList.toggle('visible');
         }
 
-        function renderFragrances(fragrancesToRender) {
-            grid.innerHTML = '';
-            if (!fragrancesToRender || fragrancesToRender.length === 0) {
-                grid.innerHTML = '<p>No se encontraron fragancias con el filtro seleccionado.</p>';
-                return;
-            }
-            fragrancesToRender.forEach(fragrance => {
-                const cardLink = document.createElement('a');
-                cardLink.href = `fragancia.html?id=${fragrance.id}`;
-                cardLink.className = 'fragrance-card-link';
-
-                const card = document.createElement('div');
-                card.className = 'fragrance-card';
-
-                const image = document.createElement('img');
-                image.src = fragrance.image;
-                image.alt = fragrance.name;
-                image.className = 'fragrance-card-image';
-
-                const info = document.createElement('div');
-                info.className = 'fragrance-card-info';
-
-                const name = document.createElement('h3');
-                name.className = 'fragrance-card-name';
-                name.textContent = fragrance.name;
-
-                const brand = document.createElement('p');
-                brand.className = 'fragrance-card-brand';
-                brand.textContent = fragrance.brand;
-
-                info.appendChild(name);
-                info.appendChild(brand);
-                card.appendChild(image);
-                card.appendChild(info);
-                cardLink.appendChild(card);
-                grid.appendChild(cardLink);
-            });
-        }
-
-        fetch('http://localhost:3000/fragrances')
-            .then(response => response.json())
-            .then(data => {
-                allFragrances = data;
-                renderFragrances(allFragrances);
-            })
-            .catch(error => console.error('Error al cargar las fragancias:', error));
-
-        filterBar.addEventListener('click', function(e) {
+        filterBar.onclick = (e) => {
             if (e.target.tagName === 'BUTTON') {
                 filterBar.querySelector('.active').classList.remove('active');
                 e.target.classList.add('active');
+                const filter = e.target.dataset.filter;
 
-                activeFilter = e.target.dataset.filter;
+                const filtered = filter === 'all'
+                    ? allFragrances
+                    : allFragrances.filter(f => (f.season?.includes(filter)) || f.time === filter || f.gender === filter);
 
-                if (activeFilter === 'all') {
-                    renderFragrances(allFragrances);
-                } else {
-                    const filtered = allFragrances.filter(f =>
-                        (f.season && f.season.includes(activeFilter)) ||
-                        (f.time && f.time === activeFilter) ||
-                        (f.gender && f.gender === activeFilter)
-                    );
-                    renderFragrances(filtered);
-                }
+                renderFragrances(filtered);
             }
-        });
+        };
+    }
 
-        xLuIncludeFile();
-    });
+    init();
 </script>
 </body>
 </html>

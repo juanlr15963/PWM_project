@@ -9,112 +9,112 @@
   <script src="js/manejo-sesion.js"></script>
   <script src="js/navbar-sesion.js"></script>
   <script src="js/navbar-toggle.js"></script>
+  <style>
+    /* Estabilización de carga */
+    body { opacity: 0; transition: opacity 0.4s ease; }
+    body.loaded { opacity: 1; }
+  </style>
 </head>
 <body>
-<header xlu-include-file="components/navbar.html"></header>
+  <header xlu-include-file="components/navbar.html"></header>
 
-<main class="page-content">
-  <h1 class="page-title">Mi Espacio</h1>
-  <p class="page-subtitle" id="welcome-message">Tu rincón personal de fragancias.</p>
+  <main class="page-content">
+    <h1 class="page-title">Mi Espacio</h1>
+    <p class="page-subtitle" id="welcome-message">Tu rincón personal de fragancias.</p>
 
-  <section style="margin-bottom: 40px;">
-    <h2 class="section-title">Mi Colección</h2>
-    <div class="grid-4" id="collection-grid">
-      <div class="placeholder-area">Cargando tu colección...</div>
-    </div>
-  </section>
+    <section style="margin-bottom: 40px;">
+      <h2 class="section-title">Mi Colección</h2>
+      <div class="grid-4" id="collection-grid"></div>
+    </section>
 
-  <section style="margin-bottom: 40px;">
-    <h2 class="section-title">Notas Favoritas</h2>
-    <div class="grid-3" id="notes-fav-grid">
-      <div class="placeholder-area">Cargando tus notas favoritas...</div>
-    </div>
-  </section>
-</main>
+    <section style="margin-bottom: 40px;">
+      <h2 class="section-title">Notas Favoritas</h2>
+      <div class="grid-3" id="notes-fav-grid"></div>
+    </section>
+  </main>
 
-<footer xlu-include-file="components/footer.html"></footer>
+  <footer xlu-include-file="components/footer.html"></footer>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
+  <script>
+    async function startApp() {
         const session = obtenerSesion();
         if (!session) {
             window.location.href = 'login.html';
             return;
         }
 
-        // 1. Obtener los datos frescos del usuario
-        fetch(`http://localhost:3000/users/${session.id}`)
-            .then(res => res.json())
-            .then(user => {
-                document.getElementById('welcome-message').textContent = `Bienvenido, ${user.username}. Aquí tienes tus preferencias.`;
+        try {
+            // 1. Cargar componentes y esperar a que existan en el DOM
+            await xLuIncludeFile();
 
-                // 2. Cargar Colección de Perfumes
-                loadUserCollection(user.collection || []);
+            // 2. Cargar datos del servidor
+            const [user, allFragrances, allNotes] = await Promise.all([
+                fetch(`http://localhost:3000/users/${session.id}`).then(res => res.json()),
+                fetch('http://localhost:3000/fragrances').then(res => res.json()),
+                fetch('http://localhost:3000/notes').then(res => res.json())
+            ]);
 
-                // 3. Cargar Notas Favoritas
-                loadUserNotes(user.favoriteNotes || []);
-            });
+            document.getElementById('welcome-message').textContent = `Bienvenido, ${user.username}.`;
 
-        function loadUserCollection(collectionIds) {
-            const container = document.getElementById('collection-grid');
-            if (collectionIds.length === 0) {
-                container.innerHTML = '<div class="placeholder-area">Aún no has añadido fragancias a tu colección.</div>';
-                return;
-            }
+            // 3. Renderizar las cuadrículas
+            renderList('collection-grid', user.collection || [], allFragrances, 'fragrance');
+            renderList('notes-fav-grid', user.favoriteNotes || [], allNotes, 'note');
 
-            fetch('http://localhost:3000/fragrances')
-                .then(res => res.json())
-                .then(allFragrances => {
-                    container.innerHTML = '';
-                    const myFragrances = allFragrances.filter(f => collectionIds.includes(f.id));
-                    myFragrances.forEach(f => {
-                        const cardLink = document.createElement('a');
-                        cardLink.href = `fragancia.html?id=${f.id}`;
-                        cardLink.innerHTML = `
-                            <div class="fragrance-card">
-                                <img src="${f.image}" class="fragrance-card-image">
-                                <div class="fragrance-card-info">
-                                    <h3 class="fragrance-card-name">${f.name}</h3>
-                                    <p class="fragrance-card-brand">${f.brand}</p>
-                                </div>
-                            </div>
-                        `;
-                        container.appendChild(cardLink);
-                    });
-                });
+            // 4. Todo listo: Mostrar la página
+            document.body.classList.add('loaded');
+
+        } catch (e) {
+            console.error("Error crítico en el inicio:", e);
+            document.body.classList.add('loaded');
+        }
+    }
+
+    function renderList(containerId, keys, allData, type) {
+        const container = document.getElementById(containerId);
+        container.innerHTML = '';
+
+        if (keys.length === 0) {
+            container.innerHTML = '<div class="placeholder-area">Aún no hay elementos guardados.</div>';
+            return;
         }
 
-        function loadUserNotes(noteNames) {
-            const container = document.getElementById('notes-fav-grid');
-            if (noteNames.length === 0) {
-                container.innerHTML = '<div class="placeholder-area">Aún no tienes notas favoritas.</div>';
-                return;
-            }
+        keys.forEach(key => {
+            const item = (type === 'fragrance')
+                ? allData.find(f => f.id === key)
+                : allData.find(n => n.name === key);
 
-            fetch('http://localhost:3000/notes')
-                .then(res => res.json())
-                .then(allNotes => {
-                    container.innerHTML = '';
-                    const myNotes = allNotes.filter(n => noteNames.includes(n.name));
-                    myNotes.forEach(n => {
-                        const cardLink = document.createElement('a');
-                        cardLink.href = `nota.html?name=${encodeURIComponent(n.name)}`;
-                        cardLink.innerHTML = `
-                            <div class="note-card-visual">
-                                <img src="${n.image}" class="note-card-visual__image">
-                                <div class="note-card-visual__info">
-                                    <h3 class="note-card-visual__name">${n.name}</h3>
-                                    <p class="note-card-visual__desc">${n.description}</p>
-                                </div>
+            if (item) {
+                const a = document.createElement('a');
+                if (type === 'fragrance') {
+                    a.href = `fragancia.html?id=${item.id}`;
+                    a.className = 'fragrance-card-link';
+                    a.innerHTML = `
+                        <div class="fragrance-card">
+                            <img src="${item.image}" alt="${item.name}" class="fragrance-card-image" loading="lazy">
+                            <div class="fragrance-card-info">
+                                <h3 class="fragrance-card-name">${item.name}</h3>
+                                <p class="fragrance-card-brand">${item.brand}</p>
                             </div>
-                        `;
-                        container.appendChild(cardLink);
-                    });
-                });
-        }
+                        </div>
+                    `;
+                } else {
+                    a.href = `nota.html?name=${encodeURIComponent(item.name)}`;
+                    a.innerHTML = `
+                        <div class="note-card-visual">
+                            <img src="${item.image}" alt="${item.name}" class="note-card-visual__image" loading="lazy">
+                            <div class="note-card-visual__info">
+                                <h3 class="note-card-visual__name">${item.name}</h3>
+                                <p class="note-card-visual__desc">${item.description}</p>
+                            </div>
+                        </div>
+                    `;
+                }
+                container.appendChild(a);
+            }
+        });
+    }
 
-        xLuIncludeFile();
-    });
-</script>
+    startApp();
+  </script>
 </body>
 </html>
