@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fragancia — MiColonia</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="js/xlu-include-file.js"></script>
+    <script src="js/manejo-sesion.js"></script>
+    <script src="js/navbar-sesion.js"></script>
+    <script src="js/navbar-toggle.js"></script>
+    <style>
+        body { opacity: 0; transition: opacity 0.4s ease; }
+        body.loaded { opacity: 1; }
+    </style>
+</head>
+<body>
+<header xlu-include-file="components/navbar.html"></header>
+
+<main class="page-content">
+    <div class="fragrance-header">
+        <h1 class="page-title" id="fragancia-nombre">Cargando...</h1>
+        <div class="fragrance-actions" id="fragrance-actions"></div>
+    </div>
+
+    <div class="fragrance-detail">
+        <div class="fragrance-detail__image" id="fragancia-imagen"></div>
+        <div class="fragrance-detail__content">
+            <div id="fragancia-marca-descripcion"></div>
+            <div class="fragrance-detail__meta" id="fragancia-meta"></div>
+            <div id="fragancia-notas-clasificadas"></div>
+        </div>
+    </div>
+</main>
+
+<footer xlu-include-file="components/footer.html"></footer>
+
+<script>
+    async function loadFragrance() {
+        const params = new URLSearchParams(window.location.search);
+        const fragranceId = parseInt(params.get('id'), 10);
+        const userSession = obtenerSesion();
+
+        if (!fragranceId) {
+            document.getElementById('fragancia-nombre').textContent = 'Fragancia no encontrada';
+            document.body.classList.add('loaded');
+            return;
+        }
+
+        try {
+            // 1. Cargar componentes estáticos primero
+            await xLuIncludeFile();
+
+            // 2. Obtener datos en paralelo
+            const [fragrance, allNotes, userData] = await Promise.all([
+                fetch(`http://localhost:3000/fragrances/${fragranceId}`).then(res => res.json()),
+                fetch('http://localhost:3000/notes').then(res => res.json()),
+                userSession ? fetch(`http://localhost:3000/users/${userSession.id}`).then(res => res.json()) : Promise.resolve(null)
+            ]);
+
+            if (!fragrance) throw new Error('Fragancia inexistente');
+
+            // 3. Rellenar la UI
+            document.title = `${fragrance.name} — MiColonia`;
+            document.getElementById('fragancia-nombre').textContent = fragrance.name;
+
+            const brandDesc = document.getElementById('fragancia-marca-descripcion');
+            brandDesc.innerHTML = `<h2 class="section-title">Marca</h2><p class="fragrance-brand">${fragrance.brand}</p>`;
+            if (fragrance.description) {
+                brandDesc.innerHTML += `<h2 class="section-title" style="margin-top: 24px;">Descripción</h2><p>${fragrance.description}</p>`;
+            }
+
+            const imgContainer = document.getElementById('fragancia-imagen');
+            imgContainer.innerHTML = `<img src="${fragrance.image}" alt="${fragrance.name}">`;
+
+            const meta = document.getElementById('fragancia-meta');
+            if (fragrance.season) fragrance.season.forEach(s => meta.appendChild(createTag(s, `season--${s.toLowerCase()}`)));
+            if (fragrance.time) meta.appendChild(createTag(fragrance.time, `time--${fragrance.time.toLowerCase()}`));
+
+            renderClassifiedNotes(fragrance.notes, allNotes);
+
+            if (userData) {
+                renderUserActions(fragrance, userData);
+            }
+
+            // 4. Finalizar carga
+            document.body.classList.add('loaded');
+
+        } catch (error) {
+            console.error(error);
+            document.getElementById('fragancia-nombre').textContent = 'Error al cargar';
+            document.body.classList.add('loaded');
+        }
+    }
+
+    function createTag(text, className) {
+        const tag = document.createElement('span');
+        tag.className = `tag ${className}`;
+        tag.textContent = text;
+        return tag;
+    }
+
+    function renderClassifiedNotes(notes, allNotes) {
+        const container = document.getElementById('fragancia-notas-clasificadas');
+        container.innerHTML = '';
+        const types = { top: 'Salida', heart: 'Corazón', base: 'Base' };
+
+        Object.keys(types).forEach(type => {
+            if (notes[type] && notes[type].length > 0) {
+                const group = document.createElement('div');
+                group.className = 'notes-group';
+                group.innerHTML = `<h3 class="notes-group__title">${types[type]}</h3>`;
+
+                const tagsContainer = document.createElement('div');
+                tagsContainer.className = 'fragrance-detail__tags';
+
+                notes[type].forEach(noteName => {
+                    const noteData = allNotes.find(n => n.name === noteName);
+                    const tag = document.createElement('a');
+                    tag.href = `nota.html?name=${encodeURIComponent(noteName)}`;
+                    tag.className = 'tag';
+                    if (noteData && noteData.image) tag.innerHTML = `<img src="${noteData.image}">`;
+                    tag.appendChild(document.createTextNode(noteName));
+                    tagsContainer.appendChild(tag);
+                });
+                group.appendChild(tagsContainer);
+                container.appendChild(group);
+            }
+        });
+    }
+
+    function renderUserActions(fragrance, user) {
+        const container = document.getElementById('fragrance-actions');
+        container.innerHTML = '';
+        const inCollection = user.collection && user.collection.includes(fragrance.id);
+
+        const btn = document.createElement('button');
+        btn.className = `action-btn ${inCollection ? 'active' : ''}`;
+        btn.innerHTML = '💾';
+        btn.onclick = () => toggleCollection(fragrance.id, user);
+        container.appendChild(btn);
+    }
+
+    async function toggleCollection(fId, user) {
+        const collection = user.collection || [];
+        const index = collection.indexOf(fId);
+        index > -1 ? collection.splice(index, 1) : collection.push(fId);
+
+        const res = await fetch(`http://localhost:3000/users/${user.id}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ collection })
+        });
+        const updatedUser = await res.json();
+        renderUserActions({id: fId}, updatedUser);
+    }
+
+    loadFragrance();
+</script>
+</body>
+</html>

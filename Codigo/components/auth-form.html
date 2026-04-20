@@ -1,0 +1,38 @@
+<section class="auth-form">
+    <div class="auth-form__avatar">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+        </svg>
+    </div>
+
+    <form id="loginForm">
+        <div id="login-success" class="success-message">¡Bienvenido!</div>
+
+        <div class="auth-form__fields">
+            <label for="email">CORREO ELECTRÓNICO</label>
+            <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="ejemplo@micolonia.com"
+                    required
+            >
+            <span id="email-error" class="error-message"></span>
+
+            <label for="password">CONTRASEÑA</label>
+            <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    required
+                    minLength="6"
+            >
+            <span id="password-error" class="error-message"></span>
+        </div>
+
+        <button type="submit" id="btn-login" class="auth-form__submit">
+            Entrar
+        </button>
+    </form>
+</section>

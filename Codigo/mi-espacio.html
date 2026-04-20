@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi Espacio — MiColonia</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/xlu-include-file.js"></script>
+  <script src="js/manejo-sesion.js"></script>
+  <script src="js/navbar-sesion.js"></script>
+  <script src="js/navbar-toggle.js"></script>
+  <style>
+    /* Estabilización de carga */
+    body { opacity: 0; transition: opacity 0.4s ease; }
+    body.loaded { opacity: 1; }
+  </style>
+</head>
+<body>
+  <header xlu-include-file="components/navbar.html"></header>
+
+  <main class="page-content">
+    <h1 class="page-title">Mi Espacio</h1>
+    <p class="page-subtitle" id="welcome-message">Tu rincón personal de fragancias.</p>
+
+    <section style="margin-bottom: 40px;">
+      <h2 class="section-title">Mi Colección</h2>
+      <div class="grid-4" id="collection-grid"></div>
+    </section>
+
+    <section style="margin-bottom: 40px;">
+      <h2 class="section-title">Notas Favoritas</h2>
+      <div class="grid-3" id="notes-fav-grid"></div>
+    </section>
+  </main>
+
+  <footer xlu-include-file="components/footer.html"></footer>
+
+  <script>
+    async function startApp() {
+        const session = obtenerSesion();
+        if (!session) {
+            window.location.href = 'login.html';
+            return;
+        }
+
+        try {
+            // 1. Cargar componentes y esperar a que existan en el DOM
+            await xLuIncludeFile();
+
+            // 2. Cargar datos del servidor
+            const [user, allFragrances, allNotes] = await Promise.all([
+                fetch(`http://localhost:3000/users/${session.id}`).then(res => res.json()),
+                fetch('http://localhost:3000/fragrances').then(res => res.json()),
+                fetch('http://localhost:3000/notes').then(res => res.json())
+            ]);
+
+            document.getElementById('welcome-message').textContent = `Bienvenido, ${user.username}.`;
+
+            // 3. Renderizar las cuadrículas
+            renderList('collection-grid', user.collection || [], allFragrances, 'fragrance');
+            renderList('notes-fav-grid', user.favoriteNotes || [], allNotes, 'note');
+
+            // 4. Todo listo: Mostrar la página
+            document.body.classList.add('loaded');
+
+        } catch (e) {
+            console.error("Error crítico en el inicio:", e);
+            document.body.classList.add('loaded');
+        }
+    }
+
+    function renderList(containerId, keys, allData, type) {
+        const container = document.getElementById(containerId);
+        container.innerHTML = '';
+
+        if (keys.length === 0) {
+            container.innerHTML = '<div class="placeholder-area">Aún no hay elementos guardados.</div>';
+            return;
+        }
+
+        keys.forEach(key => {
+            const item = (type === 'fragrance')
+                ? allData.find(f => f.id === key)
+                : allData.find(n => n.name === key);
+
+            if (item) {
+                const a = document.createElement('a');
+                if (type === 'fragrance') {
+                    a.href = `fragancia.html?id=${item.id}`;
+                    a.className = 'fragrance-card-link';
+                    a.innerHTML = `
+                        <div class="fragrance-card">
+                            <img src="${item.image}" alt="${item.name}" class="fragrance-card-image" loading="lazy">
+                            <div class="fragrance-card-info">
+                                <h3 class="fragrance-card-name">${item.name}</h3>
+                                <p class="fragrance-card-brand">${item.brand}</p>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    a.href = `nota.html?name=${encodeURIComponent(item.name)}`;
+                    a.innerHTML = `
+                        <div class="note-card-visual">
+                            <img src="${item.image}" alt="${item.name}" class="note-card-visual__image" loading="lazy">
+                            <div class="note-card-visual__info">
+                                <h3 class="note-card-visual__name">${item.name}</h3>
+                                <p class="note-card-visual__desc">${item.description}</p>
+                            </div>
+                        </div>
+                    `;
+                }
+                container.appendChild(a);
+            }
+        });
+    }
+
+    startApp();
+  </script>
+</body>
+</html>

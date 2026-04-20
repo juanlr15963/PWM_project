@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nota — MiColonia</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/xlu-include-file.js"></script>
+  <script src="js/manejo-sesion.js"></script>
+  <script src="js/navbar-sesion.js"></script>
+  <script src="js/navbar-toggle.js"></script>
+</head>
+<body>
+  <header xlu-include-file="components/navbar.html"></header>
+
+  <main class="page-content">
+    <div class="fragrance-header">
+        <h1 class="page-title" id="nota-nombre">Cargando...</h1>
+        <div class="fragrance-actions" id="note-actions">
+            <!-- Botón de favorito para la nota -->
+        </div>
+    </div>
+
+    <div class="note-detail">
+      <div class="note-detail__text">
+        <h2 class="section-title">Descripción</h2>
+        <p id="nota-descripcion"></p>
+      </div>
+      <div class="note-detail__image" id="nota-imagen">
+        <!-- La imagen de la nota se cargarán aquí -->
+      </div>
+    </div>
+
+    <section>
+      <h2 class="section-title">Presente en estas fragancias</h2>
+      <div class="grid-4" id="suggested-fragrances-grid">
+        <!-- Las fragancias sugeridas se cargarán aquí -->
+      </div>
+    </section>
+  </main>
+
+  <footer xlu-include-file="components/footer.html"></footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const params = new URLSearchParams(window.location.search);
+      const noteName = params.get('name');
+      const userSession = obtenerSesion();
+
+      if (!noteName) {
+        document.getElementById('nota-nombre').textContent = 'Nota no especificada';
+        return;
+      }
+
+      const noteInfoRequest = fetch(`http://localhost:3000/notes?name=${noteName}`).then(res => res.json());
+      const fragrancesRequest = fetch('http://localhost:3000/fragrances').then(res => res.json());
+      const userRequest = userSession ? fetch(`http://localhost:3000/users/${userSession.id}`).then(res => res.json()) : Promise.resolve(null);
+
+      Promise.all([noteInfoRequest, fragrancesRequest, userRequest])
+        .then(([noteData, allFragrances, userData]) => {
+          const note = noteData[0];
+          if (!note) {
+            throw new Error('Nota no encontrada');
+          }
+
+          // Rellenar información de la nota
+          document.title = `${note.name} — MiColonia`;
+          document.getElementById('nota-nombre').textContent = note.name;
+          document.getElementById('nota-descripcion').textContent = note.description || 'Descripción no disponible.';
+
+          // Cargar imagen de la nota
+          const imageContainer = document.getElementById('nota-imagen');
+          if (note.image) {
+            const img = document.createElement('img');
+            img.src = note.image;
+            img.alt = note.name;
+            imageContainer.appendChild(img);
+          }
+
+          // Si hay sesión, mostrar acciones de usuario
+          if (userData) {
+              renderNoteActions(note.name, userData);
+          }
+
+          // Filtrar fragancias que contienen la nota
+          const suggestedFragrances = allFragrances.filter(fragrance => {
+            const allNotes = [...(fragrance.notes.top || []), ...(fragrance.notes.heart || []), ...(fragrance.notes.base || [])];
+            return allNotes.includes(note.name);
+          });
+
+          // Renderizar fragancias sugeridas
+          const grid = document.getElementById('suggested-fragrances-grid');
+          grid.innerHTML = '';
+          if (suggestedFragrances.length === 0) {
+            grid.innerHTML = '<p>No se encontraron fragancias populares con esta nota.</p>';
+            return;
+          }
+
+          suggestedFragrances.forEach(fragrance => {
+            const cardLink = document.createElement('a');
+            cardLink.href = `fragancia.html?id=${fragrance.id}`;
+            cardLink.className = 'fragrance-card-link';
+
+            const card = document.createElement('div');
+            card.className = 'fragrance-card';
+
+            const image = document.createElement('img');
+            image.src = fragrance.image;
+            image.alt = fragrance.name;
+            image.className = 'fragrance-card-image';
+
+            const info = document.createElement('div');
+            info.className = 'fragrance-card-info';
+
+            const name = document.createElement('h3');
+            name.className = 'fragrance-card-name';
+            name.textContent = fragrance.name;
+
+            const brand = document.createElement('p');
+            brand.className = 'fragrance-card-brand';
+            brand.textContent = fragrance.brand;
+
+            info.appendChild(name);
+            info.appendChild(brand);
+            card.appendChild(image);
+            card.appendChild(info);
+            cardLink.appendChild(card);
+            grid.appendChild(cardLink);
+          });
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          document.getElementById('nota-nombre').textContent = 'Error al cargar la nota';
+        });
+
+      function renderNoteActions(name, user) {
+          const actionsContainer = document.getElementById('note-actions');
+          actionsContainer.innerHTML = '';
+
+          const isFavorite = user.favoriteNotes && user.favoriteNotes.includes(name);
+
+          const favButton = document.createElement('button');
+          favButton.className = `action-btn ${isFavorite ? 'active' : ''}`;
+          favButton.innerHTML = '❤️'; // Corazón
+          favButton.title = isFavorite ? 'Quitar de mis notas favoritas' : 'Marcar como nota favorita';
+          favButton.onclick = () => {
+              const currentArray = user.favoriteNotes || [];
+              const index = currentArray.indexOf(name);
+
+              if (index > -1) {
+                  currentArray.splice(index, 1);
+              } else {
+                  currentArray.push(name);
+              }
+
+              fetch(`http://localhost:3000/users/${user.id}`, {
+                  method: 'PATCH',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ favoriteNotes: currentArray })
+              })
+              .then(res => res.json())
+              .then(updatedUser => {
+                  renderNoteActions(name, updatedUser);
+              })
+              .catch(console.error);
+          };
+
+          actionsContainer.appendChild(favButton);
+      }
+
+      xLuIncludeFile();
+    });
+  </script>
+</body>
+</html>
