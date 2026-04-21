@@ -1,1 +1,20 @@
-<p>header works!</p>
+<div class="navbar" id="navbar">
+  <div class="navbar__container">
+    <a routerLink="/" class="navbar__logo">
+      <span class="navbar__logo-icon">M</span>
+      <span class="navbar__logo-text">MiColonia.com</span>
+    </a>
+    <div class="navbar__search-container">
+      <form class="navbar__search">
+        <input type="text" placeholder="Buscar..." aria-label="Buscar" />
+      </form>
+    </div>
+    <div class="navbar__desktop-menu">
+      <nav class="navbar__links">
+        <a routerLink="/catalogo">Catálogo</a>
+        <a routerLink="/laboratorio">Laboratorio</a>
+      </nav>
+      <a routerLink="/login" class="navbar__auth-btn">Iniciar Sesión</a>
+    </div>
+  </div>
+</div>
