@@ -1,24 +1,13 @@
-import { Component, inject, PLATFORM_ID } from '@angular/core';
+import { Component, inject, PLATFORM_ID, OnInit } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 
-import { initializeApp } from 'firebase/app';
+// Solo importas las funciones, no la configuración
 import { getAnalytics } from 'firebase/analytics';
+import { FirebaseApp } from 'firebase/app';
 
 import { Header } from './components/header/header';
 import { Footer } from './components/footer/footer';
-
-const firebaseConfig = {
-  apiKey: 'AIzaSyBjQ9AskXo0Pp85o8cGPeh44HnmP-mhkAE',
-  authDomain: 'pwm-project-aced1.firebaseapp.com',
-  projectId: 'pwm-project-aced1',
-  storageBucket: 'pwm-project-aced1.firebasestorage.app',
-  messagingSenderId: '402725037450',
-  appId: '1:402725037450:web:eb4f89d34edfefbe1b1473',
-  measurementId: 'G-YYF31YP9SW',
-};
-
-const firebaseApp = initializeApp(firebaseConfig);
 
 @Component({
   selector: 'app-root',
@@ -27,12 +16,16 @@ const firebaseApp = initializeApp(firebaseConfig);
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
-export class App {
+export class App implements OnInit {
   private platformId = inject(PLATFORM_ID);
+  // Inyectamos la instancia que creamos en app.config.ts
+  private firebaseApp = inject<FirebaseApp>('FIREBASE_APP' as any);
 
-  constructor() {
+  ngOnInit() {
+    // Analytics solo se ejecuta en el cliente
     if (isPlatformBrowser(this.platformId)) {
-      getAnalytics(firebaseApp);
+      getAnalytics(this.firebaseApp);
+      console.log('Firebase Analytics inicializado');
     }
   }
 }
