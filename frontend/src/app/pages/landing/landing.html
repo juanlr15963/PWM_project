@@ -1,0 +1,34 @@
+<main class="page-content">
+  <section class="hero">
+    <h1 class="page-title">Tu firma olfativa.</h1>
+    <p class="page-subtitle">Explora fragancias seleccionadas por nuestro equipo de expertos y curadores.</p>
+  </section>
+
+  <section class="featured-fragrances">
+    <h2 class="section-title">Fragancias Destacadas</h2>
+    <div class="grid-4">
+      <div *ngFor="let fragrance of featuredFragrances" class="fragrance-card">
+        <a
+          [routerLink]="['/fragancia']"
+          [queryParams]="{ id: fragrance.id }"
+          class="fragrance-card-link"
+        >
+          <img [src]="'/' + fragrance.image" [alt]="fragrance.name" class="fragrance-card-image" />
+          <div class="fragrance-card-info">
+            <h3 class="fragrance-card-name">{{ fragrance.name }}</h3>
+            <p class="fragrance-card-brand">{{ fragrance.brand }}</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="notes-banner">
+    <div class="note-card note-card--banner">
+      <a routerLink="/notas" style="display: block; padding: 20px; text-decoration: none; color: inherit;">
+        <h3 class="note-card__name">Explorador de Notas e Ingredientes</h3>
+        <p class="note-card__desc">¿Buscas una esencia específica? Navega por nuestra biblioteca para descubrir perfumes según sus componentes.</p>
+      </a>
+    </div>
+  </section>
+</main>

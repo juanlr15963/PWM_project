@@ -1,5 +1,9 @@
-/.*
+# IDEs
 /.idea
+
+# Node
 node_modules
+/dist
+
+# Internal notes
 INTERNAL.md
-/Codigo/data/usersLog.json
