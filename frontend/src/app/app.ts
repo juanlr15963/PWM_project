@@ -6,13 +6,15 @@ import { RouterOutlet } from '@angular/router';
 import { getAnalytics } from 'firebase/analytics';
 import { FirebaseApp } from 'firebase/app';
 
-import { Header } from './components/header/header';
+import { HeaderComponent } from './components/header/header';
+/*
 import { Footer } from './components/footer/footer';
+*/
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, Header, Footer],
+  imports: [RouterOutlet, HeaderComponent],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })

@@ -1,20 +1,54 @@
-<div class="navbar" id="navbar">
+<div class="navbar">
   <div class="navbar__container">
+    <!-- 1. Logo -->
     <a routerLink="/" class="navbar__logo">
       <span class="navbar__logo-icon">M</span>
       <span class="navbar__logo-text">MiColonia.com</span>
     </a>
+
+    <!-- 2. Buscador Central -->
     <div class="navbar__search-container">
-      <form class="navbar__search">
-        <input type="text" placeholder="Buscar..." aria-label="Buscar" />
+      <form class="navbar__search" (submit)="onSearch($event)">
+        <input
+          type="text"
+          [(ngModel)]="searchTerm"
+          name="searchTerm"
+          placeholder="Buscar..."
+          aria-label="Buscar"
+          required />
       </form>
     </div>
+
+    <!-- 3. Menú Desktop -->
     <div class="navbar__desktop-menu">
       <nav class="navbar__links">
-        <a routerLink="/catalogo">Catálogo</a>
-        <a routerLink="/laboratorio">Laboratorio</a>
+        <a routerLink="/catalogo" routerLinkActive="active-link">Catálogo</a>
+        <a routerLink="/laboratorio" routerLinkActive="active-link">Laboratorio</a>
       </nav>
-      <a routerLink="/login" class="navbar__auth-btn">Iniciar Sesión</a>
+
+      <!-- Placeholder para Auth -->
+      <div class="navbar__auth">
+        <a *ngIf="!isLoggedIn" routerLink="/login" class="navbar__auth-btn">Iniciar Sesión</a>
+        <!-- Aquí irá el menú de usuario cuando isLoggedIn sea true -->
+      </div>
+    </div>
+
+    <!-- 4. Botón Hamburguesa -->
+    <button class="navbar__toggle" (click)="toggleMenu()" aria-label="Abrir menú">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+
+  <!-- 5. Menú Desplegable Móvil -->
+  <div class="navbar__mobile-menu" [ngClass]="{ 'is-open': isMenuOpen }">
+    <nav class="navbar__mobile-links">
+      <a routerLink="/catalogo" (click)="toggleMenu()">Catálogo</a>
+      <a routerLink="/laboratorio" (click)="toggleMenu()">Laboratorio</a>
+    </nav>
+    <div class="navbar__mobile-auth">
+      <a *ngIf="!isLoggedIn" routerLink="/login" class="navbar__auth-btn" (click)="toggleMenu()">Iniciar Sesión</a>
     </div>
   </div>
 </div>
