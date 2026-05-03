@@ -23,13 +23,18 @@
     <div class="navbar__desktop-menu">
       <nav class="navbar__links">
         <a routerLink="/catalogo" routerLinkActive="active-link">Catálogo</a>
-        <a routerLink="/laboratorio" routerLinkActive="active-link">Laboratorio</a>
+        <!-- Solo se muestra si el usuario está logueado -->
+        <a *ngIf="isLoggedIn" routerLink="/laboratorio" routerLinkActive="active-link">Laboratorio</a>
       </nav>
 
-      <!-- Placeholder para Auth -->
       <div class="navbar__auth">
+        <!-- Si NO está logueado: Iniciar Sesión -->
         <a *ngIf="!isLoggedIn" routerLink="/login" class="navbar__auth-btn">Iniciar Sesión</a>
-        <!-- Aquí irá el menú de usuario cuando isLoggedIn sea true -->
+
+        <!-- Si SÍ está logueado: Cerrar Sesión -->
+        <button *ngIf="isLoggedIn" (click)="logout()" class="navbar__auth-btn navbar__auth-btn--logout">
+          Cerrar Sesión
+        </button>
       </div>
     </div>
 
@@ -45,10 +50,14 @@
   <div class="navbar__mobile-menu" [ngClass]="{ 'is-open': isMenuOpen }">
     <nav class="navbar__mobile-links">
       <a routerLink="/catalogo" (click)="toggleMenu()">Catálogo</a>
-      <a routerLink="/laboratorio" (click)="toggleMenu()">Laboratorio</a>
+      <!-- Laboratorio oculto en móvil si no hay sesión -->
+      <a *ngIf="isLoggedIn" routerLink="/laboratorio" (click)="toggleMenu()">Laboratorio</a>
     </nav>
     <div class="navbar__mobile-auth">
       <a *ngIf="!isLoggedIn" routerLink="/login" class="navbar__auth-btn" (click)="toggleMenu()">Iniciar Sesión</a>
+
+      <!-- Botón de Logout en móvil -->
+      <a *ngIf="isLoggedIn" (click)="logout(); toggleMenu()" class="navbar__auth-btn">Cerrar Sesión</a>
     </div>
   </div>
 </div>

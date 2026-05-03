@@ -9,6 +9,7 @@ import { FraganciaComponent } from './pages/fragancia/fragancia'
 import { BusquedaComponent} from './pages/busqueda/busqueda';
 import { NotaComponent} from './pages/nota/nota';
 import { NotasComponent } from './pages/notas/notas';
+import { LaboratorioComponent} from './pages/laboratorio/laboratorio';
 
 
 export const routes: Routes = [
@@ -19,7 +20,7 @@ export const routes: Routes = [
   { path: 'busqueda', component: BusquedaComponent },
   { path: 'nota', component: NotaComponent },
   { path: 'notasCatalogo', component: NotasComponent },
-  // { path: 'laboratorio', component: LaboratorioComponent, canActivate: [authGuard] }
+  { path: 'laboratorio', component: LaboratorioComponent, canActivate: [authGuard] },
 
   // Comodín: si el usuario escribe cualquier cosa mal, vuelve al home
   { path: '**', redirectTo: '', pathMatch: 'full' }
