@@ -2,9 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Router, RouterLink, RouterLinkActive} from '@angular/router';
 import { FormsModule } from '@angular/forms'
 import { CommonModule} from '@angular/common';
-
-// Importa aquí tu servicio de autenticación si ya lo tienes
-// import { AuthService } from '../../services/auth.service';
+import { AuthService } from '../../services/auth.service'
 
 @Component({
   selector: 'app-header',
@@ -21,15 +19,13 @@ export class HeaderComponent implements OnInit {
   isLoggedIn = false; // Esto vendrá de tu servicio de Firebase más adelante
   searchTerm: string = '';
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private authService: AuthService) {}
 
   ngOnInit(): void {
-    // Aquí te suscribirías al estado de autenticación de Firebase
-    /*
+    // Nos 'suscribimos' al estado de autenticación de firestore
     this.authService.user$.subscribe(user => {
-      this.isLoggedIn = !!user;
+      this.isLoggedIn = !!user; // Si existe user, isLoggedIn es true
     });
-    */
   }
 
   // Alternar menú móvil
@@ -54,7 +50,7 @@ export class HeaderComponent implements OnInit {
 
   logout(): void {
     // Lógica para cerrar sesión con Firebase
-    console.log('Cerrando sesión...');
-    // this.authService.logout();
+    this.authService.logout();
+    this.isUserMenuOpen = false;
   }
 }

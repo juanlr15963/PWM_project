@@ -1,6 +1,4 @@
-/* =========================
-   NAVBAR (DISEÑO DEFINITIVO)
-   ========================= */
+
 .navbar {
   background: var(--neutral-50);
   border-bottom: 1px solid var(--neutral-200);
@@ -91,7 +89,7 @@
 .navbar__links a {
   font-size: 14px;
   font-weight: 500;
-  color: var(--neutral-400);
+  color: var(--neutral-500);
   transition: color 0.2s;
   white-space: nowrap;
 }
@@ -130,7 +128,7 @@
 }
 
 .navbar__user-avatar:hover {
-  background: var(--neutral-500);
+  background: var(--neutral-50);
 }
 
 .navbar__user-avatar svg {
@@ -251,9 +249,34 @@
   padding: 10px 16px;
 }
 
-/* routerLinkActive="active-link" */
-.active-link {
-  color: var(--neutral-900) !important;
-  font-weight: 700 !important;
-  border-bottom: 2px solid var(--neutral-900);
+
+/* =========================
+   MEDIA QUERIES NAVBAR
+   ========================= */
+
+/* Tablet (900px) */
+@media screen and (max-width: 900px) {
+  .navbar__desktop-menu {
+    display: none; /* Ocultar menú desktop */
+  }
+
+  .navbar__toggle {
+    display: flex; /* Mostrar hamburguesa */
+  }
+}
+
+/* Móvil (600px) */
+@media screen and (max-width: 600px) {
+  .navbar__container {
+    padding: 12px 16px; /* Menos padding en móvil */
+    gap: 12px;
+  }
+
+  .navbar__search-container {
+    display: none; /* Ocultar buscador principal en móvil */
+  }
+
+  .navbar__mobile-menu .navbar__search-container {
+    display: flex; /* Mostrar buscador dentro del menú móvil */
+  }
 }

@@ -1,0 +1,51 @@
+<main class="page-content" *ngIf="note; else noNote">
+  <div class="fragrance-header">
+    <h1 class="page-title">{{ note.name }}</h1>
+    <div class="fragrance-actions">
+      <!-- Botón de favorito placeholder -->
+      <button class="action-btn" [class.active]="isFavorite" (click)="toggleFavorite()">
+        ❤️
+      </button>
+    </div>
+  </div>
+
+  <div class="note-detail">
+    <div class="note-detail__text">
+      <h2 class="section-title">Descripción</h2>
+      <p>{{ note.description || 'Descripción no disponible.' }}</p>
+    </div>
+    <div class="note-detail__image" *ngIf="note.image">
+      <img [src]="note.image" [alt]="note.name">
+    </div>
+  </div>
+
+  <section class="suggestions-section">
+    <h2 class="section-title">Presente en estas fragancias</h2>
+
+    <div class="grid-4" *ngIf="suggestedFragrances.length > 0; else noFragrances">
+      <a *ngFor="let f of suggestedFragrances"
+         [routerLink]="['/fragancia', f.id]"
+         class="fragrance-card-link">
+        <div class="fragrance-card">
+          <img [src]="f.image" [alt]="f.name" class="fragrance-card-image">
+          <div class="fragrance-card-info">
+            <h3 class="fragrance-card-name">{{ f.name }}</h3>
+            <p class="fragrance-card-brand">{{ f.brand }}</p>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <ng-template #noFragrances>
+      <p>No se encontraron fragancias populares con esta nota.</p>
+    </ng-template>
+  </section>
+</main>
+
+<ng-template #noNote>
+  <div class="page-content" *ngIf="!isLoading">
+    <h1 class="page-title">Nota no encontrada</h1>
+    <p>Lo sentimos, no pudimos encontrar la información de esta nota.</p>
+    <a routerLink="/" class="btn-link">Volver al inicio</a>
+  </div>
+</ng-template>

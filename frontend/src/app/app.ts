@@ -7,14 +7,14 @@ import { getAnalytics } from 'firebase/analytics';
 import { FirebaseApp } from 'firebase/app';
 
 import { HeaderComponent } from './components/header/header';
-/*
-import { Footer } from './components/footer/footer';
-*/
+
+import { FooterComponent } from './components/footer/footer';
+
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, HeaderComponent],
+  imports: [RouterOutlet, HeaderComponent, FooterComponent],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })

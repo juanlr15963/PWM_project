@@ -1,22 +1,26 @@
+// Importamos los Guards
+import { authGuard} from './guards/auth-guard';
+
 import { Routes } from '@angular/router';
-// Importa tus componentes (asegúrate de que los nombres coincidan)
+import { HomeComponent } from './pages/home/home';
+import { CatalogoComponent } from './pages/catalogo/catalogo'
+import { LoginComponent } from './pages/login/login'
+import { FraganciaComponent } from './pages/fragancia/fragancia'
+import { BusquedaComponent} from './pages/busqueda/busqueda';
+import { NotaComponent} from './pages/nota/nota';
+import { NotasComponent } from './pages/notas/notas';
 
-/*
-import { HomeComponent } from './pages/home/home.component';
-import { CatalogoComponent } from './pages/catalogo/catalogo.component';
-import { LaboratorioComponent } from './pages/laboratorio/laboratorio.component';
-import { BusquedaComponent } from './pages/busqueda/busqueda.component';
-import { LoginComponent } from './pages/login/login.component';
-*/
+
 export const routes: Routes = [
-/*
-  { path: '', component: HomeComponent }, // Ruta raíz (index)
-  { path: 'catalogo', component: CatalogoComponent },
-  { path: 'laboratorio', component: LaboratorioComponent },
-  { path: 'busqueda', component: BusquedaComponent },
+  { path: '', component: HomeComponent },
+  { path: 'fraganciasCatalogo', component: CatalogoComponent },
   { path: 'login', component: LoginComponent },
+  { path: 'fragancia/:id', component: FraganciaComponent },
+  { path: 'busqueda', component: BusquedaComponent },
+  { path: 'nota', component: NotaComponent },
+  { path: 'notasCatalogo', component: NotasComponent },
+  // { path: 'laboratorio', component: LaboratorioComponent, canActivate: [authGuard] }
 
- */
   // Comodín: si el usuario escribe cualquier cosa mal, vuelve al home
-  //{ path: '**', redirectTo: '', pathMatch: 'full' }
+  { path: '**', redirectTo: '', pathMatch: 'full' }
 ];

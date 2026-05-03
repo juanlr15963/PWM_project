@@ -1,27 +1,23 @@
-import { ApplicationConfig, provideZoneChangeDetection, provideBrowserGlobalErrorListeners } from '@angular/core';
+import { ApplicationConfig } from '@angular/core';
 import { provideRouter } from '@angular/router';
-import { provideHttpClient, withFetch } from '@angular/common/http';
-
 import { routes } from './app.routes';
-import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
-// Imports to use firebase's SDK
-import { initializeApp } from 'firebase/app';
-import { environment} from '../environment/environment';
+import { provideHttpClient } from '@angular/common/http';
 
+// Firebase
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { getAuth, provideAuth } from '@angular/fire/auth';
+
+// Tu environment
+import { environment } from '../environment/environment';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideZoneChangeDetection({ eventCoalescing: true }),
-    provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
-    provideHttpClient(withFetch()),
-    provideClientHydration(withEventReplay()),
+    provideHttpClient(),
 
-    // Firebase
-    {
-      provide: 'FIREBASE_APP',
-      useFactory: () => initializeApp(environment.firebase)
-    }
+    // FÍJATE AQUÍ: Debe ser environment.firebase (porque así lo llamaste en tu archivo)
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
 
+    provideAuth(() => getAuth())
   ]
 };

@@ -1,0 +1,52 @@
+<main class="page-content">
+  <h1 class="page-title">
+    Resultados para "{{ query }}"
+  </h1>
+
+  <p class="page-subtitle" *ngIf="!isLoading">
+    Se encontraron {{ filteredFragrances.length }} fragancias y {{ filteredNotes.length }} notas.
+  </p>
+
+  <p class="page-subtitle" *ngIf="isLoading">Buscando...</p>
+
+  <!-- Sección de Fragancias -->
+  <div *ngIf="filteredFragrances.length > 0" id="fragrances-results">
+    <h2 class="section-title">Fragancias Encontradas</h2>
+    <div class="grid-4">
+      <a *ngFor="let fragrance of filteredFragrances"
+         [routerLink]="['/fragancia', fragrance.id]"
+         class="fragrance-card-link">
+        <div class="fragrance-card">
+          <img [src]="fragrance.image" [alt]="fragrance.name" class="fragrance-card-image">
+          <div class="fragrance-card-info">
+            <h3 class="fragrance-card-name">{{ fragrance.name }}</h3>
+            <p class="fragrance-card-brand">{{ fragrance.brand }}</p>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- Sección de Notas -->
+  <div *ngIf="filteredNotes.length > 0" id="notes-results" style="margin-top: 40px;">
+    <h2 class="section-title">Notas Olfativas Encontradas</h2>
+    <div class="grid-3">
+      <a *ngFor="let note of filteredNotes"
+         [routerLink]="['/nota', note.name]"
+         class="note-link">
+        <div class="note-card-visual">
+          <img [src]="note.image || 'assets/img/notes/default.jpg'" [alt]="note.name" class="note-card-visual__image">
+          <div class="note-card-visual__info">
+            <h3 class="note-card-visual__name">{{ note.name }}</h3>
+            <p class="note-card-visual__desc">{{ note.description }}</p>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- Mensaje si no hay nada -->
+  <div *ngIf="!isLoading && filteredFragrances.length === 0 && filteredNotes.length === 0" class="no-results">
+    <p>No se encontraron resultados para tu búsqueda. Intenta con otros términos.</p>
+  </div>
+</main>

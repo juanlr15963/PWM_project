@@ -1,0 +1,36 @@
+<main class="page-content">
+  <h1 class="page-title">Notas olfativas</h1>
+  <p class="page-subtitle">Explora los ingredientes que componen las fragancias.</p>
+
+  <div class="grid-3" *ngIf="!isLoading; else loadingTemplate">
+    <!-- Renderizado dinámico de las notas -->
+    <a *ngFor="let note of notes"
+       [routerLink]="['/nota']"
+       [queryParams]="{ name: note.name }"
+       class="note-card-link">
+
+      <div class="note-card-visual">
+        <img
+          [src]="note.image || 'assets/img/notes/default.jpg'"
+          [alt]="note.name"
+          class="note-card-visual__image">
+
+        <div class="note-card-visual__info">
+          <h3 class="note-card-visual__name">{{ note.name }}</h3>
+          <p class="note-card-visual__desc">
+            {{ note.description || 'Descripción no disponible.' }}
+          </p>
+        </div>
+      </div>
+    </a>
+  </div>
+
+  <!-- Template para cuando no hay resultados o está cargando -->
+  <ng-template #loadingTemplate>
+    <p class="page-subtitle">Cargando biblioteca de notas...</p>
+  </ng-template>
+
+  <div *ngIf="!isLoading && notes.length === 0">
+    <p>No se encontraron notas en la base de datos.</p>
+  </div>
+</main>
