@@ -47,4 +47,46 @@
       <div class="placeholder-area">No tienes notas favoritas guardadas.</div>
     </ng-template>
   </section>
+
+  <!-- Sección: Mis Diseños del Laboratorio -->
+  <section style="margin-bottom: 40px;">
+    <h2 class="section-title">Mis Creaciones (Laboratorio)</h2>
+
+    <div class="grid-4" *ngIf="userDesigns.length > 0; else noDesigns">
+      <div *ngFor="let design of userDesigns" class="fragrance-card custom-design">
+        <!-- Imagen genérica para diseños nuevos -->
+        <img src="img/fragances/custom-perfume.jpg" alt="Diseño propio" class="fragrance-card-image">
+        <div class="fragrance-card-info">
+          <h3 class="fragrance-card-name">{{ design.name }}</h3>
+          <p class="fragrance-card-brand">Diseño exclusivo por ti</p>
+          <p style="font-size: 0.8rem; color: #666;">
+            {{ design.notes.top[0] }}, {{ design.notes.heart[0] }}...
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <ng-template #noDesigns>
+      <div class="placeholder-area">
+        Aún no has creado nada en el <a routerLink="/laboratorio">Laboratorio</a>.
+      </div>
+    </ng-template>
+  </section>
+
+  <!-- Sección: Mi Colección Oficial (Lo que subimos del db.json) -->
+  <section style="margin-bottom: 40px;">
+    <h2 class="section-title">Mi Colección</h2>
+    <div class="grid-4" *ngIf="userCollection.length > 0; else emptyColl">
+      <div *ngFor="let frag of userCollection" class="fragrance-card">
+        <img [src]="frag.image" [alt]="frag.name" class="fragrance-card-image">
+        <div class="fragrance-card-info">
+          <h3 class="fragrance-card-name">{{ frag.name }}</h3>
+          <p class="fragrance-card-brand">{{ frag.brand }}</p>
+        </div>
+      </div>
+    </div>
+    <ng-template #emptyColl>
+      <div class="placeholder-area">No hay perfumes guardados.</div>
+    </ng-template>
+  </section>
 </main>
