@@ -1,1 +1,50 @@
-<p>mi-espacio works!</p>
+<main class="page-content">
+  <h1 class="page-title">Mi Espacio</h1>
+  <p class="page-subtitle" id="welcome-message">
+    {{ welcomeMessage }}
+  </p>
+
+  <!-- Sección: Mi Colección -->
+  <section style="margin-bottom: 40px;">
+    <h2 class="section-title">Mi Colección</h2>
+
+    <div class="grid-4" *ngIf="userCollection.length > 0; else emptyCollection">
+      <a *ngFor="let item of userCollection"
+         [routerLink]="['/fragancia', item.id]"
+         class="fragrance-card-link">
+        <div class="fragrance-card">
+          <img [src]="item.image" [alt]="item.name" class="fragrance-card-image" loading="lazy">
+          <div class="fragrance-card-info">
+            <h3 class="fragrance-card-name">{{ item.name }}</h3>
+            <p class="fragrance-card-brand">{{ item.brand }}</p>
+          </div>
+        </div>
+      </a>
+    </div>
+    <ng-template #emptyCollection>
+      <div class="placeholder-area">Aún no hay fragancias en tu colección.</div>
+    </ng-template>
+  </section>
+
+  <!-- Sección: Notas Favoritas -->
+  <section style="margin-bottom: 40px;">
+    <h2 class="section-title">Notas Favoritas</h2>
+
+    <div class="grid-3" *ngIf="favoriteNotes.length > 0; else emptyNotes">
+      <a *ngFor="let note of favoriteNotes"
+         [routerLink]="['/nota', note.name]"
+         class="note-card-visual-link">
+        <div class="note-card-visual">
+          <img [src]="note.image" [alt]="note.name" class="note-card-visual__image" loading="lazy">
+          <div class="note-card-visual__info">
+            <h3 class="note-card-visual__name">{{ note.name }}</h3>
+            <p class="note-card-visual__desc">{{ note.description }}</p>
+          </div>
+        </div>
+      </a>
+    </div>
+    <ng-template #emptyNotes>
+      <div class="placeholder-area">No tienes notas favoritas guardadas.</div>
+    </ng-template>
+  </section>
+</main>

@@ -650,5 +650,5 @@
       "createdAt": "2026-03-03"
     }
   ],
-  "$schema": "./node_modules/json-server/schema.json"
+  "$schema": "../node_modules/json-server/schema.json"
 }

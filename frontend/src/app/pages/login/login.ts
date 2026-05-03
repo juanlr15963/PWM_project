@@ -1,8 +1,9 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core'; // Añadimos OnInit
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { AuthService } from '../../services/auth.service'
+import { AuthService } from '../../services/auth.service';
+import { firstValueFrom } from 'rxjs'; // Útil para comprobaciones rápidas de observables
 
 @Component({
   selector: 'app-login',
@@ -11,7 +12,7 @@ import { AuthService } from '../../services/auth.service'
   templateUrl: './login.html',
   styleUrl: './login.css'
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   private authService = inject(AuthService);
   private router = inject(Router);
 
@@ -19,16 +20,29 @@ export class LoginComponent {
   errorMessage = '';
   isLoading = false;
 
+  ngOnInit() {
+    // Opcional: Si el usuario ya está logueado, no debería estar en esta página
+    this.authService.user$.subscribe(user => {
+      if (user) {
+        this.router.navigate(['/mi-espacio']);
+      }
+    });
+  }
+
   async onSubmit(event: Event) {
     event.preventDefault();
     this.isLoading = true;
+    this.errorMessage = ''; // Limpiamos errores previos
 
     try {
       await this.authService.login(this.loginData.email, this.loginData.password);
-      this.router.navigate(['/']); // Redirigir al home tras éxito
+
+      // Redirigimos a 'mi-espacio'
+      this.router.navigate(['/mi-espacio']);
+
     } catch (error: any) {
-      this.errorMessage = 'Error: Usuario o contraseña incorrectos';
-      console.error(error);
+      this.errorMessage = 'Credenciales incorrectas. Por favor, inténtalo de nuevo.';
+      console.error('Error de login:', error);
     } finally {
       this.isLoading = false;
     }

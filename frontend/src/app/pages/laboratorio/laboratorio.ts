@@ -1,11 +1,17 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+// Importamos las herramientas de Firestore
+import { Firestore, collection, collectionData, addDoc, doc, setDoc} from '@angular/fire/firestore';
+import { AuthService } from '../../services/auth.service';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 interface Note {
-  id?: number;
+  id?: string; // Firestore usa IDs tipo string
   name: string;
+  type?: string;
+  image?: string;
 }
 
 @Component({
@@ -16,9 +22,12 @@ interface Note {
   styleUrls: ['./laboratorio.css']
 })
 export class LaboratorioComponent implements OnInit {
+  // Inyectamos Firestore y el servicio de Auth
+  private firestore = inject(Firestore);
+  private authService = inject(AuthService);
   private http = inject(HttpClient);
 
-  // Estados de las listas
+  // Listas para el laboratorio
   availableNotes: Note[] = [];
   topNotes: Note[] = [];
   heartNotes: Note[] = [];
@@ -26,18 +35,23 @@ export class LaboratorioComponent implements OnInit {
 
   fragranceName: string = '';
 
-  // Para gestionar el arrastre
   private draggedItem: Note | null = null;
   private sourceArray: Note[] | null = null;
 
   ngOnInit() {
-    this.loadNotes();
+    this.loadNotesFromFirebase();
   }
 
-  loadNotes() {
-    this.http.get<Note[]>('http://localhost:3000/notes').subscribe({
-      next: (data) => this.availableNotes = data,
-      error: (err) => console.error('Error cargando notas', err)
+  loadNotesFromFirebase() {
+    // Referencia a la colección 'notes' en Firestore
+    const notesCollection = collection(this.firestore, 'notes');
+
+    // Obtenemos los datos en tiempo real
+    collectionData(notesCollection, { idField: 'id' }).subscribe({
+      next: (data) => {
+        this.availableNotes = data as Note[];
+      },
+      error: (err) => console.error('Error cargando notas desde Firebase:', err)
     });
   }
 
@@ -47,33 +61,33 @@ export class LaboratorioComponent implements OnInit {
   }
 
   onDragOver(event: DragEvent) {
-    event.preventDefault(); // Necesario para permitir el drop
+    event.preventDefault();
   }
 
   onDrop(event: DragEvent, targetArray: Note[]) {
     event.preventDefault();
     if (this.draggedItem && this.sourceArray) {
-      // 1. Quitar de la lista de origen
       const index = this.sourceArray.indexOf(this.draggedItem);
       if (index > -1) this.sourceArray.splice(index, 1);
-
-      // 2. Añadir a la lista de destino
       targetArray.push(this.draggedItem);
-
-      // Limpiar referencias
       this.draggedItem = null;
       this.sourceArray = null;
     }
   }
 
-  saveFragrance() {
+  async saveFragrance() {
     if (!this.fragranceName.trim()) {
       alert('Por favor, dale un nombre a tu fragancia.');
       return;
     }
 
+    // Obtenemos el usuario actual para asociar la fragancia
+    const user = await this.authService.getCurrentUser(); // Asegúrate de tener este método en tu AuthService
+
     const finalFragrance = {
       name: this.fragranceName,
+      userId: user?.uid || 'anonimo',
+      createdAt: new Date(),
       notes: {
         top: this.topNotes.map(n => n.name),
         heart: this.heartNotes.map(n => n.name),
@@ -81,9 +95,27 @@ export class LaboratorioComponent implements OnInit {
       }
     };
 
-    console.log('Fragancia Inmortalizada:', finalFragrance);
-    alert(`¡Fragancia "${this.fragranceName}" guardada con éxito!`);
+    try {
+      // Guardamos en la colección 'custom_designs' de Firestore
+      const designsCollection = collection(this.firestore, 'custom_designs');
+      await addDoc(designsCollection, finalFragrance);
 
-    // Aquí podrías hacer: this.http.post('http://localhost:3000/fragrances', finalFragrance).subscribe(...)
+      alert(`¡Fragancia "${this.fragranceName}" guardada en Firebase!`);
+      this.resetLab();
+    } catch (error) {
+      console.error('Error al guardar en Firebase:', error);
+      alert('Hubo un error al guardar tu diseño.');
+    }
+  }
+
+
+
+
+  resetLab() {
+    this.fragranceName = '';
+    this.topNotes = [];
+    this.heartNotes = [];
+    this.baseNotes = [];
+    this.loadNotesFromFirebase(); // Recargamos para resetear la lista de disponibles
   }
 }

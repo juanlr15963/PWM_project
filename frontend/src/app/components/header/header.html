@@ -25,6 +25,7 @@
         <a routerLink="/catalogo" routerLinkActive="active-link">Catálogo</a>
         <!-- Solo se muestra si el usuario está logueado -->
         <a *ngIf="isLoggedIn" routerLink="/laboratorio" routerLinkActive="active-link">Laboratorio</a>
+        <a *ngIf="isLoggedIn" routerLink="/mi-espacio" routerLinkActive="active-link">Mi Espacio</a>
       </nav>
 
       <div class="navbar__auth">

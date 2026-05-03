@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { Auth, signInWithEmailAndPassword, signOut, user, User } from '@angular/fire/auth';
-import { Observable } from 'rxjs';
+import { Observable, firstValueFrom } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -23,5 +23,8 @@ export class AuthService {
     return signOut(this.auth).then(() => {
       this.router.navigate(['/login']);
     });
+  }
+  async getCurrentUser() {
+    return await firstValueFrom(this.user$);
   }
 }
