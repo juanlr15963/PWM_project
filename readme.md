@@ -170,7 +170,7 @@ Este proyecto requiere **`json-server`** (para simular la API de datos inicial) 
     *(Esto instalará Angular, `json-server`, `concurrently` y otras dependencias.)*
 
 2.  **Iniciar Servidores:**
-    En la misma terminal, ejecuta el comando principal:
+    **Desde la carpeta `frontend`**, ejecuta el comando principal:
     ```bash
     npm start
     ```
