@@ -1,9 +1,10 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-import { AuthService } from '../../services/auth.service'; // Tu servicio de Auth
-import { forkJoin, switchMap, of } from 'rxjs';
+import { combineLatest, of, switchMap } from 'rxjs';
+import { AuthService } from '../../services/auth.service';
+import { DataService, Note } from '../../services/data';
+import { Fragrance } from '../../models/fragrance';
 
 @Component({
   selector: 'app-mi-espacio',
@@ -13,44 +14,38 @@ import { forkJoin, switchMap, of } from 'rxjs';
   styleUrls: ['./mi-espacio.css']
 })
 export class MiEspacioComponent implements OnInit {
-  private http = inject(HttpClient);
   private authService = inject(AuthService);
+  private dataService = inject(DataService);
 
-  welcomeMessage: string = 'Cargando tu rincón personal...';
-  userCollection: any[] = [];
-  favoriteNotes: any[] = [];
+  welcomeMessage: string = 'Cargando tu rincon personal...';
+  userCollection: Fragrance[] = [];
+  favoriteNotes: Note[] = [];
 
   ngOnInit() {
     this.loadUserData();
   }
 
   loadUserData() {
-    // 1. Obtenemos el usuario logueado de Firebase
     this.authService.user$.pipe(
       switchMap(user => {
         if (!user) return of(null);
-        // 2. Buscamos sus datos extendidos en nuestro json-server
-        return forkJoin({
-          userData: this.http.get<any>(`http://localhost:3000/users/${user.uid}`),
-          allFragrances: this.http.get<any[]>('http://localhost:3000/fragrances'),
-          allNotes: this.http.get<any[]>('http://localhost:3000/notes')
+        return combineLatest({
+          profile: this.dataService.getUserProfile(user.uid),
+          allFragrances: this.dataService.getFragrances(),
+          allNotes: this.dataService.getNotes()
         });
       })
     ).subscribe({
       next: (res) => {
-        if (res) {
-          const { userData, allFragrances, allNotes } = res;
-          this.welcomeMessage = `Bienvenido, ${userData.username || 'entusiasta'}.`;
+        if (!res) return;
 
-          // 3. Filtramos los datos para mostrar solo los que el usuario tiene
-          this.userCollection = allFragrances.filter(f =>
-            userData.collection?.includes(f.id)
-          );
+        const { profile, allFragrances, allNotes } = res;
+        this.welcomeMessage = `Bienvenido, ${profile?.displayName || profile?.email || 'entusiasta'}.`;
+        const collectionIds = profile?.collection || [];
+        const favoriteNoteNames = profile?.favoriteNotes || [];
 
-          this.favoriteNotes = allNotes.filter(n =>
-            userData.favoriteNotes?.includes(n.name)
-          );
-        }
+        this.userCollection = allFragrances.filter(f => collectionIds.includes(String(f.id)));
+        this.favoriteNotes = allNotes.filter(n => favoriteNoteNames.includes(n.name));
       },
       error: (err) => {
         console.error('Error cargando Mi Espacio:', err);

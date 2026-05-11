@@ -8,6 +8,7 @@ export interface Fragrance {
   id: string;
   name: string;
   brand: string;
+  description?: string;
   image: string;
   season: string[];
   time: string;

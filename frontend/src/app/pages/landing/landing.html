@@ -9,11 +9,10 @@
     <div class="grid-4">
       <div *ngFor="let fragrance of featuredFragrances" class="fragrance-card">
         <a
-          [routerLink]="['/fragancia']"
-          [queryParams]="{ id: fragrance.id }"
+          [routerLink]="['/fragancia', fragrance.id]"
           class="fragrance-card-link"
         >
-          <img [src]="'/' + fragrance.image" [alt]="fragrance.name" class="fragrance-card-image" />
+          <img [src]="fragrance.image" [alt]="fragrance.name" class="fragrance-card-image" />
           <div class="fragrance-card-info">
             <h3 class="fragrance-card-name">{{ fragrance.name }}</h3>
             <p class="fragrance-card-brand">{{ fragrance.brand }}</p>

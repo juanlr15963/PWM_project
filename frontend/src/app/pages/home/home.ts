@@ -1,18 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { DataService } from '../../services/data';
+import { Fragrance } from '../../models/fragrance';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, RouterLink, HttpClientModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './home.html',
   styleUrls: ['./home.css']
 })
 export class HomeComponent implements OnInit {
-  allFragrances: any[] = [];
-  filteredFragrances: any[] = [];
+  allFragrances: Fragrance[] = [];
+  filteredFragrances: Fragrance[] = [];
   activeFilter: string = 'all';
 
   filters = [
@@ -28,21 +29,20 @@ export class HomeComponent implements OnInit {
     { label: 'Unisex', value: 'Unisex' }
   ];
 
-  constructor(private http: HttpClient) {}
+  constructor(private dataService: DataService) {}
 
   ngOnInit(): void {
     this.loadFragrances();
   }
 
   loadFragrances() {
-    this.http.get<any[]>('http://localhost:3000/fragrances')
-      .subscribe({
-        next: (data) => {
-          this.allFragrances = data;
-          this.filteredFragrances = data;
-        },
-        error: (err) => console.error('Error cargando fragancias', err)
-      });
+    this.dataService.getFragrances().subscribe({
+      next: (data) => {
+        this.allFragrances = data;
+        this.filteredFragrances = data;
+      },
+      error: (err) => console.error('Error cargando fragancias', err)
+    });
   }
 
   applyFilter(filterValue: string) {

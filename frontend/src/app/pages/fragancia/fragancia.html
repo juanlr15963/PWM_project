@@ -7,6 +7,7 @@
         *ngIf="isLoggedIn"
         class="action-btn"
         [class.active]="isInCollection"
+        [disabled]="isSaving"
         (click)="toggleCollection()">
         💾
       </button>
@@ -47,10 +48,10 @@
       <!-- Notas Clasificadas -->
       <div class="notes-container">
         <div class="notes-group" *ngFor="let type of noteTypes">
-          <ng-container *ngIf="fragrance.notes[type.key]?.length">
+          <ng-container *ngIf="getNotesByType(type.key).length">
             <h3 class="notes-group__title">{{ type.label }}</h3>
             <div class="fragrance-detail__tags">
-              <a *ngFor="let noteName of fragrance.notes[type.key]"
+              <a *ngFor="let noteName of getNotesByType(type.key)"
                  [routerLink]="['/nota', noteName]"
                  class="tag">
                 <img *ngIf="getNoteImage(noteName)" [src]="getNoteImage(noteName)" alt="">

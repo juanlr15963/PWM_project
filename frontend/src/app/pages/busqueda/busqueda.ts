@@ -1,25 +1,26 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { DataService, Note } from '../../services/data';
+import { Fragrance } from '../../models/fragrance';
 import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-busqueda',
   standalone: true,
-  imports: [CommonModule, RouterLink, HttpClientModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './busqueda.html',
   styleUrl: './busqueda.css'
 })
 export class BusquedaComponent implements OnInit {
   query: string = '';
-  filteredFragrances: any[] = [];
-  filteredNotes: any[] = [];
+  filteredFragrances: Fragrance[] = [];
+  filteredNotes: Note[] = [];
   isLoading: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
-    private http: HttpClient
+    private dataService: DataService
   ) {}
 
   ngOnInit(): void {
@@ -37,8 +38,8 @@ export class BusquedaComponent implements OnInit {
     const lowerQuery = this.query.toLowerCase();
 
     forkJoin({
-      fragrances: this.http.get<any[]>('http://localhost:3000/fragrances'),
-      notes: this.http.get<any[]>('http://localhost:3000/notes')
+      fragrances: this.dataService.getFragrances(),
+      notes: this.dataService.getNotes()
     }).subscribe({
       next: (res) => {
         this.filteredFragrances = res.fragrances.filter(f =>

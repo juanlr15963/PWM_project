@@ -1,18 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { DataService } from '../../services/data';
+import { Fragrance } from '../../models/fragrance';
 
 @Component({
   selector: 'app-catalogo',
   standalone: true,
-  imports: [CommonModule, RouterLink, HttpClientModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './catalogo.html',
   styleUrls: ['./catalogo.css']
 })
 export class CatalogoComponent implements OnInit {
-  allFragrances: any[] = [];
-  filteredFragrances: any[] = [];
+  allFragrances: Fragrance[] = [];
+  filteredFragrances: Fragrance[] = [];
   activeFilter: string = 'all';
   showFilters: boolean = false; // Controla el toggle del botón en móviles
 
@@ -29,23 +30,22 @@ export class CatalogoComponent implements OnInit {
     { label: 'Unisex', value: 'Unisex' }
   ];
 
-  constructor(private http: HttpClient) {}
+  constructor(private dataService: DataService) {}
 
   ngOnInit(): void {
     this.fetchFragrances();
   }
 
   fetchFragrances(): void {
-    this.http.get<any[]>('http://localhost:3000/fragrances')
-      .subscribe({
-        next: (data) => {
-          this.allFragrances = data;
-          this.filteredFragrances = data;
-        },
-        error: (error) => {
-          console.error('Error al cargar fragancias:', error);
-        }
-      });
+    this.dataService.getFragrances().subscribe({
+      next: (data) => {
+        this.allFragrances = data;
+        this.filteredFragrances = data;
+      },
+      error: (error) => {
+        console.error('Error al cargar fragancias:', error);
+      }
+    });
   }
 
   toggleFilters(): void {

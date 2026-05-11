@@ -38,7 +38,7 @@ El proyecto sigue una estructura modular y basada en componentes, típica de Ang
         *   **`app-routing.module.ts`**: Define las rutas de navegación de la aplicación.
         *   **`components/`**: Carpeta para componentes reutilizables (ej. Header, Footer, Tarjetas de Fragancia/Nota).
         *   **`pages/`**: Carpeta para los componentes que representan páginas completas (ej. Home, Catálogo, Login).
-        *   **`services/`**: Carpeta para los servicios que interactúan con la API (Firebase, JSON Server).
+        *   **`services/`**: Carpeta para los servicios que interactúan con Firebase (Authentication, Firestore y Storage).
         *   **`models/`**: (Opcional) Definiciones de interfaces/clases para los datos (Fragancia, Nota, Usuario).
     *   **`assets/`**: Contiene recursos estáticos como imágenes, fuentes, etc.
     *   **`environments/`**: Configuración específica para entornos de desarrollo y producción (incluye credenciales de Firebase).
@@ -86,7 +86,7 @@ Los datos del sitio web se almacenan en Firebase Firestore, una base de datos No
 
 *   **Colección `users`**:
     *   Cada documento representa un usuario. El `id` del documento es el `uid` de Firebase Authentication.
-    *   **Campos:** `username` (string, email), `favoriteNotes` (array de strings con nombres de notas), `collection` (array de números con IDs de fragancias).
+    *   **Campos:** `email` (string), `displayName` (string), `photoURL` (string opcional), `favoriteNotes` (array de strings con nombres de notas), `collection` (array de strings con IDs de fragancias).
     *   **Ejemplo de documento:**
         ```json
         {
@@ -108,7 +108,8 @@ Los datos del sitio web se almacenan en Firebase Firestore, una base de datos No
 *   **Mi Espacio (`/mi-espacio`)**: Área personal del usuario con su colección de fragancias y notas favoritas.
 
 ### 6.2. Autenticación y Perfil de Usuario
-*   **Login (`/login`)**: Formulario de autenticación. Utilice las credenciales de prueba (`admin@micolonia.com` / `123456`).
+*   **Registro (`/registro`)**: Formulario validado con Angular para crear usuarios en Firebase Authentication, guardar su perfil en Firestore y subir imagen de perfil a Firebase Storage.
+*   **Login (`/login`)**: Formulario de autenticación contra Firebase Authentication.
 *   **Funcionalidades de Usuario**: Una vez autenticado, el usuario puede:
     *   **Añadir/Quitar fragancias a su colección**: Desde la página de detalle de cada fragancia, usando el botón "💾".
     *   **Marcar/Desmarcar notas como favoritas**: Desde la página de detalle de cada nota, usando el botón "❤️".
@@ -160,21 +161,21 @@ El proyecto utiliza Firebase para la base de datos (Firestore) y la autenticaci�
 
 ## 8. Cómo Ejecutar el Proyecto
 
-Este proyecto requiere **`json-server`** (para simular la API de datos inicial) y **Angular CLI** para el desarrollo.
+Este proyecto requiere **Angular CLI** y una configuración activa de **Firebase** para Authentication, Firestore y Storage.
 
 1.  **Instalar Dependencias:**
     Abre una terminal en la **raíz del proyecto** y ejecuta:
     ```bash
     npm install
     ```
-    *(Esto instalará Angular, `json-server`, `concurrently` y otras dependencias.)*
+    *(Esto instalará Angular, Firebase y el resto de dependencias.)*
 
-2.  **Iniciar Servidores:**
+2.  **Iniciar Servidor:**
     **Desde la carpeta `frontend`**, ejecuta el comando principal:
     ```bash
     npm start
     ```
-    *(Este comando iniciará automáticamente `json-server` en `http://localhost:3000` y el servidor de desarrollo de Angular en `http://localhost:4200`.)*
+    *(Este comando iniciará el servidor de desarrollo de Angular en `http://localhost:4200`.)*
 
 3.  **Acceder a la Aplicación:**
     Abre tu navegador web (preferiblemente Google Chrome o Microsoft Edge) y navega a:

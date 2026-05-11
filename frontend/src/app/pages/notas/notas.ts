@@ -1,23 +1,23 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { DataService, Note } from '../../services/data';
 
 @Component({
   selector: 'app-notas',
   standalone: true,
-  imports: [CommonModule, RouterLink, HttpClientModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './notas.html',
   styleUrl: './notas.css'
 })
 export class NotasComponent implements OnInit {
-  notes: any[] = [];
+  notes: Note[] = [];
   isLoading = true;
 
-  constructor(private http: HttpClient) {}
+  constructor(private dataService: DataService) {}
 
   ngOnInit(): void {
-    this.http.get<any[]>('http://localhost:3000/notes').subscribe({
+    this.dataService.getNotes().subscribe({
       next: (data) => {
         this.notes = data;
         this.isLoading = false;

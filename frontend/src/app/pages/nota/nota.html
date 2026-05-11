@@ -3,7 +3,12 @@
     <h1 class="page-title">{{ note.name }}</h1>
     <div class="fragrance-actions">
       <!-- Botón de favorito placeholder -->
-      <button class="action-btn" [class.active]="isFavorite" (click)="toggleFavorite()">
+      <button
+        *ngIf="isLoggedIn"
+        class="action-btn"
+        [class.active]="isFavorite"
+        [disabled]="isSaving"
+        (click)="toggleFavorite()">
         ❤️
       </button>
     </div>
