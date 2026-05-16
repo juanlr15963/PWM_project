@@ -1,0 +1,39 @@
+<app-shell>
+  <main class="page-content">
+    <h1 class="page-title">Fragancias</h1>
+    <p class="page-subtitle">Descubre nuestra colección completa.</p>
+
+    <button type="button" class="filters-toggle-btn" (click)="toggleFilters()">
+      <span class="icon">⚙️</span> {{ showFilters ? 'Ocultar Filtros' : 'Mostrar Filtros' }}
+    </button>
+
+    <div class="filter-bar" [class.visible]="showFilters">
+      <button
+        *ngFor="let filter of filters"
+        type="button"
+        class="filter-btn"
+        [class.active]="activeFilter === filter.value"
+        (click)="applyFilter(filter.value)">
+        {{ filter.label }}
+      </button>
+    </div>
+
+    <div class="grid-4">
+      <a *ngFor="let fragrance of filteredFragrances"
+         [routerLink]="['/fragancia', fragrance.id]"
+         class="fragrance-card-link">
+        <div class="fragrance-card">
+          <img [src]="fragrance.image" [alt]="fragrance.name" class="fragrance-card-image" loading="lazy">
+          <div class="fragrance-card-info">
+            <h3 class="fragrance-card-name">{{ fragrance.name }}</h3>
+            <p class="fragrance-card-brand">{{ fragrance.brand }}</p>
+          </div>
+        </div>
+      </a>
+
+      <p *ngIf="filteredFragrances.length === 0" class="error-msg">
+        No hay fragancias que coincidan con el filtro seleccionado.
+      </p>
+    </div>
+  </main>
+</app-shell>

@@ -1,0 +1,48 @@
+<app-shell>
+  <main class="page-content">
+    <section class="hero">
+      <h1 class="page-title">Tu firma olfativa.</h1>
+      <p class="page-subtitle">Explora fragancias seleccionadas por nuestro equipo de expertos y curadores.</p>
+    </section>
+
+    <div class="filter-bar">
+      <button
+        *ngFor="let filter of filters"
+        type="button"
+        class="filter-btn"
+        [class.active]="activeFilter === filter.value"
+        (click)="applyFilter(filter.value)">
+        {{ filter.label }}
+      </button>
+    </div>
+
+    <section class="featured-fragrances">
+      <div class="grid-4">
+        <a *ngFor="let fragrance of filteredFragrances"
+           [routerLink]="['/fragancia', fragrance.id]"
+           class="fragrance-card-link">
+          <div class="fragrance-card">
+            <img [src]="fragrance.image" [alt]="fragrance.name" class="fragrance-card-image">
+            <div class="fragrance-card-info">
+              <h3 class="fragrance-card-name">{{ fragrance.name }}</h3>
+              <p class="fragrance-card-brand">{{ fragrance.brand || 'Marca desconocida' }}</p>
+            </div>
+          </div>
+        </a>
+
+        <p *ngIf="filteredFragrances.length === 0">
+          No se encontraron fragancias con el filtro seleccionado.
+        </p>
+      </div>
+    </section>
+
+    <section class="notes-banner">
+      <div class="note-card note-card--banner">
+        <a routerLink="/notas">
+          <h3 class="note-card__name">Explorador de Notas e Ingredientes</h3>
+          <p class="note-card__desc">¿Buscas una esencia específica? Navega por nuestra biblioteca para descubrir perfumes según sus componentes.</p>
+        </a>
+      </div>
+    </section>
+  </main>
+</app-shell>
